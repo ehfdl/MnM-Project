@@ -4,8 +4,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useColorScheme } from "react-native";
 import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, YELLOW_COLOR } from "../colors";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
-import Main from "../pages/Main";
+// import Main from "../pages/Main";
 import MyPage from "../pages/MyPage";
+import Login from "../pages/Login";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,7 +35,7 @@ const Tabs = () => {
           ),
         }}
         name="Main"
-        component={Main}
+        component={Login}
       />
       <Tab.Screen
         options={{
