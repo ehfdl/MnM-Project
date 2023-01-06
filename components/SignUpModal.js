@@ -1,42 +1,96 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styled from "@emotion/native";
-// import { addDoc, collection } from "firebase/firestore";
+import { emailRegex, pwRegex } from "../util";
+import { authService } from "../firebase";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { Modal } from "react-native";
-// import { authService, dbService } from "../firebase";
+
+const auth = getAuth();
 
 const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalContent, setModalContent] = useState("");
+  const emailRef = useRef(null);
+  const pwRef = useRef(null);
+  const pwckRef = useRef(null);
 
-  const addReview = async () => {
-    setIsOpenSignUpModal(false);
-    setModalTitle("");
-    setModalContent("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userCheckPassword, setUserCheckPassword] = useState("");
+
+  const validateInputs = () => {
+    if (!userEmail) {
+      alert("닉네임을 입력해주세요.");
+      emailRef.current.focus();
+      return true;
+    }
+    if (!userPassword) {
+      alert("패스워드를 입력해주세요.");
+      pwRef.current.focus();
+      return true;
+    }
+    if (!userCheckPassword) {
+      alert("패스워드 확인을 입력해주세요.");
+      pwckRef.current.focus();
+      return true;
+    }
+    const matchedEmail = userEmail.match(emailRegex);
+    const matchedPw = userPassword.match(pwRegex);
+
+    if (matchedEmail === null) {
+      alert("이메일 형식에 맞게 입력해 주세요.");
+      emailRef.current.focus();
+      return true;
+    }
+    if (matchedPw === null) {
+      alert("비밀번호는 8자리 이상 영문자, 숫자, 특수문자 조합이어야 합니다.");
+      pwRef.current.focus();
+      return true;
+    }
+    if (userPassword !== userCheckPassword) {
+      alert("비밀번호 확인이 다릅니다.");
+      pwckRef.current.focus();
+      return true;
+    }
   };
+
+  const onPressSignUp = async () => {
+    if (validateInputs()) {
+      return;
+    }
+
+    await createUserWithEmailAndPassword(auth, userEmail, userPassword);
+
+    setIsOpenSignUpModal(false);
+    setUserEmail("");
+    setUserPassword("");
+    setUserCheckPassword("");
+  };
+
   return (
     <Modal visible={isOpenSignUpModal} transparent animationType="slide">
       <Backdrop>
         <Dialog>
           <InputWrapper>
-            <InputTitle>NickName</InputTitle>
-            <SignUpInput
-            //   value={modalTitle}
-            //   onChangeText={(text) => setModalTitle(text)}
-            />
             <InputTitle>ID</InputTitle>
             <SignUpInput
-              value={modalTitle}
-              onChangeText={(text) => setModalTitle(text)}
+              placeholder="이메일"
+              value={userEmail}
+              onChangeText={(text) => setUserEmail(text)}
             />
             <InputTitle>Password</InputTitle>
             <SignUpInput
-              value={modalContent}
-              onChangeText={(text) => setModalContent(text)}
+              placeholder="비밀번호"
+              value={userPassword}
+              onChangeText={(text) => setUserPassword(text)}
             />
             <InputTitle>Password</InputTitle>
             <SignUpInput
-            //   value={modalContent}
-            //   onChangeText={(text) => setModalContent(text)}
+              placeholder="비밀번호 확인"
+              value={userCheckPassword}
+              onChangeText={(text) => setUserCheckPassword(text)}
             />
           </InputWrapper>
           <Row style={{ justifyContent: "space-between" }}>
@@ -45,8 +99,8 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
               title="Cancel"
             />
             <ModalBtn
-              disabled={!modalTitle || !modalContent}
-              onPress={addReview}
+              disabled={!userEmail || !userPassword || !userCheckPassword}
+              onPress={onPressSignUp}
               title="Sign Up"
             />
           </Row>
@@ -68,7 +122,6 @@ const ModalBtn = styled.Button``;
 const InputWrapper = styled.View`
   border: 1px solid black;
 `;
-const AddButton = styled.Button``;
 
 const Backdrop = styled.View`
   flex: 1;
@@ -78,7 +131,7 @@ const Backdrop = styled.View`
 const Dialog = styled.KeyboardAvoidingView`
   background-color: white;
   width: 80%;
-  height: 70%;
+  height: 60%;
   padding: 20px;
   justify-content: space-between;
   border-radius: 5px;

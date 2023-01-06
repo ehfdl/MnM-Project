@@ -18,10 +18,10 @@ const Login = () => {
         <LoginInput placeholder="ID를 입력해주세요" />
         <LoginInput placeholder="Password를 입력해주세요" />
         <LoginButton>
-          <ButtonText>Login</ButtonText>
+          <LoginText>Sign in</LoginText>
         </LoginButton>
         <SignUpButton>
-          <ButtonText onPress={signUpHandler}>Sign Up</ButtonText>
+          <SignUpText onPress={signUpHandler}>Sign up</SignUpText>
         </SignUpButton>
       </LoginInputBox>
       <SignUpModal
@@ -67,16 +67,22 @@ const LoginButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
-const ButtonText = styled.Text`
+const LoginText = styled.Text`
   font-weight: bold;
   color: white;
   font-size: 22px;
 `;
 
+const SignUpText = styled.Text`
+  font-weight: bold;
+  color: #e50015;
+  font-size: 18px;
+`;
+
 const SignUpButton = styled.TouchableOpacity`
   width: 100%;
-  height: 50px;
-  background-color: #e50015;
+  height: 20px;
+  /* background-color: #e50015; */
   border-radius: 10px;
   margin-top: 20px;
   justify-content: center;
