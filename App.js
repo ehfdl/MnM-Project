@@ -1,18 +1,23 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Login from "./pages/Login";
-import styled from "@emotion/native";
+import React from "react";
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+} from "@react-navigation/native";
+import Root from "./navigation/Root";
+import { useColorScheme } from "react-native";
+import { ThemeProvider } from "@emotion/react";
+import { darkTheme, lightTheme } from "./theme";
 
-export default function App() {
+const App = () => {
+  const isDark = useColorScheme() === "dark";
   return (
-    <SsView>
-      <Text>zzsdfsdfsdfsdfsdfzz</Text>
-    </SsView>
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
+        <Root />
+      </NavigationContainer>
+    </ThemeProvider>
   );
-}
+};
 
-const SsView = styled.View`
-  width: 100px;
-  height: 80px;
-  background-color: "red";
-`;
+export default App;

@@ -1,11 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Movies from "../screen/Movies";
-import MyPage from "../screen/MyPage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useColorScheme } from "react-native";
 import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, YELLOW_COLOR } from "../colors";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
+import Main from "../pages/Main";
+import MyPage from "../pages/MyPage";
 
 const Tab = createBottomTabNavigator();
 
@@ -33,8 +33,8 @@ const Tabs = () => {
             />
           ),
         }}
-        name="Movies"
-        component={Movies}
+        name="Main"
+        component={Main}
       />
       <Tab.Screen
         options={{
