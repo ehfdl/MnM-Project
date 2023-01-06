@@ -6,7 +6,7 @@ import styled from "@emotion/native";
 export default function App() {
   return (
     <SsView>
-      <Text>zzsdfsdfsdfsdfsdfzz</Text>
+      <Text></Text>
     </SsView>
   );
 }
