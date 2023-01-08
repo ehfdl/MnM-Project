@@ -2,14 +2,9 @@ import { useState, useRef } from "react";
 import styled from "@emotion/native";
 import { emailRegex, pwRegex } from "../util";
 import { authService } from "../firebase";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { View, Text } from "react-native";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Modal } from "react-native";
-
-const auth = getAuth();
 
 const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   const emailRef = useRef(null);
@@ -20,9 +15,12 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   const [userPassword, setUserPassword] = useState("");
   const [userCheckPassword, setUserCheckPassword] = useState("");
 
+  const [emailCheck, setEmailCheck] = useState(false);
+
+  console.log(userEmail);
   const validateInputs = () => {
     if (!userEmail) {
-      alert("닉네임을 입력해주세요.");
+      alert("이메일을 입력해주세요.");
       emailRef.current.focus();
       return true;
     }
@@ -70,9 +68,10 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   };
 
   return (
-    <Modal visible={isOpenSignUpModal} transparent animationType="slide">
+    <Modal visible={isOpenSignUpModal} transparent animationType="fade">
       <Backdrop>
         <Dialog>
+          <SignUpTitle>Sign Up</SignUpTitle>
           <InputWrapper>
             <InputTitle>ID</InputTitle>
             <SignUpInput
@@ -86,7 +85,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
               value={userPassword}
               onChangeText={(text) => setUserPassword(text)}
             />
-            <InputTitle>Password</InputTitle>
+            <InputTitle>Password 확인</InputTitle>
             <SignUpInput
               placeholder="비밀번호 확인"
               value={userCheckPassword}
@@ -112,15 +111,26 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
 
 export default SignUpModal;
 
+const Hidden = styled.Text`
+  display: none;
+`;
+
+const SignUpTitle = styled.Text`
+  font-size: 25px;
+  color: black;
+`;
+
 const SignUpInput = styled.TextInput`
   padding: 10px;
-  background-color: white;
+  /* background-color: white; */
   border-radius: 5px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  border-color: black;
+  border-bottom-width: 1px;
 `;
 const ModalBtn = styled.Button``;
 const InputWrapper = styled.View`
-  border: 1px solid black;
+  width: 100%;
 `;
 
 const Backdrop = styled.View`
@@ -131,19 +141,24 @@ const Backdrop = styled.View`
 const Dialog = styled.KeyboardAvoidingView`
   background-color: white;
   width: 80%;
-  height: 60%;
+  height: 50%;
   padding: 20px;
-  justify-content: space-between;
   border-radius: 5px;
+  border: 1px solid black;
+  align-items: center;
 `;
 const InputTitle = styled.Text`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
-  color: black;
+  color: gray;
   margin-bottom: 10px;
   margin-top: 10px;
 `;
 const Row = styled.TouchableOpacity`
   flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  bottom: 5px;
+  position: absolute;
   margin-bottom: 10px;
 `;
