@@ -1,16 +1,16 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useColorScheme } from "react-native";
-import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, YELLOW_COLOR } from "../colors";
-import { DarkTheme, DefaultTheme } from "@react-navigation/native";
-import Main from "../pages/Main";
-import MyPage from "../pages/MyPage";
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useColorScheme } from 'react-native';
+import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, YELLOW_COLOR } from '../colors';
+import { DarkTheme, DefaultTheme } from '@react-navigation/native';
+import Main from '../pages/Main';
+import MyPage from '../pages/MyPage';
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const isDark = useColorScheme() === "dark";
+  const isDark = useColorScheme() === 'dark';
   return (
     <Tab.Navigator
       sceneContainerStyle={{
@@ -18,7 +18,7 @@ const Tabs = () => {
         // fontColor: isDark ? WHITE_COLOR : DefaultTheme,
       }}
       screenOptions={{
-        tabBarLabelPosition: "beside-icon",
+        tabBarLabelPosition: 'beside-icon',
         tabBarActiveTintColor: isDark ? YELLOW_COLOR : BLUE_COLOR,
         headerTintColor: isDark ? YELLOW_COLOR : BLACK_COLOR,
       }}
@@ -41,7 +41,7 @@ const Tabs = () => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="text-box" size={size} color={color} />
           ),
-          title: "My",
+          title: 'My Page',
         }}
         name="MyPage"
         component={MyPage}
