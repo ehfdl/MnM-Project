@@ -1,61 +1,45 @@
-
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import styled from "@emotion/native";
 import Swiper from "react-native-swiper";
-import MainImg from "../component/MainImg";
+import MainImg from "../components/MainImg";
+import { useQuery } from "react-query";
+import { getEventList } from "../api";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Movies({ navigation: { navigate } }) {
-  const [nowPlayings, setNowPlayings] = useState([]);
-  const [topRateds, setTopRateds] = useState([]);
-  const [upcomings, setUpcomings] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const Main = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const API_KEY = "474c4d4954716f613635754d717646";
-  const BASE_URL = "http://openapi.seoul.go.kr:8088";
+  const { navigate } = useNavigation();
 
-  const getNowPlaying = async () => {
-    const { row } = await fetch(
-      `${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`
-    ).then((res) => res.json());
-    setNowPlayings(row);
-  };
-  // const getTopRated = async () => {
-  //   const { results } = await fetch(
-  //     `${BASE_URL}/top_rated?api_key=${API_KEY}&language=en-US&page=1`
-  //   ).then((res) => res.json());
-  //   setTopRateds(results);
-  // };
-  // const getUpcoming = async () => {
-  //   const { results } = await fetch(
-  //     `${BASE_URL}/upcoming?api_key=${API_KEY}&language=en-US&page=1`
-  //   ).then((res) => res.json());
-  //   setUpcomings(results);
-  // };
+  const { data: getEventListData, isLoading: isLoadingGel } = useQuery(
+    "getEventList",
+    getEventList
+  );
 
-  const getData = async () => {
-    await Promise.all([getNowPlaying(), getTopRated(), getUpcoming()]);
-    setIsLoading(false);
-  };
+  const isLoading = isLoadingGel;
 
   const onRefresh = async () => {
     setIsRefreshing(true);
-    await getData();
+    await queryClinet.refetchQueries(["movie"]);
     setIsRefreshing(false);
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
-  // if (isLoading) {
-  //   return (
-  //     <Loader>
-  //       <ActivityIndicator />
-  //     </Loader>
-  //   );
-  // }
+  // 키값으로 이것을 넘겨주면 어떨지
+  const imgId = (id) => {
+    id = id.split("atchFileId=");
+    id = id[1].split("&");
+    // console.log("id", id[0]);
+    return id[0];
+  };
 
   return (
     <FlatList
@@ -65,7 +49,7 @@ export default function Movies({ navigation: { navigate } }) {
         <>
           <ListTitle>실시간</ListTitle>
           <Swiper height="100%" showsPagination={false} autoplay loop>
-            {nowPlayings.row.map((movie) => (
+            {getEventListData.culturalEventInfo.row?.map((movie) => (
               <MainImg key={movie.id} movie={movie} />
             ))}
           </Swiper>
@@ -74,7 +58,7 @@ export default function Movies({ navigation: { navigate } }) {
             horizontal
             contentContainerStyle={{ paddingHorizontal: 20 }}
             showsHorizontalScrollIndicator={false}
-            data={topRateds}
+            // data={topRateds}
             // renderItem={({ item }) => <VCard movie={item} />}
             keyExtractor={(item) => item.id}
             ItemSeparatorComponent={<View style={{ width: 10 }} />}
@@ -82,17 +66,15 @@ export default function Movies({ navigation: { navigate } }) {
           <ListTitle>Upcoming Movies</ListTitle>
         </>
       }
-      data={upcomings}
+      // data={upcomings}
       // renderItem={({ item }) => <HCard movie={item} />}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={<View style={{ height: 15 }} />}
     />
-
   );
 };
 
 export default Main;
-
 
 const Loader = styled.View`
   flex: 1;
@@ -107,5 +89,4 @@ const ListTitle = styled.Text`
   font-size: 20px;
   font-weight: 500;
   color: ${(props) => props.theme.title};
-
 `;

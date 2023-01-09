@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
@@ -23,15 +17,13 @@ const Slide = () => {
     getEventList
   );
 
-  console.log(getEventListData);
-
   const isLoading = isLoadingGel;
 
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await queryClinet.refetchQueries(["movie"]);
-    setRefreshing(false);
-  };
+  // const onRefresh = async () => {
+  //   setRefreshing(true);
+  //   await queryClinet.refetchQueries(["movie"]);
+  //   setRefreshing(false);
+  // };
 
   if (isLoading) {
     return (
