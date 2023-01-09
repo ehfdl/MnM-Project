@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import styled from "@emotion/native";
@@ -86,8 +87,12 @@ export default function Movies({ navigation: { navigate } }) {
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={<View style={{ height: 15 }} />}
     />
+
   );
-}
+};
+
+export default Main;
+
 
 const Loader = styled.View`
   flex: 1;
@@ -102,4 +107,5 @@ const ListTitle = styled.Text`
   font-size: 20px;
   font-weight: 500;
   color: ${(props) => props.theme.title};
+
 `;
