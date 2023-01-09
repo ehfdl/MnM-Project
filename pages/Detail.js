@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import { useQuery } from "react-query";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
@@ -40,6 +47,11 @@ const Detail = ({
   //   getDetail();
   // }, []);
 
+  // 홈페이지 연결
+  const openURL = async (url) => {
+    const res_url = `${url}`;
+    await Linking.openURL(res_url);
+  };
   return (
     <ScrollView>
       <>
@@ -72,9 +84,10 @@ const Detail = ({
             <Overview>
               {program.slice(0, 300)}
               {program.length > 300 && "..."}
+              {program.length == 0 && "없음"}
             </Overview>
             <InfoLabel>홈페이지 주소</InfoLabel>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => openURL(link)}>
               <Text>{link}</Text>
             </TouchableOpacity>
           </Section>
