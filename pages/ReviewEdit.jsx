@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/native";
 import { Rating } from "react-native-ratings";
-import { TouchableOpacity, useColorScheme } from "react-native";
-import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
-import { dbService } from "../firebase";
-import { GREEN_COLOR, YELLOW_COLOR } from "../colors";
-import { AntDesign } from "@expo/vector-icons";
+import { useColorScheme } from "react-native";
 import { Alert } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useMutation } from "react-query";
 import { deleteReview, editReview } from "../api";
 import Loader from "../components/Loader";

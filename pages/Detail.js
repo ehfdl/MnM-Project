@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Linking, StyleSheet, useColorScheme } from "react-native";
-import styled from "@emotion/native";
-import { getImgPath, SCREEN_WIDTH } from "../utils";
-import { SCREEN_HEIGHT } from "../utils";
-import { LinearGradient } from "expo-linear-gradient";
-import { AntDesign } from "@expo/vector-icons";
-import { useQuery } from "react-query";
-import { getDetail } from "../api";
+import { FlatList } from "react-native";
 import Loader from "../components/Loader";
 
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { authService, dbService } from "../firebase";
-import ReviewCard from "../components/ReviewCard";
 import ReviewModal from "../components/ReviewModal";
 
 export default function Detail({
