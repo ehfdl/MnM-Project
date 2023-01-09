@@ -1,58 +1,97 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import { useQuery } from "react-query";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
-const Detail = () => {
-  return (
-    <ScrollView contentContainerStyle={{ flex: 1 }}>
-      <ImgDT source={require("../assets/detail-img.png")} />
+import { TabActions } from "@react-navigation/native";
+// route에 params넘겨주기
+const Detail = ({
+  navigation: { navigate },
+  route: {
+    params: {
+      main_img,
+      title,
+      codename,
+      target,
+      target_fee,
+      place,
+      link,
+      date,
+      program,
+    },
+  },
+}) => {
+  const [datail, setDatail] = useState([]);
+  const BASE_URL = "http://openapi.seoul.go.kr:8088";
+  const API_KEY = "446b6b7968676d6c35307165706969";
 
-      <Container>
-        <RowTitleSection>
-          <EVTitle>용감한 탄티</EVTitle>
-          <EVCategory>연극</EVCategory>
-        </RowTitleSection>
-        <Column>
-          <Row>
-            <InfoLabel>날짜</InfoLabel>
-            <InfoText>2023.01.26-2023.12.26</InfoText>
-          </Row>
-          <Row>
-            <InfoLabel>장소</InfoLabel>
-            <InfoText>노원어린이극장</InfoText>
-          </Row>
-          <Row>
-            <InfoLabel>이용대상</InfoLabel>
-            <InfoText>5세 이상</InfoText>
-          </Row>
-          <Row>
-            <InfoLabel>이용금액</InfoLabel>
-            <InfoText>전석 20,000원</InfoText>
-          </Row>
-        </Column>
-        <Section>
-          <InfoLabel>상세설명</InfoLabel>
-          <Overview>
-            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          </Overview>
-          <InfoLabel>홈페이지 주소</InfoLabel>
-          <TouchableOpacity>
-            <Text>링크</Text>
-          </TouchableOpacity>
-        </Section>
-        {/* 공연리뷰 전까지 */}
-        <Section>
-          <RowReview>
-            <InfoLabel>공연리뷰</InfoLabel>
+  // const getDetail = async () => {
+  //   const { culturalEventInfo } = await fetch(
+  //     `${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`
+  //   )
+  //     .then((res) => res.json())
+  //     .catch((error) => console.log(error));
+  //   const { row } = culturalEventInfo;
+  //   console.log("row", row);
+  //   setDatail(row);
+  // };
+
+  // useEffect(() => {
+  //   getDetail();
+  // }, []);
+
+  return (
+    <ScrollView>
+      <>
+        <ImgDT source={{ uri: main_img }} />
+        <Container>
+          <RowTitleSection>
+            <EVTitle>{title}</EVTitle>
+            <EVCategory>{codename}</EVCategory>
+          </RowTitleSection>
+          <Column>
+            <Row>
+              <InfoLabel>날짜</InfoLabel>
+              <InfoText>{date}</InfoText>
+            </Row>
+            <Row>
+              <InfoLabel>장소</InfoLabel>
+              <InfoText>{place}</InfoText>
+            </Row>
+            <Row>
+              <InfoLabel>이용대상</InfoLabel>
+              <InfoText>{target}</InfoText>
+            </Row>
+            <Row>
+              <InfoLabel>이용금액</InfoLabel>
+              <InfoText>{target_fee}</InfoText>
+            </Row>
+          </Column>
+          <Section>
+            <InfoLabel>상세설명</InfoLabel>
+            <Overview>
+              {program.slice(0, 300)}
+              {program.length > 300 && "..."}
+            </Overview>
+            <InfoLabel>홈페이지 주소</InfoLabel>
             <TouchableOpacity>
-              <Text>리뷰쓰기</Text>
+              <Text>{link}</Text>
             </TouchableOpacity>
-          </RowReview>
-          <View
-            style={{ backgroundColor: "red", width: "90%", height: 200 }}
-          ></View>
-        </Section>
-      </Container>
+          </Section>
+          {/* 공연리뷰 전까지 */}
+          <Section>
+            <RowReview>
+              <InfoLabel>공연리뷰</InfoLabel>
+              <TouchableOpacity>
+                <Text>리뷰쓰기</Text>
+              </TouchableOpacity>
+            </RowReview>
+            <View
+              style={{ backgroundColor: "red", width: "90%", height: 200 }}
+            ></View>
+          </Section>
+        </Container>
+      </>
     </ScrollView>
   );
 };

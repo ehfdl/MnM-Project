@@ -6,7 +6,7 @@ import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, YELLOW_COLOR } from "../colors";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import Main from "../pages/Main";
 import MyPage from "../pages/MyPage";
-
+import Slide from "../components/Slide";
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
@@ -33,8 +33,8 @@ const Tabs = () => {
             />
           ),
         }}
-        name="Main"
-        component={Main}
+        name="Slide"
+        component={Slide}
       />
       <Tab.Screen
         options={{

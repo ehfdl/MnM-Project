@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Text, TouchableOpacity, useColorScheme } from "react-native";
 import Detail from "../pages/Detail";
 import { BLACK_COLOR, YELLOW_COLOR } from "../colors";
-
 const Stack = createNativeStackNavigator();
 
 export default function Stacks({ navigation: { goBack } }) {

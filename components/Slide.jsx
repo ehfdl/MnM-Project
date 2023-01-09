@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import Swiper from "react-native-swiper";
-import Detail from "./Detail";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
+import { useNavigation } from "@react-navigation/native";
 
-const Slide = ({ navigation: { navigate } }) => {
+const Slide = () => {
+  // 네비게이션 to Detail
+  const { navigate } = useNavigation();
   const [eventList, setEventList] = useState([]);
   const BASE_URL = "http://openapi.seoul.go.kr:8088";
   const API_KEY = "446b6b7968676d6c35307165706969";
@@ -27,32 +35,51 @@ const Slide = ({ navigation: { navigate } }) => {
     getEventList();
   }, []);
 
-  return (
-    <View>
-      {eventList.map((item) => (
-        <DescSt key={item.MAIN_IMG}>
-          <BgImgSt
-            source={{
-              uri: item.MAIN_IMG,
-            }}
-            style={StyleSheet.absoluteFill}
-          />
+  // 키값으로 이것을 넘겨주면 어떨지
+  const imgId = (id) => {
+    id = id.split("atchFileId=");
+    id = id[1].split("&");
+    console.log("id", id[0]);
+    return id[0];
+  };
 
-          <Row>
-            <Column>
-              <View style={{ flexDirection: "column" }}>
-                <Title>{item.TITLE}</Title>
-                <Rating>⭐️{item.PLACE}</Rating>
-                <Overview>
-                  {item.PROGRAM.slice(0, 150)}
-                  {item.PROGRAM.length > 150 && "..."}
-                </Overview>
-              </View>
-            </Column>
-          </Row>
-        </DescSt>
+  return (
+    <ScrollView>
+      {eventList.map((item) => (
+        <TouchableOpacity
+          key={imgId(item.MAIN_IMG)}
+          onPress={() =>
+            navigate("Stacks", {
+              screen: "Detail",
+              params: {
+                // itemId: imgId(item.MAIN_IMG),
+                main_img: item.MAIN_IMG,
+                codename: item.CODENAME,
+                title: item.TITLE,
+                date: item.DATE,
+                target: item.USE_TRGT,
+                target_fee: item.USE_FEE,
+                place: item.PLACE,
+                link: item.ORG_LINK,
+                program: item.PROGRAM,
+              },
+            })
+          }
+        >
+          <View style={{ flexDirection: "column" }}>
+            <ImgSt source={{ uri: item.MAIN_IMG }}></ImgSt>
+            <Title>{item.TITLE}</Title>
+            <Rating>🏢{item.PLACE}</Rating>
+            <Overview>
+              {item.PROGRAM.slice(0, 150)}
+              {item.PROGRAM.length > 150 && "..."}
+            </Overview>
+          </View>
+        </TouchableOpacity>
+
+        // </DescSt>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -95,17 +122,17 @@ const BgImgSt = styled.ImageBackground`
 const Title = styled.Text`
   font-size: 20px;
   font-weight: 600;
-  color: white;
+  color: black;
 `;
 // 개요
 const Overview = styled.Text`
   /* color: ${(props) => props.theme.upcomingText}; */
   font-size: 12px;
-  color: white;
+  color: black;
 `;
 // 별점
 const Rating = styled.Text`
-  color: white;
+  color: black;
   margin-top: 5px;
   margin-bottom: 5px;
 `;
