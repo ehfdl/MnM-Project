@@ -6,10 +6,11 @@ import {
   Image,
   TouchableOpacity,
   Linking,
+  StyleSheet,
 } from "react-native";
 import { useQuery } from "react-query";
 import styled from "@emotion/native";
-import { SCREEN_HEIGHT } from "../util";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
 import { TabActions } from "@react-navigation/native";
 import ReviewModal from "../components/review/ReviewModal";
 import { FlatList } from "react-native";
@@ -23,6 +24,7 @@ const Detail = ({
   navigation: { navigate },
   route: {
     params: {
+      itemId,
       main_img,
       title,
       codename,
@@ -35,9 +37,9 @@ const Detail = ({
     },
   },
 }) => {
-  const [datail, setDatail] = useState([]);
-  const BASE_URL = "http://openapi.seoul.go.kr:8088";
-  const API_KEY = "446b6b7968676d6c35307165706969";
+  // const [datail, setDatail] = useState([]);
+  // const BASE_URL = "http://openapi.seoul.go.kr:8088";
+  // const API_KEY = "446b6b7968676d6c35307165706969";
   //
   const [reviews, setReviews] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -72,21 +74,6 @@ const Detail = ({
   //   return <Loader />;
   // }
 
-  // const getDetail = async () => {
-  //   const { culturalEventInfo } = await fetch(
-  //     `${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`
-  //   )
-  //     .then((res) => res.json())
-  //     .catch((error) => console.log(error));
-  //   const { row } = culturalEventInfo;
-  //   console.log("row", row);
-  //   setDatail(row);
-  // };
-
-  // useEffect(() => {
-  //   getDetail();
-  // }, []);
-
   // 홈페이지 연결
   const openURL = async (url) => {
     const res_url = `${url}`;
@@ -95,46 +82,78 @@ const Detail = ({
   return (
     <ScrollView>
       <>
-        <ImgDT source={{ uri: main_img }} />
+        <View style={{ backgroundColor: "#d1ccc0" }}>
+          <ImgDT resizeMode="contain" source={{ uri: main_img }} />
+        </View>
         <Container>
           <RowTitleSection>
-            <EVTitle>{title}</EVTitle>
-            <EVCategory>{codename}</EVCategory>
+            <EVTitle>
+              <EVTitleText>{title}</EVTitleText>
+            </EVTitle>
+            <EVCategory>
+              <EVCategoryText>{codename}</EVCategoryText>
+            </EVCategory>
           </RowTitleSection>
           <Column>
             <Row>
-              <InfoLabel>날짜</InfoLabel>
-              <InfoText>{date}</InfoText>
+              <InfoLabel>
+                <InfoLabelText>날짜</InfoLabelText>
+              </InfoLabel>
+              <InfoBox>
+                <InfoBoxText>{date}</InfoBoxText>
+              </InfoBox>
             </Row>
             <Row>
-              <InfoLabel>장소</InfoLabel>
-              <InfoText>{place}</InfoText>
+              <InfoLabel>
+                <InfoLabelText>장소</InfoLabelText>
+              </InfoLabel>
+
+              <InfoBox>
+                <InfoBoxText>{place}</InfoBoxText>
+              </InfoBox>
             </Row>
             <Row>
-              <InfoLabel>이용대상</InfoLabel>
-              <InfoText>{target}</InfoText>
+              <InfoLabel>
+                <InfoLabelText>이용대상</InfoLabelText>
+              </InfoLabel>
+              <InfoBox>
+                <InfoBoxText>{target}</InfoBoxText>
+              </InfoBox>
             </Row>
             <Row>
-              <InfoLabel>이용금액</InfoLabel>
-              <InfoText>{target_fee}</InfoText>
+              <InfoLabel>
+                <InfoLabelText>이용금액</InfoLabelText>
+              </InfoLabel>
+              <InfoBox>
+                <InfoBoxText>
+                  {target_fee}
+                  {target_fee.length == 0 && "무료"}
+                </InfoBoxText>
+              </InfoBox>
             </Row>
           </Column>
           <Section>
-            <InfoLabel>상세설명</InfoLabel>
+            <InfoLabel>
+              <InfoLabelText>상세설명</InfoLabelText>
+            </InfoLabel>
             <Overview>
               {program.slice(0, 300)}
               {program.length > 300 && "..."}
               {program.length == 0 && "없음"}
             </Overview>
-            <InfoLabel>홈페이지 주소</InfoLabel>
+            <InfoLabel>
+              <InfoLabelText>홈페이지</InfoLabelText>
+            </InfoLabel>
             <TouchableOpacity onPress={() => openURL(link)}>
-              <Text>{link}</Text>
+              <Text>웹사이트로 이동</Text>
             </TouchableOpacity>
           </Section>
           {/* 공연리뷰 전까지 */}
           <Section>
             <RowReview>
-              <InfoLabel>공연리뷰</InfoLabel>
+              <InfoLabel>
+                <InfoLabelText>공연리뷰</InfoLabelText>
+              </InfoLabel>
               <TouchableOpacity onPress={handleAdding}>
                 <Text>리뷰쓰기</Text>
               </TouchableOpacity>
@@ -180,6 +199,7 @@ const Container = styled.View`
 `;
 
 const ImgDT = styled.Image`
+  /* background-color: "#f7f1e3"; */
   width: 100%;
   height: ${SCREEN_HEIGHT / 4 + "px"};
 `;
@@ -187,30 +207,41 @@ const RowTitleSection = styled.View`
   flex-direction: row;
   margin: 15px;
   justify-content: space-between;
+  flex-wrap: wrap;
 `;
 const Row = styled.View`
+  width: ${SCREEN_WIDTH + "px"};
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
-  margin-left: 15px;
 `;
 const Column = styled.View`
+  width: 90%;
   flex-direction: column;
   align-content: center;
+  margin-left: 15px;
 `;
 
-const InfoLabel = styled.Text`
-  font-weight: bold;
-  font-size: 16px;
-  width: 100px;
-  /* margin-right: 30px; */
+const InfoLabel = styled.View`
+  width: 80px;
   margin-bottom: 10px;
 `;
-
-const InfoText = styled.Text`
+const InfoLabelText = styled.Text`
   font-weight: bold;
-
   font-size: 16px;
+`;
+const InfoBox = styled.View`
+  margin-right: 15px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
+  flex-direction: row;
+  /* 부모컨테이너를 벗어날 시 줄바꿈 */
+`;
+const InfoBoxText = styled.Text`
+  font-weight: bold;
+  font-size: 16px;
+  flex-wrap: wrap;
+  padding: 0 10px;
 `;
 
 // 상세설명 텍스트
@@ -219,17 +250,25 @@ const Overview = styled.Text`
   margin-bottom: 15px;
 `;
 // 행사 타이틀
-const EVTitle = styled.Text`
+const EVTitle = styled.View`
+  /* align-items: center; */
+`;
+const EVTitleText = styled.Text`
   font-size: 20px;
   font-weight: bold;
 `;
 // 행사 카테고리 텍스트 ex)연극
-const EVCategory = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
+const EVCategory = styled.View`
+  justify-content: center;
+  flex-wrap: wrap;
   /* position: absolute;
   top: 15px;
-  right: 15px; */
+  right: 10px; */
+`;
+const EVCategoryText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  flex-wrap: wrap;
 `;
 // 상세설명 섹션
 const Section = styled.View`
