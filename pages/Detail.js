@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import Loader from "../components/Loader";
-
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { authService, dbService } from "../firebase";
 import ReviewModal from "../components/ReviewModal";
