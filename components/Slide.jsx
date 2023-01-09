@@ -12,6 +12,7 @@ import { SCREEN_HEIGHT } from "../util";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getEventList } from "../api";
+import { ActivityIndicator } from "react-native";
 
 const Slide = () => {
   // 네비게이션 to Detail
@@ -21,6 +22,24 @@ const Slide = () => {
     "getEventList",
     getEventList
   );
+
+  console.log(getEventListData);
+
+  const isLoading = isLoadingGel;
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClinet.refetchQueries(["movie"]);
+    setRefreshing(false);
+  };
+
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
@@ -32,7 +51,7 @@ const Slide = () => {
 
   return (
     <ScrollView>
-      {getEventListData.culturalEventInfo.row.map((item) => (
+      {getEventListData.culturalEventInfo.row?.map((item) => (
         <TouchableOpacity
           key={imgId(item.MAIN_IMG)}
           onPress={() =>
