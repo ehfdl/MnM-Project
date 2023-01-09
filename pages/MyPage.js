@@ -1,10 +1,118 @@
 import styled from '@emotion/native';
-import React, { useState } from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, ScrollView, Alert } from 'react-native';
 import MyInfor from '../components/modal/MyInfor';
-// r
+import {
+  onSnapshot,
+  query,
+  collection,
+  orderBy,
+  addDoc,
+  where,
+} from 'firebase/firestore';
+import { dbService, authService } from '../firebase';
+
 const MyPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [profile, setProfile] = useState([]);
+  const [nickName, setNickName] = useState('');
+  const [profileText, setProfileText] = useState('');
+
+  const newProfile = {
+    nickName,
+    profileText,
+    isEdit: false,
+    createdAt: Date.now(),
+  };
+
+  const addProfile = async () => {
+    if (nickName && profileText) {
+      await addDoc(collection(dbService, 'profile'), newProfile);
+      setIsOpenModal(!isOpenModal);
+      setNickName('');
+      setProfileText('');
+    } else {
+      if (!nickName) {
+        alert('닉네임을 입력해주세요.');
+      } else if (!profileText) {
+        alert('자기소개를 입력해주세요.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    const q = query(
+      collection(dbService, 'profile'),
+      orderBy('createdAt', 'desc')
+    );
+
+    onSnapshot(q, (snapshot) => {
+      const newProfiles = snapshot.docs.map((doc) => {
+        console.log('doc', doc.data());
+        const newProfile = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        return newProfile;
+      });
+      setProfile(newProfiles);
+    });
+  }, []);
+
+  const profileFirst = profile[0];
+  const profileSecond = profile[1];
+
+  useFocusEffect(
+    useCallback(() => {
+      if (!authService.currentUser) {
+        // 비로그인 상태에서 마이페이지 접근 시 로그인화면으로 이동하고, 뒤로가기 시 무비탭
+        reset({
+          index: 1,
+          routes: [
+            {
+              name: 'Tabs',
+              params: {
+                screen: 'Movies',
+              },
+            },
+            {
+              name: 'Stack',
+              params: {
+                screen: 'Login',
+              },
+            },
+          ],
+        });
+        return;
+      }
+
+      setOptions({
+        headerRight: () => {
+          return (
+            <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
+              <Text style={{ color: isDark ? YELLOW_COLOR : GREEN_COLOR }}>
+                로그아웃
+              </Text>
+            </TouchableOpacity>
+          );
+        },
+      });
+
+      const q = query(
+        collection(dbService, 'reviews'),
+        orderBy('createdAt', 'desc'),
+        where('userId', '==', authService.currentUser?.uid)
+      );
+      const unsubcribe = onSnapshot(q, (snapshot) => {
+        const newReviews = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setReviews(newReviews);
+      });
+      return unsubcribe;
+    }, [])
+  );
 
   return (
     <>
@@ -14,8 +122,10 @@ const MyPage = () => {
             uri: 'https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/200608/htm_20060824163946c000c010-001.JPG',
           }}
         />
-        <ProfileId>ddd</ProfileId>
-        <ProfileText>dfdf</ProfileText>
+        <ProfileId>{profileFirst?.nickName ?? '닉네임없음'}</ProfileId>
+        <ProfileText>
+          {profileFirst?.profileText ?? '안녕하세요. 반갑습니다.'}
+        </ProfileText>
         <ProfileBTN
           onPress={() => {
             setIsOpenModal(true);
@@ -60,7 +170,15 @@ const MyPage = () => {
         </ScrollView>
       </MyReviewWrap>
 
-      <MyInfor isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} />
+      <MyInfor
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
+        nickName={nickName}
+        setNickName={setNickName}
+        profileText={profileText}
+        setProfileText={setProfileText}
+        addProfile={addProfile}
+      />
     </>
   );
 };
