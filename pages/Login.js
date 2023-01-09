@@ -1,3 +1,4 @@
+
 import styled from "@emotion/native";
 import React, { useState, useRef, useEffect } from "react";
 import { View, Text } from "react-native";
