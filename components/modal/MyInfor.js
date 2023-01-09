@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Text, TextInput } from 'react-native';
 import styled from '@emotion/native';
-import { SCREEN_HEIGHT } from '../../util';
+// import { addDoc, collection } from 'firebase/firestore';
+// import { authService, dbService } from '../firebase';
 
 const myInfor = ({ isOpenModal, setIsOpenModal }) => {
+  const [nickName, setNickName] = useState('');
+  const [profileText, setProfileText] = useState('');
+
+  const addProfile = () => {
+    setIsOpenModal(!isOpenModal);
+  };
+
   return (
     <Modal visible={isOpenModal} transparent animationType="slide">
       <Backdrop>
@@ -11,15 +19,27 @@ const myInfor = ({ isOpenModal, setIsOpenModal }) => {
           <InforWrap>
             <UserInfor>
               <InputText>프로필</InputText>
-              <UserName type="file" placeholder="아이디" />
-              <UserName type="text" placeholder="프로필" />
+              <UserName
+                textContentType="text"
+                value={nickName}
+                placeholder="닉네임을 적어주세요."
+                onChangeText={(text) => setNickName(text)}
+              />
+              <UserName
+                textContentType="text"
+                value={profileText}
+                placeholder="자기소개를 적어주세요."
+                onChangeText={(text) => setProfileText(text)}
+              />
+              <Text>{nickName}</Text>
+              <Text>{profileText}</Text>
             </UserInfor>
           </InforWrap>
           <BTNWarp>
-            <ModalBTN onPress={() => setIsOpenModal(!isOpenModal)}>
+            <ModalBTN>
               <BTNText style={{ color: '#fff' }}>취소</BTNText>
             </ModalBTN>
-            <ModalBTN onPress={() => setIsOpenModal(!isOpenModal)}>
+            <ModalBTN onPress={addProfile}>
               <BTNText style={{ color: '#fff' }}>확인</BTNText>
             </ModalBTN>
           </BTNWarp>
@@ -33,26 +53,26 @@ export default myInfor;
 
 const Backdrop = styled.View`
   flex: 1;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const Dialog = styled.View`
   background-color: #fff;
-  width: 100%;
-  height: 35%;
+  width: 90%;
+  height: 70%;
   border-radius: 20px;
   padding: 40px 20px;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
 `;
 
 const InforWrap = styled.View`
   flex: 1;
   width: 100%;
-  align-items: center;
-  justify-content: center;
-  /* background-color: red; */
+  align-items: flex-start;
+  justify-content: flex-start;
   margin-bottom: 16px;
 `;
 

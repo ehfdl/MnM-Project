@@ -2,7 +2,7 @@ import styled from '@emotion/native';
 import React, { useState } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import MyInfor from '../components/modal/MyInfor';
-
+// r
 const MyPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -14,10 +14,8 @@ const MyPage = () => {
             uri: 'https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/200608/htm_20060824163946c000c010-001.JPG',
           }}
         />
-        <ProfileId>아이디아이디</ProfileId>
-        <ProfileText>
-          자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개
-        </ProfileText>
+        <ProfileId>ddd</ProfileId>
+        <ProfileText>dfdf</ProfileText>
         <ProfileBTN
           onPress={() => {
             setIsOpenModal(true);
@@ -93,12 +91,12 @@ const ImageWrapper = styled.Image`
 const ProfileId = styled.Text`
   font-weight: 600;
   font-size: 24px;
-  margin: 24px 0;
+  margin: 24px 0 8px;
 `;
 
 const ProfileText = styled.Text`
   font-size: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 `;
 
 const ProfileBTN = styled.TouchableOpacity`
