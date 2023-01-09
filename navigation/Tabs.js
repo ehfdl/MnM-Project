@@ -10,7 +10,6 @@ import MyPage from "../pages/MyPage";
 
 import { authService } from "../firebase";
 
-
 import Slide from "../components/Slide";
 
 const Tab = createBottomTabNavigator();

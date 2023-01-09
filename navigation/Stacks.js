@@ -52,6 +52,13 @@ const Stacks = ({ navigation: { goBack, navigate, setOptions } }) => {
       }}
     >
       <Stack.Screen
+        name="Detail"
+        component={Detail}
+        options={{
+          title: "Detail",
+        }}
+      />
+      <Stack.Screen
         name="Login"
         component={Login}
         options={{
