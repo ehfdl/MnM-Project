@@ -5,7 +5,7 @@ import { useColorScheme } from "react-native";
 import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, YELLOW_COLOR } from "../colors";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import Main from "../pages/Main";
-import MyPage from "../pages/MyPage";
+import MyPage from "../components/review/MyReview";
 
 const Tab = createBottomTabNavigator();
 

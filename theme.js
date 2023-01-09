@@ -11,3 +11,27 @@ export const darkTheme = {
   text: WHITE_COLOR,
   upcomingText: WHITE_COLOR,
 };
+
+// export const lightTheme = {
+//   color: {
+//     titleOnImg: "white",
+//     overviewOnImg: "#d2dae2",
+//     listTitle: GREEN_COLOR,
+//     title: "black",
+//     overview: "#1e272e",
+//     modalBg: "black",
+//     inputText: "white",
+//   },
+// };
+
+// export const darkTheme = {
+//   color: {
+//     titleOnImg: "white",
+//     overviewOnImg: "#d2dae2",
+//     listTitle: YELLOW_COLOR,
+//     title: "white",
+//     overview: "#d2dae2",
+//     modalBg: "#d2dae2",
+//     inputText: "black",
+//   },
+// };

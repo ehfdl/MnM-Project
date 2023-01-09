@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
+import ReviewInput from "../components/review/ReviewInput";
 
 const Main = () => {
   return (
-    <View>
-      <Text>zzz</Text>
-    </View>
+    <>
+      <ReviewInput />
+    </>
   );
 };
 
