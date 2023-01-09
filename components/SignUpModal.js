@@ -5,6 +5,7 @@ import { authService } from "../firebase";
 import { View, Text } from "react-native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Modal } from "react-native";
+import RED_COLOR from "../colors";
 
 const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   const emailRef = useRef(null);
@@ -117,11 +118,14 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
             <ModalBtn
               onPress={() => setIsOpenSignUpModal(false)}
               title="Cancel"
+              color={RED_COLOR}
             />
+
             <ModalBtn
               disabled={!userEmail || !userPassword || !userCheckPassword}
               onPress={onPressSignUp}
               title="Sign Up"
+              color={RED_COLOR}
             />
           </Row>
         </Dialog>
@@ -151,12 +155,14 @@ const SignUpInput = styled.TextInput`
   border-bottom-width: 1px;
 `;
 const ModalBtn = styled.Button`
+  width: 80px;
+  height: 50px;
+  /* background-color: #eee; */
+  align-items: center;
+  justify-content: center;
   color: red;
-  :disabled {
-    background-color: rgb(168, 202, 244); /* 흐린 색상의 배경 적용 */
-  }
-  :enabled {
-    background-color: red;
+  &:disabled {
+    /* background-color: blue; */
   }
 `;
 const InputWrapper = styled.View`
@@ -192,4 +198,5 @@ const Row = styled.View`
   bottom: 5px;
   position: absolute;
   margin-bottom: 10px;
+  /* background-color: yellow; */
 `;
