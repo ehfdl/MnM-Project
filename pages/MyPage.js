@@ -1,6 +1,7 @@
 import styled from '@emotion/native';
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, Alert } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Text, ScrollView } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import MyInfor from '../components/modal/MyInfor';
 import {
   onSnapshot,
@@ -12,7 +13,7 @@ import {
 } from 'firebase/firestore';
 import { dbService, authService } from '../firebase';
 
-const MyPage = () => {
+const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [profile, setProfile] = useState([]);
   const [nickName, setNickName] = useState('');
