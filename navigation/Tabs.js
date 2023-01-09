@@ -1,26 +1,31 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useColorScheme } from 'react-native';
-import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, YELLOW_COLOR } from '../colors';
-import { DarkTheme, DefaultTheme } from '@react-navigation/native';
-import Main from '../pages/Main';
-import MyPage from '../pages/MyPage';
+import React from "react";
+import { TouchableOpacity, Text } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useColorScheme } from "react-native";
+import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, RED_COLOR } from "../colors";
+import { DarkTheme, DefaultTheme } from "@react-navigation/native";
+import Main from "../pages/Main";
+import MyPage from "../pages/MyPage";
+
+import { authService } from "../firebase";
+
+
+import Slide from "../components/Slide";
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
-  const isDark = useColorScheme() === 'dark';
+const Tabs = ({ navigation: { navigate, setOptions } }) => {
+  const isDark = useColorScheme() === "dark";
   return (
     <Tab.Navigator
       sceneContainerStyle={{
         backgroundColor: isDark ? DarkTheme : DefaultTheme,
-        // fontColor: isDark ? WHITE_COLOR : DefaultTheme,
       }}
       screenOptions={{
-        tabBarLabelPosition: 'beside-icon',
-        tabBarActiveTintColor: isDark ? YELLOW_COLOR : BLUE_COLOR,
-        headerTintColor: isDark ? YELLOW_COLOR : BLACK_COLOR,
+        tabBarLabelPosition: "beside-icon",
+        tabBarActiveTintColor: isDark ? RED_COLOR : BLUE_COLOR,
+        headerTintColor: isDark ? RED_COLOR : BLACK_COLOR,
       }}
     >
       <Tab.Screen
@@ -33,15 +38,15 @@ const Tabs = () => {
             />
           ),
         }}
-        name="Main"
-        component={Main}
+        name="Slide"
+        component={Slide}
       />
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="text-box" size={size} color={color} />
           ),
-          title: 'My Page',
+          title: "My",
         }}
         name="MyPage"
         component={MyPage}

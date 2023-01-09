@@ -3982,6 +3982,7 @@ find-yarn-workspace-root@~2.0.0:
   dependencies:
     micromatch "^4.0.2"
 
+
 firebase@^9.15.0:
   version "9.15.0"
   resolved "https://registry.npmjs.org/firebase/-/firebase-9.15.0.tgz"
@@ -4013,6 +4014,7 @@ firebase@^9.15.0:
     "@firebase/storage" "0.10.0"
     "@firebase/storage-compat" "0.2.0"
     "@firebase/util" "1.8.0"
+
 
 flow-parser@0.*, flow-parser@^0.121.0:
   version "0.121.0"
@@ -6538,7 +6540,9 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-safe-buffer@5.1.2, safe-buffer@>=5.1.0, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
+
+safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
+
   version "5.1.2"
   resolved "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.2.tgz"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==

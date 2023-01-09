@@ -10,6 +10,6 @@ npm-debug.*
 *.orig.*
 web-build/
 app.json
-
+detail-img.png
 # macOS
 .DS_Store
