@@ -1,10 +1,11 @@
-
 import styled from "@emotion/native";
 import React, { useState, useRef, useEffect } from "react";
 import { View, Text } from "react-native";
 import SignUpModal from "../components/SignUpModal";
 import { authService } from "../firebase";
+import { emailRegex } from "../util";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { async } from "@firebase/util";
 
 const Login = ({ navigation: { goBack, setOptions } }) => {
   const emailRef = useRef(null);
@@ -14,12 +15,22 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
-  const loginHandler = async () => {
-    // 유효성 검사
-    // if (validateInputs()) {
-    //   return;
-    // }
+  const [validateEmail, setValidateEmail] = useState("");
 
+  const validateEmailCheck = () => {
+    const matchedEmail = userEmail.match(emailRegex);
+    if (matchedEmail === null) {
+      setValidateEmail("이메일 형식에 맞게 입력해 주세요.");
+    }
+    if (matchedEmail !== null) {
+      setValidateEmail("");
+    }
+    if (userEmail === "") {
+      setValidateEmail("");
+    }
+  };
+
+  const loginHandler = async () => {
     // 로그인 요청
     await signInWithEmailAndPassword(authService, userEmail, userPassword)
       .then(() => {
@@ -44,9 +55,13 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
     setIsOpenSignUpModal(true);
   };
 
-  // useEffect(() => {
-  //   setOptions({ headerRight: () => null });
-  // }, []);
+  useEffect(() => {
+    setOptions({ headerRight: () => null });
+  }, []);
+
+  useEffect(() => {
+    validateEmailCheck();
+  }, [userEmail]);
 
   return (
     <LoginContainer>
@@ -61,6 +76,7 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
           value={userPassword}
           onChangeText={(text) => setUserPassword(text)}
         />
+        <ValidateEmailText>{validateEmail}</ValidateEmailText>
         <LoginButton onPress={loginHandler}>
           <LoginText>Login</LoginText>
         </LoginButton>
@@ -77,6 +93,14 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
 };
 
 export default Login;
+
+const ValidateEmailText = styled.Text`
+  color: red;
+  width: 100%;
+  font-size: 12px;
+  padding-left: 10px;
+  margin-top: 5px;
+`;
 
 const LoginContainer = styled.View`
   width: 100%;

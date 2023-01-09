@@ -86,7 +86,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   };
 
   return (
-    <Modal visible={isOpenSignUpModal} transparent animationType="none">
+    <Modal visible={isOpenSignUpModal} transparent animationType="fade">
       <Backdrop>
         <Dialog>
           <SignUpTitle>Sign Up</SignUpTitle>
@@ -150,7 +150,15 @@ const SignUpInput = styled.TextInput`
   border-color: black;
   border-bottom-width: 1px;
 `;
-const ModalBtn = styled.Button``;
+const ModalBtn = styled.Button`
+  color: red;
+  :disabled {
+    background-color: rgb(168, 202, 244); /* 흐린 색상의 배경 적용 */
+  }
+  :enabled {
+    background-color: red;
+  }
+`;
 const InputWrapper = styled.View`
   width: 100%;
 `;
@@ -177,7 +185,7 @@ const InputTitle = styled.Text`
   margin-bottom: 5px;
   margin-top: 5px;
 `;
-const Row = styled.TouchableOpacity`
+const Row = styled.View`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
