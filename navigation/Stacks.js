@@ -1,10 +1,13 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Text, TouchableOpacity, useColorScheme } from "react-native";
+
 import { BLACK_COLOR, RED_COLOR } from "../colors";
 import Login from "../pages/Login";
 import { authService } from "../firebase";
 import { signOut } from "firebase/auth";
+
+import Detail from "../pages/Detail";
 
 const Stack = createNativeStackNavigator();
 

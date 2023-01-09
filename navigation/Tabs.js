@@ -7,7 +7,11 @@ import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, RED_COLOR } from "../colors";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import Main from "../pages/Main";
 import MyPage from "../pages/MyPage";
+
 import { authService } from "../firebase";
+
+
+import Slide from "../components/Slide";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,8 +38,8 @@ const Tabs = ({ navigation: { navigate, setOptions } }) => {
             />
           ),
         }}
-        name="Main"
-        component={Main}
+        name="Slide"
+        component={Slide}
       />
       <Tab.Screen
         options={{
