@@ -11,6 +11,13 @@ import { useQuery } from "react-query";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
 import { TabActions } from "@react-navigation/native";
+import ReviewModal from "../components/review/ReviewModal";
+import { FlatList } from "react-native";
+// import Loader from "../components/Loader";
+
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { authService, dbService } from "../firebase";
+
 // route에 params넘겨주기
 const Detail = ({
   navigation: { navigate },
@@ -31,6 +38,39 @@ const Detail = ({
   const [datail, setDatail] = useState([]);
   const BASE_URL = "http://openapi.seoul.go.kr:8088";
   const API_KEY = "446b6b7968676d6c35307165706969";
+  //
+  const [reviews, setReviews] = useState([]);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  // const isDark = useColorScheme() === "dark";
+
+  const handleAdding = async () => {
+    const isLogin = !!authService.currentUser;
+    if (!isLogin) {
+      navigate("Login");
+      return;
+    }
+    setIsOpenModal(true);
+  };
+
+  useEffect(() => {
+    const q = query(
+      collection(dbService, "reviews"),
+      orderBy("createdAt", "desc")
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newReviews = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setReviews(newReviews);
+    });
+    return unsubscribe;
+  }, []);
+
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   // const getDetail = async () => {
   //   const { culturalEventInfo } = await fetch(
@@ -95,19 +135,43 @@ const Detail = ({
           <Section>
             <RowReview>
               <InfoLabel>공연리뷰</InfoLabel>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleAdding}>
                 <Text>리뷰쓰기</Text>
               </TouchableOpacity>
             </RowReview>
-            <View
-              style={{ backgroundColor: "red", width: "90%", height: 200 }}
-            ></View>
+
+            <ReviewModal
+              // movieId={movieId}
+              isOpenModal={isOpenModal}
+              setIsOpenModal={setIsOpenModal}
+            />
           </Section>
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: 20,
+              marginBottom: 50,
+              justifyContent: "flex-start",
+              alignItems: "center",
+            }}
+            keyExtractor={(item) => item.id}
+            data={reviews}
+            ItemSeparatorComponent={HSeprator}
+            // renderItem={({ item }) => {
+            //   if (item.movieId === movieId) {
+            //     return <ReviewCard review={item} />;
+            //   }
+            // }}
+          />
         </Container>
       </>
     </ScrollView>
   );
 };
+
+const HSeprator = styled.View`
+  width: 10px;
+`;
 
 const Container = styled.View`
   /* height: ${SCREEN_HEIGHT + "px"}; */

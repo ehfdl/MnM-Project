@@ -26,7 +26,7 @@ const Slide = () => {
       .catch((error) => console.log(error));
     // console.log("데이터", culturalEventInfo);
     const { row } = culturalEventInfo;
-    console.log("row", row);
+    // console.log("row", row);
     setEventList(row);
 
     // setEventList(JSON.parse(response));
@@ -39,7 +39,7 @@ const Slide = () => {
   const imgId = (id) => {
     id = id.split("atchFileId=");
     id = id[1].split("&");
-    console.log("id", id[0]);
+    // console.log("id", id[0]);
     return id[0];
   };
 

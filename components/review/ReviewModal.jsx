@@ -3,7 +3,7 @@ import styled from "@emotion/native";
 import { addDoc, collection } from "firebase/firestore";
 import { Modal, Text } from "react-native";
 import { Rating } from "react-native-ratings";
-import { authService, dbService } from "../firebase";
+import { authService, dbService } from "../../firebase";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const TitleInput = styled.TextInput`
@@ -33,7 +33,7 @@ const Backdrop = styled.View`
   align-items: center;
 `;
 const Dialog = styled.KeyboardAvoidingView`
-  background-color: ${(props) => props.theme.color.modalBg};
+  background-color: black;
   width: 80%;
   height: 70%;
   padding: 20px;
