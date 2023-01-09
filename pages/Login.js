@@ -1,21 +1,66 @@
 import styled from "@emotion/native";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, Text } from "react-native";
 import SignUpModal from "../components/SignUpModal";
+import { authService } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-const Login = ({ navigation: { goBack } }) => {
+const Login = ({ navigation: { goBack, setOptions } }) => {
+  const emailRef = useRef(null);
+  const pwRef = useRef(null);
+
   const [isOpenSignUpModal, setIsOpenSignUpModal] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+
+  const loginHandler = async () => {
+    // 유효성 검사
+    // if (validateInputs()) {
+    //   return;
+    // }
+
+    // 로그인 요청
+    await signInWithEmailAndPassword(authService, userEmail, userPassword)
+      .then(() => {
+        console.log("로그인성공");
+        setUserEmail("");
+        setUserPassword("");
+        goBack();
+        // 로그인 화면 이전 화면으로 돌아가기
+      })
+      .catch((err) => {
+        console.log("err.message:", err.message);
+        if (err.message.includes("user-not-found")) {
+          alert("회원이 아닙니다. 회원가입을 먼저 진행해 주세요.");
+        }
+        if (err.message.includes("wrong-password")) {
+          alert("비밀번호가 틀렸습니다.");
+        }
+      });
+  };
 
   const signUpHandler = () => {
     setIsOpenSignUpModal(true);
   };
 
+  // useEffect(() => {
+  //   setOptions({ headerRight: () => null });
+  // }, []);
+
   return (
     <LoginContainer>
       <LoginInputBox>
-        <LoginInput placeholder="E-mail를 입력해주세요" />
-        <LoginInput placeholder="Password를 입력해주세요" />
-        <LoginButton>
+        <LoginInput
+          placeholder="E-mail를 입력해주세요"
+          value={userEmail}
+          onChangeText={(text) => setUserEmail(text)}
+        />
+        <LoginInput
+          placeholder="Password를 입력해주세요"
+          value={userPassword}
+          onChangeText={(text) => setUserPassword(text)}
+        />
+        <LoginButton onPress={loginHandler}>
           <LoginText>Login</LoginText>
         </LoginButton>
         <SignUpButton>

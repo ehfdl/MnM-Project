@@ -15,9 +15,8 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   const [userPassword, setUserPassword] = useState("");
   const [userCheckPassword, setUserCheckPassword] = useState("");
 
-  const [emailCheck, setEmailCheck] = useState(false);
+  // const [emailCheck, setEmailCheck] = useState(false);
 
-  console.log(userEmail);
   const validateInputs = () => {
     if (!userEmail) {
       alert("이메일을 입력해주세요.");
@@ -55,12 +54,31 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   };
 
   const onPressSignUp = async () => {
+    let signUpfail = false;
     if (validateInputs()) {
       return;
     }
 
-    await createUserWithEmailAndPassword(auth, userEmail, userPassword);
+    await createUserWithEmailAndPassword(authService, userEmail, userPassword)
+      .then((userCredential) => {
+        // Signed in
+        console.log("회원가입 성공!");
+        alert("회원가입 성공!");
 
+        // const user = userCredential.user;
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log("errorMessage:", errorMessage);
+        if (errorMessage.includes("email-already-in-use")) {
+          alert("이미 가입된 이메일입니다.");
+          signUpfail = true;
+        }
+      });
+
+    if (signUpfail) {
+      return;
+    }
     setIsOpenSignUpModal(false);
     setUserEmail("");
     setUserPassword("");
@@ -68,25 +86,28 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   };
 
   return (
-    <Modal visible={isOpenSignUpModal} transparent animationType="fade">
+    <Modal visible={isOpenSignUpModal} transparent animationType="none">
       <Backdrop>
         <Dialog>
           <SignUpTitle>Sign Up</SignUpTitle>
           <InputWrapper>
             <InputTitle>ID</InputTitle>
             <SignUpInput
+              ref={emailRef}
               placeholder="이메일"
               value={userEmail}
               onChangeText={(text) => setUserEmail(text)}
             />
             <InputTitle>Password</InputTitle>
             <SignUpInput
+              ref={pwRef}
               placeholder="비밀번호"
               value={userPassword}
               onChangeText={(text) => setUserPassword(text)}
             />
             <InputTitle>Password 확인</InputTitle>
             <SignUpInput
+              ref={pwckRef}
               placeholder="비밀번호 확인"
               value={userCheckPassword}
               onChangeText={(text) => setUserCheckPassword(text)}
@@ -118,6 +139,7 @@ const Hidden = styled.Text`
 const SignUpTitle = styled.Text`
   font-size: 25px;
   color: black;
+  margin-bottom: 30px;
 `;
 
 const SignUpInput = styled.TextInput`
@@ -141,18 +163,19 @@ const Backdrop = styled.View`
 const Dialog = styled.KeyboardAvoidingView`
   background-color: white;
   width: 80%;
-  height: 50%;
+  height: 500px;
   padding: 20px;
   border-radius: 5px;
   border: 1px solid black;
   align-items: center;
+  position: absolute;
 `;
 const InputTitle = styled.Text`
   font-size: 16px;
   font-weight: 600;
   color: gray;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 `;
 const Row = styled.TouchableOpacity`
   flex-direction: row;
