@@ -16,9 +16,6 @@ import { useNavigation } from "@react-navigation/native";
 import { getEventList } from "../api";
 import { useQuery } from "react-query";
 
-
-
-
 const Slide = () => {
   // 네비게이션 to Detail
   const { navigate } = useNavigation();
@@ -49,9 +46,6 @@ const Slide = () => {
   //   getEventList();
   // }, []);
 
-
-
-
   // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
     id = id.split("atchFileId=");
@@ -70,15 +64,14 @@ const Slide = () => {
 
   return (
     <ScrollView>
-
       {getEventListData.culturalEventInfo.row?.map((item) => (
-
         <TouchableOpacity
           key={imgId(item.MAIN_IMG)}
           onPress={() =>
             navigate("Stacks", {
               screen: "Detail",
               params: {
+                isLoading,
                 itemId: imgId(item.MAIN_IMG),
                 main_img: item.MAIN_IMG,
                 codename: item.CODENAME,
