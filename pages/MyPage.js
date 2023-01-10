@@ -1,17 +1,18 @@
 import styled from '@emotion/native';
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, ScrollView } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { Text, ScrollView, TouchableOpacity } from 'react-native';
 import MyInfor from '../components/modal/MyInfor';
 import {
-  onSnapshot,
-  query,
   collection,
+  onSnapshot,
   orderBy,
-  addDoc,
+  query,
   where,
+  addDoc,
 } from 'firebase/firestore';
-import { dbService, authService } from '../firebase';
+import { authService, dbService } from '../firebase';
+import { useFocusEffect } from '@react-navigation/native';
+import { signOut } from 'firebase/auth';
 
 const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -40,44 +41,49 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       }
     }
   };
+  const logout = () => {
+    signOut(authService)
+      .then(() => {
+        console.log('로그아웃 성공');
+        navigate('Slide');
+      })
+      .catch((err) => alert(err));
+  };
 
-  useEffect(() => {
-    const q = query(
-      collection(dbService, 'profile'),
-      orderBy('createdAt', 'desc')
-    );
+  // useEffect(() => {
+  //   const q = query(
+  //     collection(dbService, 'profile'),
+  //     orderBy('createdAt', 'desc')
+  //   );
 
-    onSnapshot(q, (snapshot) => {
-      const newProfiles = snapshot.docs.map((doc) => {
-        console.log('doc', doc.data());
-        const newProfile = {
-          id: doc.id,
-          ...doc.data(),
-        };
-        return newProfile;
-      });
-      setProfile(newProfiles);
-    });
-  }, []);
-
-  const profileFirst = profile[0];
-  const profileSecond = profile[1];
+  //   onSnapshot(q, (snapshot) => {
+  //     const newProfiles = snapshot.docs.map((doc) => {
+  //       console.log('doc', doc.data());
+  //       const newProfile = {
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       };
+  //       return newProfile;
+  //     });
+  //     setProfile(newProfiles);
+  //   });
+  // }, []);
 
   useFocusEffect(
     useCallback(() => {
+      console.log(!authService.currentUser);
       if (!authService.currentUser) {
-        // 비로그인 상태에서 마이페이지 접근 시 로그인화면으로 이동하고, 뒤로가기 시 무비탭
         reset({
           index: 1,
           routes: [
             {
               name: 'Tabs',
               params: {
-                screen: 'Movies',
+                screen: 'Slide',
               },
             },
             {
-              name: 'Stack',
+              name: 'Stacks',
               params: {
                 screen: 'Login',
               },
@@ -91,29 +97,32 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         headerRight: () => {
           return (
             <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
-              <Text style={{ color: isDark ? YELLOW_COLOR : GREEN_COLOR }}>
-                로그아웃
-              </Text>
+              <Text>로그아웃</Text>
             </TouchableOpacity>
           );
         },
       });
 
       const q = query(
-        collection(dbService, 'reviews'),
+        collection(dbService, 'profile'),
         orderBy('createdAt', 'desc'),
         where('userId', '==', authService.currentUser?.uid)
       );
-      const unsubcribe = onSnapshot(q, (snapshot) => {
-        const newReviews = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setReviews(newReviews);
+
+      onSnapshot(q, (snapshot) => {
+        const newProfiles = snapshot.docs.map((doc) => {
+          const newProfile = {
+            id: doc.id,
+            ...doc.data(),
+          };
+          return newProfile;
+        });
+        setProfile(newProfiles);
       });
-      return unsubcribe;
     }, [])
   );
+  
+  const profileFirst = profile[0];
 
   return (
     <>
