@@ -4,9 +4,9 @@ export const lightTheme = {
   title: BLACK_COLOR,
   text: BLACK_COLOR,
   backGround: WHITE_COLOR,
-  pointText: '#fff',
-  pointTextWhite: '#fff',
-  pointColor: '#E50015',
+  pointText: BLACK_COLOR,
+  pointTextWhite: WHITE_COLOR,
+  pointColor: RED_COLOR,
 };
 
 export const darkTheme = {
