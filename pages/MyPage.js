@@ -50,28 +50,26 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       .catch((err) => alert(err));
   };
 
-  // useEffect(() => {
-  //   const q = query(
-  //     collection(dbService, 'profile'),
-  //     orderBy('createdAt', 'desc')
-  //   );
+  useEffect(() => {
+    const q = query(
+      collection(dbService, 'profile'),
+      orderBy('createdAt', 'desc')
+    );
 
-  //   onSnapshot(q, (snapshot) => {
-  //     const newProfiles = snapshot.docs.map((doc) => {
-  //       console.log('doc', doc.data());
-  //       const newProfile = {
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       };
-  //       return newProfile;
-  //     });
-  //     setProfile(newProfiles);
-  //   });
-  // }, []);
+    onSnapshot(q, (snapshot) => {
+      const newProfiles = snapshot.docs.map((doc) => {
+        const newProfile = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        return newProfile;
+      });
+      setProfile(newProfiles);
+    });
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
-      console.log(!authService.currentUser);
       if (!authService.currentUser) {
         reset({
           index: 1,
@@ -102,26 +100,9 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
           );
         },
       });
-
-      const q = query(
-        collection(dbService, 'profile'),
-        orderBy('createdAt', 'desc'),
-        where('userId', '==', authService.currentUser?.uid)
-      );
-
-      onSnapshot(q, (snapshot) => {
-        const newProfiles = snapshot.docs.map((doc) => {
-          const newProfile = {
-            id: doc.id,
-            ...doc.data(),
-          };
-          return newProfile;
-        });
-        setProfile(newProfiles);
-      });
     }, [])
   );
-  
+
   const profileFirst = profile[0];
 
   return (
