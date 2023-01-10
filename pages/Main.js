@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import styled from "@emotion/native";
+import Loader from "../components/review/Loader";
 import Swiper from "react-native-swiper";
 import MainImg from "../components/MainImg";
 import { useQuery } from "react-query";
@@ -66,8 +67,6 @@ const Main = () => {
           <ListTitle>Upcoming Movies</ListTitle>
         </>
       }
-      // data={upcomings}
-      // renderItem={({ item }) => <HCard movie={item} />}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={<View style={{ height: 15 }} />}
     />
@@ -76,11 +75,11 @@ const Main = () => {
 
 export default Main;
 
-const Loader = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
+// const Loader = styled.View`
+//   flex: 1;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 const ListTitle = styled.Text`
   margin-top: 20px;

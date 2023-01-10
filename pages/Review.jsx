@@ -7,7 +7,6 @@ import { authService } from "../firebase";
 
 export const Container = styled.ScrollView`
   padding: 30px;
-  background-color: black;
 `;
 export const Row = styled.View`
   flex-direction: row;
@@ -18,19 +17,19 @@ export const Row = styled.View`
 export const SectionTitle = styled.Text`
   font-size: 22px;
   font-weight: 600;
-  color: ${(props) => props.theme.color.title};
+  color: ${(props) => props.theme.title};
 `;
 export const ShowDate = styled.Text`
   font-size: 20px;
   font-weight: 500;
-  color: ${(props) => props.theme.color.overview};
+  color: ${(props) => props.theme.text};
   margin-left: 52px;
   align-self: center;
 `;
 export const Contents = styled.Text`
   font-size: 20px;
   font-weight: 500;
-  color: ${(props) => props.theme.color.overview};
+  color: ${(props) => props.theme.text};
   margin-left: 70px;
   align-self: center;
 `;
