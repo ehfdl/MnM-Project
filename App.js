@@ -8,7 +8,9 @@ import Root from "./navigation/Root";
 import { useColorScheme } from "react-native";
 import { ThemeProvider } from "@emotion/react";
 import { darkTheme, lightTheme } from "./theme";
-import { QueryClientProvider, QueryClient } from "react-query";
+
+import { QueryClient, QueryClientProvider } from "react-query";
+
 
 const queryClient = new QueryClient();
 

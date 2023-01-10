@@ -7,16 +7,22 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+
 import Swiper from "react-native-swiper";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
 import { useNavigation } from "@react-navigation/native";
+
 import { getEventList } from "../api";
 import { useQuery } from "react-query";
+
+
+
 
 const Slide = () => {
   // 네비게이션 to Detail
   const { navigate } = useNavigation();
+
   const { data: getEventListData, isLoading: isLoadingEV } = useQuery(
     "getEventList",
     getEventList
@@ -43,6 +49,9 @@ const Slide = () => {
   //   getEventList();
   // }, []);
 
+
+
+
   // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
     id = id.split("atchFileId=");
@@ -61,7 +70,9 @@ const Slide = () => {
 
   return (
     <ScrollView>
-      {getEventListData.culturalEventInfo.row.map((item) => (
+
+      {getEventListData.culturalEventInfo.row?.map((item) => (
+
         <TouchableOpacity
           key={imgId(item.MAIN_IMG)}
           onPress={() =>

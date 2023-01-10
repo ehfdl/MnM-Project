@@ -42,12 +42,12 @@ const ListTitle = styled.Text`
   color: ${(props) => props.theme.color.listTitle};
 `;
 const Title = styled.Text`
-  color: ${(props) => props.theme.color.title};
+  color: ${(props) => props.theme.title};
   font-size: 20px;
 `;
 
 const Contents = styled.Text`
-  color: ${(props) => props.theme.color.title};
+  color: ${(props) => props.theme.title};
   font-size: 17px;
   margin-top: 5px;
   margin-left: 2px;
@@ -62,7 +62,7 @@ const Row = styled.View`
 
 const ReviewAt = styled.Text`
   font-size: 14px;
-  color: ${(props) => props.theme.color.title};
+  color: ${(props) => props.theme.title};
 `;
 const VSeperator = styled.View`
   height: 10px;

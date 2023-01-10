@@ -5,7 +5,7 @@ import { useColorScheme } from "react-native";
 import { Alert } from "react-native";
 import { useMutation } from "react-query";
 import { deleteReview, editReview } from "../api";
-import Loader from "../components/Loader";
+import Loader from "../components/review/Loader";
 
 const Container = styled.ScrollView`
   padding: 20px;
@@ -26,7 +26,7 @@ const ContentEdit = styled(TitleEdit)`
 const SectionTitle = styled.Text`
   font-size: 25px;
   font-weight: 600;
-  color: ${(props) => props.theme.color.title};
+  color: ${(props) => props.theme.title};
   margin-bottom: 15px;
 `;
 
@@ -35,18 +35,17 @@ const EditButton = styled.TouchableOpacity`
   padding: 10px 15px;
   justify-content: center;
   align-items: center;
-  /* background-color: ${(props) => props.theme.color.overview}; */
+  /* background-color: ${(props) => props.theme.text}; */
   background-color: red;
   /* border-width: 1px; */
   /* border-color: ${(props) =>
-    props.disabled ? "grey" : props.theme.color.title}; */
+    props.disabled ? "grey" : props.theme.title}; */
   border-radius: 30px;
   margin-bottom: 20px;
 `;
 
 const BtnTitle = styled.Text`
-  /* color: ${(props) =>
-    props.disabled ? "grey" : props.theme.color.title}; */
+  /* color: ${(props) => (props.disabled ? "grey" : props.theme.title)}; */
   color: black;
   font-size: 20px;
   font-weight: 500;
@@ -90,17 +89,17 @@ export default function ReviewEdit({
   );
 
   const onDelete = async () => {
-    Alert.alert("리뷰 삭제", "정말 현재 리뷰를 삭제하시겠습니까?", [
-      { text: "cancel", style: "destructive" },
+    Alert.alert("리뷰 삭제", "리뷰를 삭제하시겠습니까?", [
+      { text: "취소", style: "destructive" },
       {
-        text: "OK. Delete it.",
+        text: "삭제",
         onPress: async () => {
           try {
             // await deleteDoc(doc(dbService, "reviews", review.id));
             await removeReview(review.id);
             if (from === "Detail") {
               navigation.navigate("Detail", {
-                /* movieId: review.movieId */
+                itemId: review.itemId,
               });
             } else if (from === "MyPage") {
               navigation.navigate("Tabs", { screen: "MyPage" });
@@ -132,56 +131,52 @@ export default function ReviewEdit({
       Object.assign(editingObj, { contents: newContents });
     }
 
-    Alert.alert(
-      "리뷰 수정",
-      "이대로 리뷰 수정하시겠습니까? 입력한 부분만 수정됩니다.",
-      [
-        {
-          text: "Cancel",
-          style: "destructive",
-        },
-        {
-          text: "OK. Edit it",
-          onPress: async () => {
-            try {
-              // await updateDoc(doc(dbService, "reviews", review.id), editingObj);
-              await reviseReview({ reviewId: review.id, editingObj });
-              setNewContents("");
-              setNewTitle("");
-              setRatings(0);
-              if (from === "Detail") {
-                navigation.reset({
-                  index: 1,
-                  routes: [
-                    {
-                      name: "Detail",
-                      params: {
-                        /* movieId: review.movieId */
-                      },
+    Alert.alert("리뷰 수정", "이대로 리뷰를 수정하시겠습니까?", [
+      {
+        text: "Cancel",
+        style: "destructive",
+      },
+      {
+        text: "OK. Edit it",
+        onPress: async () => {
+          try {
+            // await updateDoc(doc(dbService, "reviews", review.id), editingObj);
+            await reviseReview({ reviewId: review.id, editingObj });
+            setNewContents("");
+            setNewTitle("");
+            setRatings(0);
+            if (from === "Detail") {
+              navigation.reset({
+                index: 1,
+                routes: [
+                  {
+                    name: "Detail",
+                    params: {
+                      itemId: review.itemId,
                     },
-                    {
-                      name: "Review",
-                      params: { review: { ...review, ...editingObj }, from },
-                    },
-                  ],
-                });
-              } else if (from === "MyPage") {
-                navigation.reset({
-                  routes: [
-                    {
-                      name: "Tabs",
-                      params: { screen: "MyPage" },
-                    },
-                  ],
-                });
-              }
-            } catch (err) {
-              console.log("err:", err);
+                  },
+                  {
+                    name: "Review",
+                    params: { review: { ...review, ...editingObj }, from },
+                  },
+                ],
+              });
+            } else if (from === "MyPage") {
+              navigation.reset({
+                routes: [
+                  {
+                    name: "Tabs",
+                    params: { screen: "MyPage" },
+                  },
+                ],
+              });
             }
-          },
+          } catch (err) {
+            console.log("err:", err);
+          }
         },
-      ]
-    );
+      },
+    ]);
   };
   const getRatings = (rating) => {
     setRatings(rating);
