@@ -1,6 +1,11 @@
 import styled from '@emotion/native';
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import MyInfor from '../components/modal/MyInfor';
 import {
   collection,
@@ -23,7 +28,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const newProfile = {
     nickName,
     profileText,
-    isEdit: false,
+    userId: authService.currentUser?.uid,
     createdAt: Date.now(),
   };
 
@@ -49,24 +54,6 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       })
       .catch((err) => alert(err));
   };
-
-  useEffect(() => {
-    const q = query(
-      collection(dbService, 'profile'),
-      orderBy('createdAt', 'desc')
-    );
-
-    onSnapshot(q, (snapshot) => {
-      const newProfiles = snapshot.docs.map((doc) => {
-        const newProfile = {
-          id: doc.id,
-          ...doc.data(),
-        };
-        return newProfile;
-      });
-      setProfile(newProfiles);
-    });
-  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -100,19 +87,29 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
           );
         },
       });
+
+      const q = query(
+        collection(dbService, 'profile'),
+        orderBy('createdAt', 'desc'),
+        where('userId', '==', authService.currentUser?.uid)
+      );
+      onSnapshot(q, (snapshot) => {
+        const newProfiles = snapshot.docs.map((doc) => {
+          const newProfile = {
+            id: doc.id,
+            ...doc.data(),
+          };
+          return newProfile;
+        });
+        setProfile(newProfiles);
+      });
     }, [])
   );
-
   const profileFirst = profile[0];
 
   return (
     <>
       <MypageTop>
-        <ImageWrapper
-          source={{
-            uri: 'https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/200608/htm_20060824163946c000c010-001.JPG',
-          }}
-        />
         <ProfileId>{profileFirst?.nickName ?? '닉네임없음'}</ProfileId>
         <ProfileText>
           {profileFirst?.profileText ?? '안녕하세요. 반갑습니다.'}
@@ -186,15 +183,8 @@ const Title = styled.Text`
 // 프로필
 const MypageTop = styled.View`
   padding: 40px 20px;
-  background-color: #f2f4f5;
   align-items: center;
-`;
-
-const ImageWrapper = styled.Image`
-  width: 100px;
-  height: 100px;
-  background: red;
-  border-radius: 100%;
+  position: relative;
 `;
 
 const ProfileId = styled.Text`
@@ -210,7 +200,7 @@ const ProfileText = styled.Text`
 
 const ProfileBTN = styled.TouchableOpacity`
   margin-top: 10px;
-  background-color: #e50015;
+  background-color: ${(props) => props.theme.pointColor};
   padding: 8px 16px;
   border-radius: 4px;
 `;
@@ -222,9 +212,7 @@ const BTNText = styled.Text`
 `;
 
 // 내가쓴 리뷰
-// const ScrollView = styled.ScrollView`
-//   align-items: center;
-// `;
+
 const MyReviewWrap = styled.View`
   color: #fff;
   font-weight: 600;
@@ -236,7 +224,6 @@ const MyReviewWrap = styled.View`
 const ReviewItem = styled.TouchableOpacity`
   width: 300px;
   /* height: 80px; */
-  background-color: rgba(255, 255, 255, 0.3);
   border: 3px solid #ddd;
   border-radius: 16px;
   /* flex: 0.3; */
