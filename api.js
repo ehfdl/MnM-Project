@@ -16,10 +16,3 @@ export const getEventList = () =>
   fetch(`${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`)
     .then((res) => res.json())
     .catch((error) => console.log(error));
-
-// export const getDetail = (params) => {
-//   console.log("params: ", params);
-//   return fetch(`${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`).then(
-//     (res) => res.json()
-//   );
-// };
