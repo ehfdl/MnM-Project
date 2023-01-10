@@ -66,8 +66,6 @@ const Main = () => {
           <ListTitle>Upcoming Movies</ListTitle>
         </>
       }
-      // data={upcomings}
-      // renderItem={({ item }) => <HCard movie={item} />}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={<View style={{ height: 15 }} />}
     />
