@@ -1,10 +1,128 @@
 import styled from '@emotion/native';
-import React, { useState } from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Text, ScrollView, TouchableOpacity } from 'react-native';
 import MyInfor from '../components/modal/MyInfor';
-// r
-const MyPage = () => {
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+  addDoc,
+} from 'firebase/firestore';
+import { authService, dbService } from '../firebase';
+import { useFocusEffect } from '@react-navigation/native';
+import { signOut } from 'firebase/auth';
+
+const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [profile, setProfile] = useState([]);
+  const [nickName, setNickName] = useState('');
+  const [profileText, setProfileText] = useState('');
+
+  const newProfile = {
+    nickName,
+    profileText,
+    isEdit: false,
+    createdAt: Date.now(),
+  };
+
+  const addProfile = async () => {
+    if (nickName && profileText) {
+      await addDoc(collection(dbService, 'profile'), newProfile);
+      setIsOpenModal(!isOpenModal);
+      setNickName('');
+      setProfileText('');
+    } else {
+      if (!nickName) {
+        alert('닉네임을 입력해주세요.');
+      } else if (!profileText) {
+        alert('자기소개를 입력해주세요.');
+      }
+    }
+  };
+  const logout = () => {
+    signOut(authService)
+      .then(() => {
+        console.log('로그아웃 성공');
+        navigate('Slide');
+      })
+      .catch((err) => alert(err));
+  };
+
+  // useEffect(() => {
+  //   const q = query(
+  //     collection(dbService, 'profile'),
+  //     orderBy('createdAt', 'desc')
+  //   );
+
+  //   onSnapshot(q, (snapshot) => {
+  //     const newProfiles = snapshot.docs.map((doc) => {
+  //       console.log('doc', doc.data());
+  //       const newProfile = {
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       };
+  //       return newProfile;
+  //     });
+  //     setProfile(newProfiles);
+  //   });
+  // }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log(!authService.currentUser);
+      if (!authService.currentUser) {
+        reset({
+          index: 1,
+          routes: [
+            {
+              name: 'Tabs',
+              params: {
+                screen: 'Slide',
+              },
+            },
+            {
+              name: 'Stacks',
+              params: {
+                screen: 'Login',
+              },
+            },
+          ],
+        });
+        return;
+      }
+
+      setOptions({
+        headerRight: () => {
+          return (
+            <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
+              <Text>로그아웃</Text>
+            </TouchableOpacity>
+          );
+        },
+      });
+
+      const q = query(
+        collection(dbService, 'profile'),
+        orderBy('createdAt', 'desc'),
+        where('userId', '==', authService.currentUser?.uid)
+      );
+
+      onSnapshot(q, (snapshot) => {
+        const newProfiles = snapshot.docs.map((doc) => {
+          const newProfile = {
+            id: doc.id,
+            ...doc.data(),
+          };
+          return newProfile;
+        });
+        setProfile(newProfiles);
+      });
+    }, [])
+  );
+  
+  const profileFirst = profile[0];
 
   return (
     <>
@@ -14,8 +132,10 @@ const MyPage = () => {
             uri: 'https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/200608/htm_20060824163946c000c010-001.JPG',
           }}
         />
-        <ProfileId>ddd</ProfileId>
-        <ProfileText>dfdf</ProfileText>
+        <ProfileId>{profileFirst?.nickName ?? '닉네임없음'}</ProfileId>
+        <ProfileText>
+          {profileFirst?.profileText ?? '안녕하세요. 반갑습니다.'}
+        </ProfileText>
         <ProfileBTN
           onPress={() => {
             setIsOpenModal(true);
@@ -60,7 +180,15 @@ const MyPage = () => {
         </ScrollView>
       </MyReviewWrap>
 
-      <MyInfor isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} />
+      <MyInfor
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
+        nickName={nickName}
+        setNickName={setNickName}
+        profileText={profileText}
+        setProfileText={setProfileText}
+        addProfile={addProfile}
+      />
     </>
   );
 };

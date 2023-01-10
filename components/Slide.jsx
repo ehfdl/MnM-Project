@@ -1,39 +1,37 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
 import { useNavigation } from "@react-navigation/native";
+import { useQuery } from "react-query";
+import { getEventList } from "../api";
+import { ActivityIndicator } from "react-native";
 
 const Slide = () => {
   // 네비게이션 to Detail
   const { navigate } = useNavigation();
-  const [eventList, setEventList] = useState([]);
-  const BASE_URL = "http://openapi.seoul.go.kr:8088";
-  const API_KEY = "446b6b7968676d6c35307165706969";
 
-  const getEventList = async () => {
-    const { culturalEventInfo } = await fetch(
-      `${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`
-    )
-      .then((res) => res.json())
-      .catch((error) => console.log(error));
-    // console.log("데이터", culturalEventInfo);
-    const { row } = culturalEventInfo;
-    // console.log("row", row);
-    setEventList(row);
+  const { data: getEventListData, isLoading: isLoadingGel } = useQuery(
+    "getEventList",
+    getEventList
+  );
 
-    // setEventList(JSON.parse(response));
-  };
-  useEffect(() => {
-    getEventList();
-  }, []);
+  const isLoading = isLoadingGel;
+
+  // const onRefresh = async () => {
+  //   setRefreshing(true);
+  //   await queryClinet.refetchQueries(["movie"]);
+  //   setRefreshing(false);
+  // };
+
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
@@ -45,7 +43,7 @@ const Slide = () => {
 
   return (
     <ScrollView>
-      {eventList.map((item) => (
+      {getEventListData.culturalEventInfo.row?.map((item) => (
         <TouchableOpacity
           key={imgId(item.MAIN_IMG)}
           onPress={() =>

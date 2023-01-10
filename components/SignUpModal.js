@@ -5,6 +5,7 @@ import { authService } from "../firebase";
 import { View, Text } from "react-native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Modal } from "react-native";
+import RED_COLOR from "../colors";
 
 const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   const emailRef = useRef(null);
@@ -86,7 +87,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   };
 
   return (
-    <Modal visible={isOpenSignUpModal} transparent animationType="none">
+    <Modal visible={isOpenSignUpModal} transparent animationType="fade">
       <Backdrop>
         <Dialog>
           <SignUpTitle>Sign Up</SignUpTitle>
@@ -117,11 +118,14 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
             <ModalBtn
               onPress={() => setIsOpenSignUpModal(false)}
               title="Cancel"
+              color={RED_COLOR}
             />
+
             <ModalBtn
               disabled={!userEmail || !userPassword || !userCheckPassword}
               onPress={onPressSignUp}
               title="Sign Up"
+              color={RED_COLOR}
             />
           </Row>
         </Dialog>
@@ -150,7 +154,17 @@ const SignUpInput = styled.TextInput`
   border-color: black;
   border-bottom-width: 1px;
 `;
-const ModalBtn = styled.Button``;
+const ModalBtn = styled.Button`
+  width: 80px;
+  height: 50px;
+  /* background-color: #eee; */
+  align-items: center;
+  justify-content: center;
+  color: red;
+  &:disabled {
+    /* background-color: blue; */
+  }
+`;
 const InputWrapper = styled.View`
   width: 100%;
 `;
@@ -177,11 +191,12 @@ const InputTitle = styled.Text`
   margin-bottom: 5px;
   margin-top: 5px;
 `;
-const Row = styled.TouchableOpacity`
+const Row = styled.View`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
   bottom: 5px;
   position: absolute;
   margin-bottom: 10px;
+  /* background-color: yellow; */
 `;
