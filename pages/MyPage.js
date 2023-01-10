@@ -13,6 +13,7 @@ import {
 import { authService, dbService } from "../firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { signOut } from "firebase/auth";
+import MyReview from "../components/review/MyReview";
 
 const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -100,23 +101,6 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
           );
         },
       });
-
-      const q = query(
-        collection(dbService, "profile"),
-        orderBy("createdAt", "desc"),
-        where("userId", "==", authService.currentUser?.uid)
-      );
-
-      onSnapshot(q, (snapshot) => {
-        const newProfiles = snapshot.docs.map((doc) => {
-          const newProfile = {
-            id: doc.id,
-            ...doc.data(),
-          };
-          return newProfile;
-        });
-        setProfile(newProfiles);
-      });
     }, [])
   );
 
@@ -143,40 +127,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
-      <MyReviewWrap>
-        <Title>내가 쓴 리뷰</Title>
-        <ScrollView
-          horizontal
-          contentContainerStyle={{ paddingHorizontal: 20 }}
-          showsHorizontalScrollIndicator={false}
-        >
-          <ReviewItem>
-            <ReveiwTitle>리뷰제목</ReveiwTitle>
-            <ReveiwText>
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-            </ReveiwText>
-            <ReveiwDate>2023.01.06</ReveiwDate>
-          </ReviewItem>
-
-          <ReviewItem>
-            <ReveiwTitle>리뷰제목</ReveiwTitle>
-            <ReveiwText>
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-            </ReveiwText>
-            <ReveiwDate>2023.01.06</ReveiwDate>
-          </ReviewItem>
-
-          <ReviewItem>
-            <ReveiwTitle>리뷰제목</ReveiwTitle>
-            <ReveiwText>
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-            </ReveiwText>
-            <ReveiwDate>2023.01.06</ReveiwDate>
-          </ReviewItem>
-        </ScrollView>
-      </MyReviewWrap>
+      <MyReview />
 
       <MyInfor
         isOpenModal={isOpenModal}
@@ -237,11 +188,7 @@ const BTNText = styled.Text`
   font-weight: 600;
   font-size: 16px;
 `;
-
-// 내가쓴 리뷰
-// const ScrollView = styled.ScrollView`
-//   align-items: center;
-// `;
+//
 const MyReviewWrap = styled.View`
   color: #fff;
   font-weight: 600;
@@ -262,16 +209,16 @@ const ReviewItem = styled.TouchableOpacity`
   padding: 24px 16px;
   margin-right: 16px;
 `;
-const ReveiwTitle = styled.Text`
+const ReviewTitle = styled.Text`
   font-weight: 600;
   font-size: 20px;
 `;
-const ReveiwText = styled.Text`
+const ReviewText = styled.Text`
   font-weight: 600;
   font-size: 16px;
   margin: 16px 0;
 `;
-const ReveiwDate = styled.Text`
+const ReviewDate = styled.Text`
   font-weight: 600;
   font-size: 16px;
   text-align: right;
