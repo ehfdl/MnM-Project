@@ -75,11 +75,11 @@ const Main = () => {
 
 export default Main;
 
-const Loader = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
+// const Loader = styled.View`
+//   flex: 1;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 const ListTitle = styled.Text`
   margin-top: 20px;

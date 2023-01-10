@@ -13,7 +13,6 @@ import styled from "@emotion/native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
 import { TabActions } from "@react-navigation/native";
 
-
 import ReviewModal from "../components/review/ReviewModal";
 import { FlatList } from "react-native";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
@@ -21,13 +20,13 @@ import { authService, dbService } from "../firebase";
 import ReviewCard from "../components/review/ReviewCard";
 import Loader from "../components/review/Loader";
 import { useQuery } from "react-query";
+import { getEventList } from "../api";
 
 // route에 params넘겨주기
 const Detail = ({
   navigation: { navigate },
   route: {
     params: {
-      itemId,
       main_img,
       title,
       codename,
@@ -38,23 +37,21 @@ const Detail = ({
       date,
       program,
       itemId,
+      // isLoading,
     },
   },
 }) => {
-
-
   //
   const [reviews, setReviews] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  /* getDetail =
-export const getDetail = ({ queryKey }) => {
-  const [_, movieId] = queryKey;
-  return fetch(
-    `${BASE_URL}/${movieId}?api_key=${API_KEY}&append_to_response=videos`
-  ).then((res) => res.json());
-}; */
-  const { data, isLoading } = useQuery(["program", itemId], getDetail);
+  // const getDetail = ({ queryKey }) => {
+  //   const [_, movieId] = queryKey;
+  //   return fetch(
+  //     `${BASE_URL}/${movieId}?api_key=${API_KEY}&append_to_response=videos`
+  //   ).then((res) => res.json());
+  // };
+  // const { data, isLoading } = useQuery(["program", itemId], getEventList);
 
   // const isDark = useColorScheme() === "dark";
 
@@ -82,10 +79,9 @@ export const getDetail = ({ queryKey }) => {
     return unsubscribe;
   }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   // 홈페이지 연결
   const openURL = async (url) => {
@@ -93,13 +89,11 @@ export const getDetail = ({ queryKey }) => {
     await Linking.openURL(res_url);
   };
   return (
-
     <FlatList
       ListHeaderComponent={
         <>
+          {/* <Container> */}
           <ImgDT source={{ uri: main_img }} />
-
-
           <RowTitleSection>
             <EVTitle>
               <EVTitleText>{title}</EVTitleText>
@@ -141,7 +135,7 @@ export const getDetail = ({ queryKey }) => {
               <InfoBox>
                 <InfoBoxText>
                   {target_fee}
-                  {target_fee.length == 0 && "무료"}
+                  {target_fee.length === 0 && "무료"}
                 </InfoBoxText>
               </InfoBox>
             </Row>
@@ -179,6 +173,7 @@ export const getDetail = ({ queryKey }) => {
               setIsOpenModal={setIsOpenModal}
             />
           </Section>
+          {/* </Container> */}
         </>
       }
       showsHorizontalScrollIndicator={false}
@@ -205,7 +200,7 @@ const HSeprator = styled.View`
 `;
 
 const Container = styled.View`
-  /* height: ${SCREEN_HEIGHT + "px"}; */
+  height: ${SCREEN_HEIGHT + "px"};
   flex: 1;
   justify-content: flex-start;
 `;
