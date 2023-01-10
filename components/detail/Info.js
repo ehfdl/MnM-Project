@@ -10,6 +10,7 @@ const Info = ({
   date,
   place,
   program,
+  link,
 }) => {
   // 홈페이지 연결
   const openURL = async (url) => {
