@@ -5,14 +5,13 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  Linking,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import styled from "@emotion/native";
 
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
 import { TabActions } from "@react-navigation/native";
-
 import ReviewModal from "../components/review/ReviewModal";
 import { FlatList } from "react-native";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
@@ -21,7 +20,8 @@ import ReviewCard from "../components/review/ReviewCard";
 import Loader from "../components/review/Loader";
 import { useQuery } from "react-query";
 import { getEventList } from "../api";
-
+import Info from "../components/detail/Info";
+import ImgDetail from "../components/detail/ImgDetail";
 // route에 params넘겨주기
 const Detail = ({
   navigation: { navigate },
@@ -83,90 +83,35 @@ const Detail = ({
   //   return <Loader />;
   // }
 
-  // 홈페이지 연결
-  const openURL = async (url) => {
-    const res_url = `${url}`;
-    await Linking.openURL(res_url);
-  };
   return (
     <FlatList
       ListHeaderComponent={
         <>
+          <ImgDetail main_img={main_img}></ImgDetail>
           {/* <Container> */}
-          <ImgDT source={{ uri: main_img }} />
-          <RowTitleSection>
-            <EVTitle>
-              <EVTitleText>{title}</EVTitleText>
-            </EVTitle>
-            <EVCategory>
-              <EVCategoryText>{codename}</EVCategoryText>
-            </EVCategory>
-          </RowTitleSection>
-          <Column>
-            <Row>
-              <InfoLabel>
-                <InfoLabelText>날짜</InfoLabelText>
-              </InfoLabel>
-              <InfoBox>
-                <InfoBoxText>{date}</InfoBoxText>
-              </InfoBox>
-            </Row>
-            <Row>
-              <InfoLabel>
-                <InfoLabelText>장소</InfoLabelText>
-              </InfoLabel>
-
-              <InfoBox>
-                <InfoBoxText>{place}</InfoBoxText>
-              </InfoBox>
-            </Row>
-            <Row>
-              <InfoLabel>
-                <InfoLabelText>이용대상</InfoLabelText>
-              </InfoLabel>
-              <InfoBox>
-                <InfoBoxText>{target}</InfoBoxText>
-              </InfoBox>
-            </Row>
-            <Row>
-              <InfoLabel>
-                <InfoLabelText>이용금액</InfoLabelText>
-              </InfoLabel>
-              <InfoBox>
-                <InfoBoxText>
-                  {target_fee}
-                  {target_fee.length === 0 && "무료"}
-                </InfoBoxText>
-              </InfoBox>
-            </Row>
-          </Column>
-          <Section>
-            <InfoLabel>
-              <InfoLabelText>상세설명</InfoLabelText>
-            </InfoLabel>
-            <Overview>
-              {program.slice(0, 300)}
-              {program.length > 300 && "..."}
-              {program.length == 0 && "없음"}
-            </Overview>
-            <InfoLabel>
-              <InfoLabelText>홈페이지</InfoLabelText>
-            </InfoLabel>
-            <TouchableOpacity onPress={() => openURL(link)}>
-              <Text>웹사이트로 이동</Text>
-            </TouchableOpacity>
-          </Section>
+          <Info
+            title={title}
+            codename={codename}
+            target={target}
+            target_fee={target_fee}
+            place={place}
+            link={link}
+            date={date}
+            program={program}
+          ></Info>
           {/* 공연리뷰 전까지 */}
           <Section>
             <RowReview>
               <InfoLabel>
                 <InfoLabelText>공연리뷰</InfoLabelText>
               </InfoLabel>
-              <TouchableOpacity onPress={handleAdding}>
+              <TouchableOpacity
+                style={{ justifyContent: "center" }}
+                onPress={handleAdding}
+              >
                 <Text>리뷰쓰기</Text>
               </TouchableOpacity>
             </RowReview>
-
             <ReviewModal
               itemId={itemId}
               isOpenModal={isOpenModal}
@@ -178,7 +123,7 @@ const Detail = ({
       }
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
-        paddingHorizontal: 20,
+        // paddingHorizontal: 20,
         marginBottom: 50,
         justifyContent: "flex-start",
         alignItems: "center",
@@ -200,22 +145,11 @@ const HSeprator = styled.View`
 `;
 
 const Container = styled.View`
-  height: ${SCREEN_HEIGHT + "px"};
-  flex: 1;
-  justify-content: flex-start;
+  /* height: ${SCREEN_HEIGHT + "px"}; */
+  /* flex: 1; */
+  justify-content: center;
 `;
 
-const ImgDT = styled.Image`
-  /* background-color: "#f7f1e3"; */
-  width: 100%;
-  height: ${SCREEN_HEIGHT / 4 + "px"};
-`;
-const RowTitleSection = styled.View`
-  flex-direction: row;
-  margin: 15px;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
 const Row = styled.View`
   width: ${SCREEN_WIDTH + "px"};
   flex-wrap: wrap;
@@ -232,62 +166,23 @@ const Column = styled.View`
 const InfoLabel = styled.View`
   width: 80px;
   margin-bottom: 10px;
+  justify-content: center;
 `;
 const InfoLabelText = styled.Text`
   font-weight: bold;
   font-size: 16px;
 `;
-const InfoBox = styled.View`
-  margin-right: 15px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-  flex-direction: row;
-  /* 부모컨테이너를 벗어날 시 줄바꿈 */
-`;
-const InfoBoxText = styled.Text`
-  font-weight: bold;
-  font-size: 16px;
-  flex-wrap: wrap;
-  padding: 0 10px;
-`;
 
-// 상세설명 텍스트
-const Overview = styled.Text`
-  word-break: keep-all;
-  margin-bottom: 15px;
-`;
-// 행사 타이틀
-const EVTitle = styled.View`
-  /* align-items: center; */
-`;
-const EVTitleText = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-`;
-// 행사 카테고리 텍스트 ex)연극
-const EVCategory = styled.View`
-  justify-content: center;
-  flex-wrap: wrap;
-  /* position: absolute;
-  top: 15px;
-  right: 10px; */
-`;
-const EVCategoryText = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  flex-wrap: wrap;
-`;
 // 상세설명 섹션
 const Section = styled.View`
-  margin-left: 15px;
-  margin-top: 10px;
+  margin: 10px 20px;
 `;
 // 공연리뷰 섹션
 const RowReview = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-right: 15px;
-  margin-top: 20px;
+  /* margin-bottom: 20px; */
 `;
 
 export default Detail;
