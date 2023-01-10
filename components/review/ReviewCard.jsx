@@ -2,8 +2,53 @@ import React from "react";
 import styled from "@emotion/native";
 import { SCREEN_WIDTH } from "../../util";
 import Vote from "./Vote";
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View } from "react-native";
+import { Button, View } from "react-native";
+import ReviewMenue from "./ReviewMenue";
+
+export default function ReviewCard({ review }) {
+  const { navigate } = useNavigation();
+  const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
+
+  const openMenuHandler = () => {
+    setIsOpenMenuModal(true);
+  };
+
+  const goToReview = () => {
+    navigate("Review", {
+      review,
+      from: "Detail",
+    });
+  };
+
+  return (
+    <CardItem onPress={goToReview}>
+      <AbovePart>
+        <Row>
+          <Vote vote_average={review.rating} />
+          <Row>
+            <ReviewDate>
+              {new Date(review.createdAt).toLocaleDateString("kr")}
+            </ReviewDate>
+            <Button onPress={openMenuHandler} title="︙" />
+          </Row>
+        </Row>
+        <Row>
+          <View>
+            <ReviewTitle numberOfLines={1}>{review.title}</ReviewTitle>
+            <ReviewContents numberOfLines={1}>{review.contents}</ReviewContents>
+          </View>
+          <Nickname>nickname</Nickname>
+        </Row>
+      </AbovePart>
+      <ReviewMenue
+        setIsOpenMenuModal={setIsOpenMenuModal}
+        isOpenMenuModal={isOpenMenuModal}
+      />
+    </CardItem>
+  );
+}
 
 const CardItem = styled.TouchableOpacity`
   border-color: ${(props) => props.theme.title};
@@ -38,33 +83,3 @@ const Row = styled.View`
 const ReviewDate = styled.Text`
   color: ${(props) => props.theme.text};
 `;
-
-export default function ReviewCard({ review }) {
-  const { navigate } = useNavigation();
-  const goToReview = () => {
-    navigate("Review", {
-      review,
-      from: "Detail",
-    });
-  };
-
-  return (
-    <CardItem onPress={goToReview}>
-      <AbovePart>
-        <Row>
-          <Vote vote_average={review.rating} />
-          <ReviewDate>
-            {new Date(review.createdAt).toLocaleDateString("kr")}
-          </ReviewDate>
-        </Row>
-        <Row>
-          <View>
-            <ReviewTitle numberOfLines={1}>{review.title}</ReviewTitle>
-            <ReviewContents numberOfLines={1}>{review.contents}</ReviewContents>
-          </View>
-          <Nickname>nickname</Nickname>
-        </Row>
-      </AbovePart>
-    </CardItem>
-  );
-}

@@ -9,7 +9,6 @@ import {
   ImageBackground,
 } from "react-native";
 import styled from "@emotion/native";
-
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
 import { TabActions } from "@react-navigation/native";
 import ReviewModal from "../components/review/ReviewModal";
