@@ -52,7 +52,7 @@ const Slide = () => {
             navigate("Stacks", {
               screen: "Detail",
               params: {
-                // itemId: imgId(item.MAIN_IMG),
+                itemId: imgId(item.MAIN_IMG),
                 main_img: item.MAIN_IMG,
                 codename: item.CODENAME,
                 title: item.TITLE,

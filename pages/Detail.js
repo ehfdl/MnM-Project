@@ -7,16 +7,15 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
-import { useQuery } from "react-query";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
-import { TabActions } from "@react-navigation/native";
 import ReviewModal from "../components/review/ReviewModal";
 import { FlatList } from "react-native";
-// import Loader from "../components/Loader";
-
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { authService, dbService } from "../firebase";
+import ReviewCard from "../components/review/ReviewCard";
+import Loader from "../components/review/Loader";
+import { useQuery } from "react-query";
 
 // route에 params넘겨주기
 const Detail = ({
@@ -32,15 +31,22 @@ const Detail = ({
       link,
       date,
       program,
+      itemId,
     },
   },
 }) => {
-  const [datail, setDatail] = useState([]);
-  const BASE_URL = "http://openapi.seoul.go.kr:8088";
-  const API_KEY = "446b6b7968676d6c35307165706969";
   //
   const [reviews, setReviews] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
+
+  /* getDetail =
+export const getDetail = ({ queryKey }) => {
+  const [_, movieId] = queryKey;
+  return fetch(
+    `${BASE_URL}/${movieId}?api_key=${API_KEY}&append_to_response=videos`
+  ).then((res) => res.json());
+}; */
+  const { data, isLoading } = useQuery(["program", itemId], getDetail);
 
   // const isDark = useColorScheme() === "dark";
 
@@ -67,25 +73,9 @@ const Detail = ({
     });
     return unsubscribe;
   }, []);
-
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
-
-  // const getDetail = async () => {
-  //   const { culturalEventInfo } = await fetch(
-  //     `${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`
-  //   )
-  //     .then((res) => res.json())
-  //     .catch((error) => console.log(error));
-  //   const { row } = culturalEventInfo;
-  //   console.log("row", row);
-  //   setDatail(row);
-  // };
-
-  // useEffect(() => {
-  //   getDetail();
-  // }, []);
+  if (isLoading) {
+    return <Loader />;
+  }
 
   // 홈페이지 연결
   const openURL = async (url) => {
@@ -93,10 +83,11 @@ const Detail = ({
     await Linking.openURL(res_url);
   };
   return (
-    <ScrollView>
-      <>
-        <ImgDT source={{ uri: main_img }} />
-        <Container>
+    <FlatList
+      ListHeaderComponent={
+        <>
+          <ImgDT source={{ uri: main_img }} />
+
           <RowTitleSection>
             <EVTitle>{title}</EVTitle>
             <EVCategory>{codename}</EVCategory>
@@ -141,31 +132,29 @@ const Detail = ({
             </RowReview>
 
             <ReviewModal
-              // movieId={movieId}
+              itemId={itemId}
               isOpenModal={isOpenModal}
               setIsOpenModal={setIsOpenModal}
             />
           </Section>
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingHorizontal: 20,
-              marginBottom: 50,
-              justifyContent: "flex-start",
-              alignItems: "center",
-            }}
-            keyExtractor={(item) => item.id}
-            data={reviews}
-            ItemSeparatorComponent={HSeprator}
-            // renderItem={({ item }) => {
-            //   if (item.movieId === movieId) {
-            //     return <ReviewCard review={item} />;
-            //   }
-            // }}
-          />
-        </Container>
-      </>
-    </ScrollView>
+        </>
+      }
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{
+        paddingHorizontal: 20,
+        marginBottom: 50,
+        justifyContent: "flex-start",
+        alignItems: "center",
+      }}
+      keyExtractor={(item) => item.id}
+      data={reviews}
+      ItemSeparatorComponent={HSeprator}
+      renderItem={({ item }) => {
+        if (item.itemId === itemId) {
+          return <ReviewCard review={item} />;
+        }
+      }}
+    />
   );
 };
 

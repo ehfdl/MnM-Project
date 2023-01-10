@@ -48,10 +48,7 @@ const ModalTitle = styled.Text`
   margin-top: 10px;
 `;
 
-export default function ReviewModal({
-  isOpenModal,
-  setIsOpenModal /* movieId */,
-}) {
+export default function ReviewModal({ isOpenModal, setIsOpenModal, itemId }) {
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState("");
   const [ratings, setRatings] = useState(0);
@@ -65,7 +62,7 @@ export default function ReviewModal({
       createdAt: Date.now(),
       rating: ratings,
       userId: authService.currentUser?.uid,
-      // movieId,
+      itemId,
     });
     setIsOpenModal(false);
     setModalTitle("");

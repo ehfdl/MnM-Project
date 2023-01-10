@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Login from "./Login";
 import styled from "@emotion/native";
+import Loader from "../components/review/Loader";
 
 const Main = () => {
   const { navigate } = useNavigation();
@@ -11,6 +12,9 @@ const Main = () => {
       screen: "Login",
     });
   };
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <TouchableOpacity onPress={goToLogin}>
       <DText>zzz</DText>
