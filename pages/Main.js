@@ -1,75 +1,135 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  ScrollView,
+  View,
+} from "react-native";
 import styled from "@emotion/native";
 import Loader from "../components/review/Loader";
 import Swiper from "react-native-swiper";
-import MainImg from "../components/MainImg";
-import { useQuery } from "react-query";
-import { getEventList } from "../api";
-import { useNavigation } from "@react-navigation/native";
+import Slide from "../components/Main/Slide";
+import VCard from "../components/Main/VCard";
+import HCard from "../components/Main/HCard";
+import { useQuery, useQueryClient } from "react-query";
+import { getNowPlaying, getTopRated, getUpcoming } from "../api";
 
-const Main = () => {
+export default function Main({ navigation: { navigate } }) {
+  // const [nowPlayings, setNowPlayings] = useState([]);
+  // const [topRateds, setTopRateds] = useState([]);
+  // const [upcomings, setUpcomings] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const queryClient = useQueryClient();
 
-  const { navigate } = useNavigation();
-
-  const { data: getEventListData, isLoading: isLoadingGel } = useQuery(
-    "getEventList",
-    getEventList
+  const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
+    ["Mains", "nowPlayings"],
+    getNowPlaying
   );
-
-  const isLoading = isLoadingGel;
+  const { data: topRatedsData, isLoading: isLoadingTR } = useQuery(
+    ["Mains", "topRateds"],
+    getTopRated
+  );
+  const { data: upcomingsData, isLoading: isLoadingUC } = useQuery(
+    ["Mains", "upcomings"],
+    getUpcoming
+  );
 
   const onRefresh = async () => {
     setIsRefreshing(true);
-    await queryClinet.refetchQueries(["movie"]);
+    // await Promise.all([refetchNP(), refetchTR(), refetchUC()]);
+    await queryClient.refetchQueries(["Mains"]);
     setIsRefreshing(false);
   };
 
+  const isLoading = isLoadingNP || isLoadingTR || isLoadingUC;
+
   if (isLoading) {
-    return <Loader />;
+    return (
+      <Loader>
+        <ActivityIndicator />
+      </Loader>
+    );
   }
 
-  // 키값으로 이것을 넘겨주면 어떨지
-  const imgId = (id) => {
-    id = id.split("atchFileId=");
-    id = id[1].split("&");
-    // console.log("id", id[0]);
-    return id[0];
+  const Scroll = () => {
+    Alert.alert("Scroll");
   };
 
   return (
     <FlatList
       refreshing={isRefreshing}
+      onEndReachedThreshold={1}
+      onEndReached={Scroll}
       onRefresh={onRefresh}
       ListHeaderComponent={
         <>
           <ListTitle>실시간</ListTitle>
           <Swiper height="100%" showsPagination={false} autoplay loop>
-            {getEventListData.culturalEventInfo.row?.map((movie) => (
-              <MainImg key={movie.id} movie={movie} />
+            {nowPlayingsData.culturalEventInfo.row.map((realtime) => (
+              <Slide
+                key={realtime.id}
+                realtime={realtime}
+                navigate={navigate}
+              />
             ))}
           </Swiper>
-          <ListTitle>Top Rated Movies</ListTitle>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <Toggle>
+              <ListTitle onPress={() => navigate("Stacks", {})}>무료</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>연극</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>뮤지컬/오페라</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>국악</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>문화교양/강좌</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>클래식</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>축제-전통/역사</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>무용</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>콘서트</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>전시/미술</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>기타</ListTitle>
+            </Toggle>
+          </ScrollView>
+
           <FlatList
             horizontal
             contentContainerStyle={{ paddingHorizontal: 20 }}
             showsHorizontalScrollIndicator={false}
-            // data={topRateds}
-            // renderItem={({ item }) => <VCard movie={item} />}
+            data={topRatedsData.culturalEventInfo.row}
+            renderItem={({ item }) => <VCard realtime={item} />}
             keyExtractor={(item) => item.id}
             ItemSeparatorComponent={<View style={{ width: 10 }} />}
           />
-          <ListTitle>Upcoming Movies</ListTitle>
+          <ListTitle>이름</ListTitle>
         </>
       }
+      data={upcomingsData.culturalEventInfo.row}
+      renderItem={({ item }) => <HCard realtime={item} />}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={<View style={{ height: 15 }} />}
     />
   );
-};
-
-export default Main;
+}
 
 // const Loader = styled.View`
 //   flex: 1;
@@ -85,3 +145,21 @@ const ListTitle = styled.Text`
   font-weight: 500;
   color: ${(props) => props.theme.title};
 `;
+
+const Toggle = styled.TouchableOpacity`
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  & > * {
+    font-size: 16px;
+    font-weight: 500;
+    color: ${(props) => props.theme.title};
+  }
+`;
+const ToggleBar = styled.View`
+  flex-direction: row;
+`;
+
+// Path: components\Main\Slide.js
