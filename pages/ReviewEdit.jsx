@@ -55,7 +55,6 @@ export default function ReviewEdit({
     params: { review, from },
   },
 }) {
-  console.log(review, from);
   const isDark = useColorScheme() === "dark";
   const [ratings, setRatings] = useState(0);
   const [newTitle, setNewTitle] = useState("");
@@ -79,6 +78,8 @@ export default function ReviewEdit({
     (body) => editReview(body),
     {
       onSuccess: () => {
+        console.log(review, from);
+
         console.log("수정성공");
       },
       onError: (err) => {
