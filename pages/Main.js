@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -6,44 +6,44 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
-} from "react-native";
-import styled from "@emotion/native";
-import Loader from "../components/review/Loader";
-import Swiper from "react-native-swiper";
-import Slide from "../components/Main/Slide";
-import VCard from "../components/Main/VCard";
-import HCard from "../components/Main/HCard";
-import { useQuery, useQueryClient } from "react-query";
-import { getNowPlaying, getTopRated, getUpcoming } from "../api";
+} from 'react-native';
+import styled from '@emotion/native';
+import Loader from '../components/review/Loader';
+import Swiper from 'react-native-swiper';
+import Slide from '../components/Main/Slide';
+import VCard from '../components/Main/VCard';
+import HCard from '../components/Main/HCard';
+import { useQuery, useQueryClient } from 'react-query';
+import { getNowPlaying, getTopRated, getUpcoming } from '../api';
 
 export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
-    ["Mains", "nowPlayings"],
+    ['Mains', 'nowPlayings'],
     getNowPlaying
   );
   const { data: topRatedsData, isLoading: isLoadingTR } = useQuery(
-    ["Mains", "topRateds"],
+    ['Mains', 'topRateds'],
     getTopRated
   );
   const { data: upcomingsData, isLoading: isLoadingUC } = useQuery(
-    ["Mains", "upcomings"],
+    ['Mains', 'upcomings'],
     getUpcoming
   );
 
   const onRefresh = async () => {
     setIsRefreshing(true);
     // await Promise.all([refetchNP(), refetchTR(), refetchUC()]);
-    await queryClient.refetchQueries(["Mains"]);
+    await queryClient.refetchQueries(['Mains']);
     setIsRefreshing(false);
   };
 
   // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
-    id = id.split("atchFileId=");
-    id = id[1].split("&");
+    id = id.split('atchFileId=');
+    id = id[1].split('&');
     return id[0];
   };
 
@@ -79,6 +79,7 @@ export default function Main({ navigation: { navigate } }) {
 
   return (
     <FlatList
+      numColumns={2}
       refreshing={isRefreshing}
       onEndReachedThreshold={1}
       onRefresh={onRefresh}
@@ -97,7 +98,7 @@ export default function Main({ navigation: { navigate } }) {
           </Swiper>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Toggle>
-              <ListTitle onPress={() => navigate("Stacks", {})}>무료</ListTitle>
+              <ListTitle onPress={() => navigate('Stacks', {})}>무료</ListTitle>
             </Toggle>
             <Toggle>
               <ListTitle>연극</ListTitle>
@@ -164,7 +165,11 @@ export default function Main({ navigation: { navigate } }) {
           imgId={imgId}
         />
       )}
-      ItemSeparatorComponent={<View style={{ height: 15 }} />}
+
+      ItemSeparatorComponent={
+        <View style={{ height: 15, flexDirection: 'row' }} />
+      }
+
     />
   );
 }
