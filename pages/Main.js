@@ -56,15 +56,10 @@ export default function Main({ navigation: { navigate } }) {
     );
   }
 
-  const Scroll = () => {
-    Alert.alert("Scroll");
-  };
-
   return (
     <FlatList
       refreshing={isRefreshing}
       onEndReachedThreshold={1}
-      onEndReached={Scroll}
       onRefresh={onRefresh}
       ListHeaderComponent={
         <>
@@ -128,7 +123,6 @@ export default function Main({ navigation: { navigate } }) {
                 imgId={imgId}
               />
             )}
-            keyExtractor={(item) => item.id}
             ItemSeparatorComponent={<View style={{ width: 10 }} />}
           />
           <ListTitle>이름</ListTitle>
@@ -143,7 +137,6 @@ export default function Main({ navigation: { navigate } }) {
           imgId={imgId}
         />
       )}
-      keyExtractor={(item) => item.id}
       ItemSeparatorComponent={<View style={{ height: 15 }} />}
     />
   );

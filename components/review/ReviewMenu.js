@@ -12,13 +12,14 @@ const ReviewMenu = ({
   review,
 }) => {
   const { navigate } = useNavigation();
-  console.log(reviewId);
+  console.log(review);
   const { isLoading: isLoadingDeleting, mutate: removeReview } = useMutation(
     ["deleteReview", reviewId],
     (body) => deleteReview(body),
     {
       onSuccess: () => {
         console.log("삭제성공");
+        setIsOpenMenuModal(false);
       },
       onError: (err) => {
         console.log("err in delete:", err);

@@ -18,9 +18,11 @@ export default function MyReview({ setIsOpenMenuModal, isOpenMenuModal }) {
   const isDark = useColorScheme() === "dark";
   const [reviews, setReviews] = useState([]);
   const [reviewId, setReviewId] = useState("");
+  const [reviewObj, setReviewObj] = useState({});
 
-  const openMenuHandler = (id) => {
-    setReviewId(id);
+  const openMenuHandler = (item) => {
+    setReviewId(item.id);
+    setReviewObj(item);
     setIsOpenMenuModal(true);
   };
 
@@ -48,13 +50,23 @@ export default function MyReview({ setIsOpenMenuModal, isOpenMenuModal }) {
       contentContainerStyle={{ paddingHorizontal: 20 }}
       showsHorizontalScrollIndicator={false}
       data={reviews}
+      ListHeaderComponent={
+        <>
+          <ReviewMenu
+            setIsOpenMenuModal={setIsOpenMenuModal}
+            isOpenMenuModal={isOpenMenuModal}
+            reviewId={reviewId}
+            review={reviewObj}
+          />
+        </>
+      }
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <MyReviewWrap>
           <ReviewItem>
             <Row>
               <Vote vote_average={item.rating} />
-              <MenuBtn onPress={() => openMenuHandler(item.id)} title="︙">
+              <MenuBtn onPress={() => openMenuHandler(item)} title="︙">
                 <Fontisto name="more-v-a" size={14} color="gray" />
               </MenuBtn>
             </Row>
@@ -64,12 +76,6 @@ export default function MyReview({ setIsOpenMenuModal, isOpenMenuModal }) {
               {new Date(item.createdAt).toLocaleDateString("kr")}
             </ReviewDate>
           </ReviewItem>
-          <ReviewMenu
-            setIsOpenMenuModal={setIsOpenMenuModal}
-            isOpenMenuModal={isOpenMenuModal}
-            reviewId={reviewId}
-            review={item}
-          />
         </MyReviewWrap>
       )}
     />
