@@ -9,7 +9,6 @@ import { signOut } from "firebase/auth";
 
 import Detail from "../pages/Detail";
 
-
 import Main from "../pages/Main";
 
 import ReviewEdit from "../pages/ReviewEdit";
@@ -86,13 +85,6 @@ const Stacks = ({ navigation: { goBack, navigate, setOptions } }) => {
           title: "ReviewEdit",
         }}
       />
-      {/* <Stack.Screen
-        name="InfoImg"
-        component={InfoImg}
-        options={{
-          title: "InfoImg",
-        }}
-      /> */}
     </Stack.Navigator>
   );
 };

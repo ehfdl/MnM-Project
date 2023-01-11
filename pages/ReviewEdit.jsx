@@ -7,7 +7,6 @@ import { useMutation } from "react-query";
 import { deleteReview, editReview } from "../api";
 import Loader from "../components/review/Loader";
 
-
 const Container = styled.ScrollView`
   padding: 20px;
 `;
@@ -186,18 +185,14 @@ export default function ReviewEdit({
         onFinishRating={getRatings}
         ratingCount={5}
         imageSize={20}
-
         tintColor={isDark ? "black" : "#f2f2f2"}
-
       />
 
       <SectionTitle>제목</SectionTitle>
 
       <TitleEdit
         value={newTitle}
-
         placeholderTextColor="#90969E"
-
         onChangeText={onChangeTitle}
         placeholder={review.title}
         maxLength={30}
@@ -211,9 +206,7 @@ export default function ReviewEdit({
         onChangeText={(text) => setNewContents(text)}
         multiline
         maxLength={300}
-
         placeholderTextColor="#90969E"
-
         placeholder={review.contents}
       />
       <EditButton
@@ -227,44 +220,3 @@ export default function ReviewEdit({
     </Container>
   );
 }
-
-const Container = styled.ScrollView`
-  padding: 20px;
-`;
-const TitleEdit = styled.TextInput`
-  width: 100%;
-  margin-bottom: 20px;
-  padding: 10px 15px;
-  border-radius: 10px;
-`;
-const ContentEdit = styled(TitleEdit)`
-  min-height: 150px;
-  margin-bottom: 50px;
-`;
-
-const SectionTitle = styled.Text`
-  font-size: 25px;
-  font-weight: 600;
-  color: ${(props) => props.theme.title};
-  margin-bottom: 15px;
-`;
-
-const EditButton = styled.TouchableOpacity`
-  width: 100%;
-  padding: 10px 15px;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  opacity: 0.5;
-  /* border-width: 1px; */
-  /* border-color: ${(props) =>
-    props.disabled ? "grey" : props.theme.title}; */
-  border-radius: 30px;
-  margin-bottom: 20px;
-`;
-
-const BtnTitle = styled.Text`
-  color: ${(props) => (props.disabled ? "grey" : props.theme.title)};
-  font-size: 20px;
-  font-weight: 500;
-`;
