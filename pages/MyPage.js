@@ -194,37 +194,3 @@ const BTNText = styled.Text`
   font-weight: 600;
   font-size: 16px;
 `;
-
-const MyReviewWrap = styled.View`
-  color: #fff;
-  font-weight: 600;
-  font-size: 16px;
-  flex: 1;
-  padding: 40px 16px;
-`;
-
-const ReviewItem = styled.TouchableOpacity`
-  width: 300px;
-  /* height: 80px; */
-  border: 3px solid #ddd;
-  border-radius: 16px;
-  /* flex: 0.3; */
-  justify-content: space-between;
-  height: 200px;
-  padding: 24px 16px;
-  margin-right: 16px;
-`;
-const ReviewTitle = styled.Text`
-  font-weight: 600;
-  font-size: 20px;
-`;
-const ReviewText = styled.Text`
-  font-weight: 600;
-  font-size: 16px;
-  margin: 16px 0;
-`;
-const ReviewDate = styled.Text`
-  font-weight: 600;
-  font-size: 16px;
-  text-align: right;
-`;
