@@ -1,4 +1,4 @@
-import { BLACK_COLOR, WHITE_COLOR, RED_COLOR } from './colors';
+import { BLACK_COLOR, WHITE_COLOR, RED_COLOR } from "./colors";
 
 export const lightTheme = {
   title: BLACK_COLOR,
@@ -7,11 +7,15 @@ export const lightTheme = {
   pointText: BLACK_COLOR,
   pointTextWhite: WHITE_COLOR,
   pointColor: RED_COLOR,
+  modalBack: "white",
 };
 
 export const darkTheme = {
   title: RED_COLOR,
   text: WHITE_COLOR,
   backGround: BLACK_COLOR,
-  pointText: RED_COLOR,
+  pointText: WHITE_COLOR,
+  pointTextWhite: BLACK_COLOR,
+  pointColor: RED_COLOR,
+  modalBack: "#202124",
 };

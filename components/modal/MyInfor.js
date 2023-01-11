@@ -3,7 +3,6 @@ import { Modal, Text, TextInput } from "react-native";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../../util";
 
-
 const myInfor = ({
   isOpenModal,
   setIsOpenModal,
@@ -24,6 +23,7 @@ const myInfor = ({
               <UserName
                 textContentType="text"
                 value={nickName}
+                placeholderTextColor="#90969E"
                 placeholder="닉네임을 적어주세요."
                 onChangeText={(text) => setNickName(text)}
               />
@@ -31,6 +31,7 @@ const myInfor = ({
               <UserName
                 textContentType="text"
                 value={profileText}
+                placeholderTextColor="#90969E"
                 placeholder="자기소개를 적어주세요."
                 onChangeText={(text) => setProfileText(text)}
               />
@@ -65,11 +66,13 @@ const Backdrop = styled.View`
 `;
 
 const Dialog = styled.KeyboardAvoidingView`
-  background-color: white;
+  background-color: ${(props) => props.theme.modalBack};
   width: 80%;
-  height: ${SCREEN_HEIGHT * 0.4 + "px"};
+  height: 360px;
   padding: 20px;
   border-radius: 5px;
+  border-color: ${(props) => props.theme.text};
+  border-width: 0.5px;
   align-items: center;
 `;
 const InforWrap = styled.View`
@@ -92,6 +95,7 @@ const InputTile = styled.Text`
   margin-bottom: 16px;
   font-size: 24px;
   font-weight: 600;
+  color: ${(props) => props.theme.text};
 `;
 
 const InputText = styled.Text`
@@ -99,12 +103,13 @@ const InputText = styled.Text`
   margin-bottom: 4px;
   font-size: 16px;
   font-weight: 600;
+  color: ${(props) => props.theme.text};
 `;
 
 const UserName = styled.TextInput`
   width: 100%;
   font-size: 16px;
-
+  color: ${(props) => props.theme.text};
   padding: 8px;
   border: 1px solid #ccc;
   margin-bottom: 16px;

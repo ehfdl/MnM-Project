@@ -7,7 +7,6 @@ import {
   ImageBackground,
 } from "react-native";
 import MyInfor from "../components/modal/MyInfor";
-
 import {
   collection,
   onSnapshot,
@@ -20,9 +19,12 @@ import { authService, dbService } from "../firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { signOut, updateProfile } from "firebase/auth";
 import MyReview from "../components/review/MyReview";
+import ReviewMenu from "../components/review/ReviewMenu";
 
 const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
+
   const [profile, setProfile] = useState([]);
   const [nickName, setNickName] = useState("");
   const [profileText, setProfileText] = useState("");
@@ -86,7 +88,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         headerRight: () => {
           return (
             <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
-              <Text>로그아웃</Text>
+              <HeaderRightText>로그아웃</HeaderRightText>
             </TouchableOpacity>
           );
         },
@@ -128,7 +130,15 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
-      {authService.currentUser ? <MyReview from={"MyPage"} /> : null}
+
+      {authService.currentUser ? (
+        <MyReview
+        from={"MyPage"}
+          setIsOpenMenuModal={setIsOpenMenuModal}
+          isOpenMenuModal={isOpenMenuModal}
+        />
+      ) : null}
+
 
       <MyInfor
         isOpenModal={isOpenModal}
@@ -145,6 +155,9 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
 
 export default MyPage;
 
+const HeaderRightText = styled.Text`
+  color: ${(props) => props.theme.title}; ;
+`;
 //Title
 const Title = styled.Text`
   font-size: 24px;
@@ -163,11 +176,13 @@ const ProfileId = styled.Text`
   font-weight: 600;
   font-size: 24px;
   margin: 24px 0 8px;
+  color: ${(props) => props.theme.text};
 `;
 
 const ProfileText = styled.Text`
   font-size: 16px;
   margin-bottom: 8px;
+  color: ${(props) => props.theme.text};
 `;
 
 const ProfileBTN = styled.TouchableOpacity`
@@ -181,38 +196,4 @@ const BTNText = styled.Text`
   color: #fff;
   font-weight: 600;
   font-size: 16px;
-`;
-
-const MyReviewWrap = styled.View`
-  color: #fff;
-  font-weight: 600;
-  font-size: 16px;
-  flex: 1;
-  padding: 40px 16px;
-`;
-
-const ReviewItem = styled.TouchableOpacity`
-  width: 300px;
-  /* height: 80px; */
-  border: 3px solid #ddd;
-  border-radius: 16px;
-  /* flex: 0.3; */
-  justify-content: space-between;
-  height: 200px;
-  padding: 24px 16px;
-  margin-right: 16px;
-`;
-const ReviewTitle = styled.Text`
-  font-weight: 600;
-  font-size: 20px;
-`;
-const ReviewText = styled.Text`
-  font-weight: 600;
-  font-size: 16px;
-  margin: 16px 0;
-`;
-const ReviewDate = styled.Text`
-  font-weight: 600;
-  font-size: 16px;
-  text-align: right;
 `;

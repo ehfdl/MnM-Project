@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useColorScheme, FlatList } from "react-native";
+import { useColorScheme, FlatList, View } from "react-native";
 import styled from "@emotion/native";
 import { authService, dbService } from "../../firebase";
 import {
@@ -9,20 +9,21 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { Fontisto } from "@expo/vector-icons";
 import Vote from "./Vote";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import ReviewMenu from "./ReviewMenu";
 
-export default function MyReview({ review }) {
+export default function MyReview({ setIsOpenMenuModal, isOpenMenuModal }) {
   const isDark = useColorScheme() === "dark";
   const [reviews, setReviews] = useState([]);
+  const [reviewId, setReviewId] = useState("");
 
-  // const { navigate } = useNavigation();
-  // const goToReview = () => {
-  //   navigate("Stacks", {
-  //     screen: "Review",
-  //     params: { review },
-  //   });
-  // };
+  const openMenuHandler = (id) => {
+    setReviewId(id);
+    setIsOpenMenuModal(true);
+  };
+
   useFocusEffect(
     useCallback(() => {
       const q = query(
@@ -47,39 +48,58 @@ export default function MyReview({ review }) {
       contentContainerStyle={{ paddingHorizontal: 20 }}
       showsHorizontalScrollIndicator={false}
       data={reviews}
-      // ListHeaderComponent={}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <MyReviewWrap>
           <ReviewItem>
+            <Row>
+              <Vote vote_average={item.rating} />
+              <MenuBtn onPress={() => openMenuHandler(item.id)} title="︙">
+                <Fontisto name="more-v-a" size={14} color="gray" />
+              </MenuBtn>
+            </Row>
             <ReviewTitle numberOfLines={1}>{item.title}</ReviewTitle>
             <ReviewText numberOfLines={1}>{item.contents}</ReviewText>
-            <Vote vote_average={item.rating} />
             <ReviewDate>
               {new Date(item.createdAt).toLocaleDateString("kr")}
             </ReviewDate>
           </ReviewItem>
+          <ReviewMenu
+            setIsOpenMenuModal={setIsOpenMenuModal}
+            isOpenMenuModal={isOpenMenuModal}
+            reviewId={reviewId}
+            review={item}
+          />
         </MyReviewWrap>
       )}
     />
   );
 }
 
+const Row = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const MenuBtn = styled.TouchableOpacity`
+  color: gray;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+`;
+
 const MyReviewWrap = styled.View`
   color: #fff;
   font-weight: 600;
   font-size: 16px;
-  flex: 1;
   padding: 40px 16px;
 `;
 
-const ReviewItem = styled.TouchableOpacity`
+const ReviewItem = styled.View`
   width: 300px;
-  /* height: 80px; */
   background-color: rgba(255, 255, 255, 0.3);
   border: 3px solid #ddd;
   border-radius: 16px;
-  /* flex: 0.3; */
   justify-content: space-between;
   height: 200px;
   padding: 24px 16px;
