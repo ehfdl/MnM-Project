@@ -9,7 +9,6 @@ import {
   ImageBackground,
 } from "react-native";
 import styled from "@emotion/native";
-
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
 import { TabActions } from "@react-navigation/native";
 import ReviewModal from "../components/review/ReviewModal";
@@ -107,6 +106,7 @@ const Detail = ({
                 <Text>리뷰쓰기</Text>
               </TouchableOpacity>
             </RowReview>
+            <BrView />
             <ReviewModal
               itemId={itemId}
               isOpenModal={isOpenModal}
@@ -137,6 +137,12 @@ const Detail = ({
 
 const HSeprator = styled.View`
   width: 10px;
+`;
+const BrView = styled.View`
+  width: 100%;
+  height: 1px;
+  border-color: lightgray;
+  border-bottom-width: 1px;
 `;
 
 const Container = styled.View`
