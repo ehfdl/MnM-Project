@@ -141,35 +141,18 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
 
 export default SignUpModal;
 
-const Hidden = styled.Text`
-  display: none;
-`;
-
 const SignUpTitle = styled.Text`
   font-size: 25px;
-  color: white;
+  color: ${(props) => props.theme.text};
   margin-bottom: 30px;
 `;
 
 const SignUpInput = styled.TextInput`
   padding: 10px;
-  /* background-color: white; */
-  border-radius: 5px;
-  /* border: 1px solid black; */
-  border-color: white;
+  border-color: gray;
   border-bottom-width: 1px;
 `;
-// const ModalBtn = styled.Button`
-//   width: 80px;
-//   height: 50px;
-//   /* background-color: #eee; */
-//   align-items: center;
-//   justify-content: center;
-//   color: red;
-//   &:disabled {
-//     /* background-color: blue; */
-//   }
-// `;
+
 const ModalBTN = styled.TouchableOpacity`
   flex: 0.4;
   background-color: ${(props) =>
@@ -178,6 +161,8 @@ const ModalBTN = styled.TouchableOpacity`
       : props.theme.pointColor && props.title === "cancel"
       ? "#4A4A4A"
       : props.theme.pointColor};
+  border-color: ${(props) => props.theme.text};
+  border-width: 0.2px;
   padding: 12px;
   border-radius: 4px;
 `;
@@ -203,20 +188,20 @@ const Backdrop = styled.View`
   align-items: center;
 `;
 const Dialog = styled.KeyboardAvoidingView`
-  background-color: rgba(32, 33, 36, 1);
-
+  background-color: ${(props) => props.theme.modalBack};
   width: 80%;
   height: 500px;
   padding: 20px;
   border-radius: 5px;
-  border: 1px solid white;
+  border-color: ${(props) => props.theme.text};
+  border-width: 1px;
   align-items: center;
   position: absolute;
 `;
 const InputTitle = styled.Text`
   font-size: 16px;
   font-weight: 600;
-  color: white;
+  color: ${(props) => props.theme.text};
   margin-bottom: 5px;
   margin-top: 5px;
 `;

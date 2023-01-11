@@ -2,6 +2,7 @@ import { Linking, TouchableOpacity, View, Text } from "react-native";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../util";
 import { AntDesign, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { useColorScheme } from "react-native";
 
 const Info = ({
   title,
@@ -13,6 +14,7 @@ const Info = ({
   program,
   link,
 }) => {
+  const isDark = useColorScheme() === "dark";
   // 홈페이지 연결
   const openURL = async (url) => {
     const res_url = `${url}`;
@@ -32,7 +34,12 @@ const Info = ({
         <RowTop>
           <InfoLabel>
             <InfoLabelText>
-              <AntDesign name="calendar" size={24} color="black" title="날짜" />
+              <AntDesign
+                name="calendar"
+                size={24}
+                color={isDark ? "white" : "black"}
+                title="날짜"
+              />
             </InfoLabelText>
             <InfoBoxText>{date}</InfoBoxText>
           </InfoLabel>
@@ -41,7 +48,7 @@ const Info = ({
               <MaterialIcons
                 name="place"
                 size={24}
-                color="black"
+                color={isDark ? "white" : "black"}
                 title="위치"
               />
             </InfoLabelText>
@@ -53,7 +60,7 @@ const Info = ({
               <FontAwesome5
                 name="exclamation-circle"
                 size={24}
-                color="black"
+                color={isDark ? "white" : "black"}
                 title="이용제한"
               />
             </InfoLabelText>
@@ -65,7 +72,7 @@ const Info = ({
               <AntDesign
                 name="heart"
                 size={24}
-                color="black"
+                color={isDark ? "white" : "black"}
                 title="이용금액"
               />
             </InfoLabelText>
@@ -80,7 +87,7 @@ const Info = ({
               <FontAwesome5
                 name="home"
                 size={22}
-                color="black"
+                color={isDark ? "white" : "black"}
                 title="홈페이지"
               />
             </InfoLabelText>
@@ -95,7 +102,7 @@ const Info = ({
           <InfoLabelText>상세설명</InfoLabelText>
         </InfoLabel>
         {program.length === 0 ? (
-          <Overview style={{ backgroundColor: "red" }}>없음</Overview>
+          <Overview>없음</Overview>
         ) : (
           <Overview>
             {program.slice(0, 250)}
@@ -124,6 +131,7 @@ const EVTitle = styled.View`
 const EVTitleText = styled.Text`
   font-size: 20px;
   font-weight: bold;
+  color: ${(props) => props.theme.text};
 `;
 // 행사 카테고리 텍스트 ex)연극
 const EVCategory = styled.View`
@@ -135,7 +143,7 @@ const EVCategory = styled.View`
 const EVCategoryText = styled.Text`
   font-size: 16px;
   font-weight: bold;
-  color: ${(props) => props.theme.pointTextWhite};
+  color: white;
   padding: 8px;
 `;
 
@@ -160,6 +168,7 @@ const InfoLabel = styled.View`
 const InfoLabelText = styled.Text`
   font-weight: bold;
   font-size: 16px;
+  color: ${(props) => props.theme.text};
 `;
 const InfoBox = styled.View`
   margin-right: 15px;
@@ -173,6 +182,7 @@ const InfoBoxText = styled.Text`
   font-size: 16px;
   flex-wrap: wrap;
   padding: 0 10px;
+  color: ${(props) => props.theme.text};
 `;
 
 // 상세설명 텍스트
@@ -180,6 +190,7 @@ const Overview = styled.Text`
   word-break: keep-all;
   margin-bottom: 15px;
   line-height: 20px;
+  color: ${(props) => props.theme.text};
 `;
 
 // 상세설명 섹션
