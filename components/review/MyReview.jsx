@@ -16,13 +16,13 @@ export default function MyReview({ review }) {
   const isDark = useColorScheme() === "dark";
   const [reviews, setReviews] = useState([]);
 
-  const { navigate } = useNavigation();
-  const goToReview = () => {
-    navigate("Stacks", {
-      screen: "Review",
-      params: { review },
-    });
-  };
+  // const { navigate } = useNavigation();
+  // const goToReview = () => {
+  //   navigate("Stacks", {
+  //     screen: "Review",
+  //     params: { review },
+  //   });
+  // };
   useFocusEffect(
     useCallback(() => {
       const q = query(
@@ -51,7 +51,7 @@ export default function MyReview({ review }) {
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <MyReviewWrap>
-          <ReviewItem onPress={() => goToReview(item)}>
+          <ReviewItem>
             <ReviewTitle numberOfLines={1}>{item.title}</ReviewTitle>
             <ReviewText numberOfLines={1}>{item.contents}</ReviewText>
             <Vote vote_average={item.rating} />
