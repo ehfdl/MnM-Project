@@ -98,8 +98,16 @@ export default function ReviewEdit({
             // await deleteDoc(doc(dbService, "reviews", review.id));
             await removeReview(review.id);
             if (from === "Detail") {
-              navigation.navigate("Detail", {
-                itemId: review.itemId,
+              navigation.reset({
+                index: 1,
+                routes: [
+                  {
+                    name: "Detail",
+                    params: {
+                      itemId: review.itemId,
+                    },
+                  },
+                ],
               });
             } else if (from === "MyPage") {
               navigation.navigate("Tabs", { screen: "MyPage" });

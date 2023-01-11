@@ -70,20 +70,20 @@ export default function Review({
       <Row>
         <SectionTitle>작성일</SectionTitle>
         <ShowDate>
-          {new Date(review.createdAt).toLocaleDateString("kr")}
+          {new Date(review?.createdAt).toLocaleDateString("kr")}
         </ShowDate>
       </Row>
       <Row>
         <SectionTitle>별점</SectionTitle>
-        <Contents>⭐️ {review.rating} / 5</Contents>
+        <Contents>⭐️ {review?.rating} / 5</Contents>
       </Row>
       <Row>
         <SectionTitle>제목</SectionTitle>
-        <Contents>{review.title}</Contents>
+        <Contents>{review?.title}</Contents>
       </Row>
       <Row>
         <SectionTitle>내용</SectionTitle>
-        <Contents>{review.contents}</Contents>
+        <Contents>{review?.contents}</Contents>
       </Row>
     </Container>
   );

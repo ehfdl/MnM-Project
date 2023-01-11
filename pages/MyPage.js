@@ -1,7 +1,14 @@
+
 import styled from '@emotion/native';
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import MyInfor from '../components/modal/MyInfor';
+
 import {
   collection,
   onSnapshot,
@@ -9,64 +16,48 @@ import {
   query,
   where,
   addDoc,
-} from 'firebase/firestore';
-import { authService, dbService } from '../firebase';
-import { useFocusEffect } from '@react-navigation/native';
-import { signOut } from 'firebase/auth';
+} from "firebase/firestore";
+import { authService, dbService } from "../firebase";
+import { useFocusEffect } from "@react-navigation/native";
+import { signOut } from "firebase/auth";
+import MyReview from "../components/review/MyReview";
 
 const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [profile, setProfile] = useState([]);
-  const [nickName, setNickName] = useState('');
-  const [profileText, setProfileText] = useState('');
+  const [nickName, setNickName] = useState("");
+  const [profileText, setProfileText] = useState("");
 
   const newProfile = {
     nickName,
     profileText,
-    isEdit: false,
+    userId: authService.currentUser?.uid,
     createdAt: Date.now(),
   };
 
   const addProfile = async () => {
     if (nickName && profileText) {
-      await addDoc(collection(dbService, 'profile'), newProfile);
+      await addDoc(collection(dbService, "profile"), newProfile);
       setIsOpenModal(!isOpenModal);
-      setNickName('');
-      setProfileText('');
+      setNickName("");
+      setProfileText("");
     } else {
       if (!nickName) {
-        alert('닉네임을 입력해주세요.');
+        alert("닉네임을 입력해주세요.");
       } else if (!profileText) {
-        alert('자기소개를 입력해주세요.');
+        alert("자기소개를 입력해주세요.");
       }
     }
   };
   const logout = () => {
     signOut(authService)
       .then(() => {
-        console.log('로그아웃 성공');
-        navigate('Slide');
+        console.log("로그아웃 성공");
+        navigate("Slide");
       })
       .catch((err) => alert(err));
   };
 
-  useEffect(() => {
-    const q = query(
-      collection(dbService, 'profile'),
-      orderBy('createdAt', 'desc')
-    );
-
-    onSnapshot(q, (snapshot) => {
-      const newProfiles = snapshot.docs.map((doc) => {
-        const newProfile = {
-          id: doc.id,
-          ...doc.data(),
-        };
-        return newProfile;
-      });
-      setProfile(newProfiles);
-    });
-  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -75,15 +66,15 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
           index: 1,
           routes: [
             {
-              name: 'Tabs',
+              name: "Tabs",
               params: {
-                screen: 'Slide',
+                screen: "Slide",
               },
             },
             {
-              name: 'Stacks',
+              name: "Stacks",
               params: {
-                screen: 'Login',
+                screen: "Login",
               },
             },
           ],
@@ -100,22 +91,34 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
           );
         },
       });
+
+      const q = query(
+        collection(dbService, 'profile'),
+        orderBy('createdAt', 'desc'),
+        where('userId', '==', authService.currentUser?.uid)
+      );
+      onSnapshot(q, (snapshot) => {
+        const newProfiles = snapshot.docs.map((doc) => {
+          const newProfile = {
+            id: doc.id,
+            ...doc.data(),
+          };
+          return newProfile;
+        });
+        setProfile(newProfiles);
+      });
     }, [])
   );
-
   const profileFirst = profile[0];
 
   return (
     <>
       <MypageTop>
-        <ImageWrapper
-          source={{
-            uri: 'https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/200608/htm_20060824163946c000c010-001.JPG',
-          }}
-        />
+
         <ProfileId>{profileFirst?.nickName ?? '닉네임없음'}</ProfileId>
+
         <ProfileText>
-          {profileFirst?.profileText ?? '안녕하세요. 반갑습니다.'}
+          {profileFirst?.profileText ?? "안녕하세요. 반갑습니다."}
         </ProfileText>
         <ProfileBTN
           onPress={() => {
@@ -126,40 +129,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
-      <MyReviewWrap>
-        <Title>내가 쓴 리뷰</Title>
-        <ScrollView
-          horizontal
-          contentContainerStyle={{ paddingHorizontal: 20 }}
-          showsHorizontalScrollIndicator={false}
-        >
-          <ReviewItem>
-            <ReveiwTitle>리뷰제목</ReveiwTitle>
-            <ReveiwText>
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-            </ReveiwText>
-            <ReveiwDate>2023.01.06</ReveiwDate>
-          </ReviewItem>
-
-          <ReviewItem>
-            <ReveiwTitle>리뷰제목</ReveiwTitle>
-            <ReveiwText>
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-            </ReveiwText>
-            <ReveiwDate>2023.01.06</ReveiwDate>
-          </ReviewItem>
-
-          <ReviewItem>
-            <ReveiwTitle>리뷰제목</ReveiwTitle>
-            <ReveiwText>
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-              리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용리뷰내용
-            </ReveiwText>
-            <ReveiwDate>2023.01.06</ReveiwDate>
-          </ReviewItem>
-        </ScrollView>
-      </MyReviewWrap>
+      <MyReview />
 
       <MyInfor
         isOpenModal={isOpenModal}
@@ -186,15 +156,8 @@ const Title = styled.Text`
 // 프로필
 const MypageTop = styled.View`
   padding: 40px 20px;
-  background-color: #f2f4f5;
   align-items: center;
-`;
-
-const ImageWrapper = styled.Image`
-  width: 100px;
-  height: 100px;
-  background: red;
-  border-radius: 100%;
+  position: relative;
 `;
 
 const ProfileId = styled.Text`
@@ -210,7 +173,7 @@ const ProfileText = styled.Text`
 
 const ProfileBTN = styled.TouchableOpacity`
   margin-top: 10px;
-  background-color: #e50015;
+  background-color: ${(props) => props.theme.pointColor};
   padding: 8px 16px;
   border-radius: 4px;
 `;
@@ -221,10 +184,6 @@ const BTNText = styled.Text`
   font-size: 16px;
 `;
 
-// 내가쓴 리뷰
-// const ScrollView = styled.ScrollView`
-//   align-items: center;
-// `;
 const MyReviewWrap = styled.View`
   color: #fff;
   font-weight: 600;
@@ -236,7 +195,6 @@ const MyReviewWrap = styled.View`
 const ReviewItem = styled.TouchableOpacity`
   width: 300px;
   /* height: 80px; */
-  background-color: rgba(255, 255, 255, 0.3);
   border: 3px solid #ddd;
   border-radius: 16px;
   /* flex: 0.3; */
@@ -245,16 +203,16 @@ const ReviewItem = styled.TouchableOpacity`
   padding: 24px 16px;
   margin-right: 16px;
 `;
-const ReveiwTitle = styled.Text`
+const ReviewTitle = styled.Text`
   font-weight: 600;
   font-size: 20px;
 `;
-const ReveiwText = styled.Text`
+const ReviewText = styled.Text`
   font-weight: 600;
   font-size: 16px;
   margin: 16px 0;
 `;
-const ReveiwDate = styled.Text`
+const ReviewDate = styled.Text`
   font-weight: 600;
   font-size: 16px;
   text-align: right;
