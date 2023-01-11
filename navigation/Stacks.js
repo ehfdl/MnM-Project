@@ -10,7 +10,8 @@ import { signOut } from "firebase/auth";
 import Detail from "../pages/Detail";
 import Review from "../pages/Review";
 import ReviewEdit from "../pages/ReviewEdit";
-
+// 이미지확대 테스트
+import InfoImg from "../components/modal/InfoImg";
 const Stack = createNativeStackNavigator();
 
 const Stacks = ({ navigation: { goBack, navigate, setOptions } }) => {
@@ -80,6 +81,13 @@ const Stacks = ({ navigation: { goBack, navigate, setOptions } }) => {
         component={ReviewEdit}
         options={{
           title: "ReviewEdit",
+        }}
+      />
+      <Stack.Screen
+        name="InfoImg"
+        component={InfoImg}
+        options={{
+          title: "InfoImg",
         }}
       />
     </Stack.Navigator>
