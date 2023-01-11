@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Text, TextInput } from "react-native";
 import styled from "@emotion/native";
+import { SCREEN_HEIGHT } from "../../util";
+
 
 const myInfor = ({
   isOpenModal,
@@ -65,7 +67,7 @@ const Backdrop = styled.View`
 const Dialog = styled.KeyboardAvoidingView`
   background-color: white;
   width: 80%;
-  height: 40%;
+  height: ${SCREEN_HEIGHT * 0.4 + "px"};
   padding: 20px;
   border-radius: 5px;
   align-items: center;

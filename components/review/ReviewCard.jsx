@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/native";
 import { authService } from "../../firebase";
-
+import { Fontisto } from "@expo/vector-icons";
 import { SCREEN_WIDTH } from "../../util";
 import Vote from "./Vote";
 import { useState } from "react";
@@ -78,7 +78,9 @@ export default function ReviewCard({ review }) {
             </Row>
           </View>
           {authService.currentUser?.uid === review.userId ? (
-            <Button onPress={openMenuHandler} title="︙" color="gray" />
+            <MenuBtn onPress={openMenuHandler} title="︙">
+              <Fontisto name="more-v-a" size={14} color="gray" />
+            </MenuBtn>
           ) : null}
         </Rowbtw>
         <Row>
@@ -105,6 +107,13 @@ const CardItem = styled.TouchableOpacity`
   width: ${SCREEN_WIDTH / 1.05 + "px"};
   margin-bottom: 10px;
 `;
+
+const MenuBtn = styled.TouchableOpacity`
+  color: gray;
+  width: 20px;
+  height: 30px;
+`;
+
 const AbovePart = styled.View`
   padding: 5px;
   padding-left: 15px;
