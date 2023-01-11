@@ -150,8 +150,6 @@ const Container = styled.View`
   /* height: "fit-content"; */
   /* flex: 1; */
   width: ${SCREEN_WIDTH + "px"};
-
-  /* background-color: red; */
   justify-content: center;
 `;
 

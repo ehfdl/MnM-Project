@@ -62,6 +62,7 @@ export default function ReviewModal({ isOpenModal, setIsOpenModal, itemId }) {
       createdAt: Date.now(),
       rating: ratings,
       userId: authService.currentUser?.uid,
+      userNickName: authService.currentUser?.displayName,
       itemId,
     });
     setIsOpenModal(false);

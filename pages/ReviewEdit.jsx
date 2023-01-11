@@ -164,7 +164,7 @@ export default function ReviewEdit({
                     },
                   },
                   {
-                    name: "Review",
+                    name: "Detail",
                     params: { review: { ...review, ...editingObj }, from },
                   },
                 ],

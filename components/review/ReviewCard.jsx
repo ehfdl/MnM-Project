@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "@emotion/native";
+import { authService } from "../../firebase";
+
 import { SCREEN_WIDTH } from "../../util";
 import Vote from "./Vote";
 import { useState } from "react";
@@ -39,13 +41,6 @@ export default function ReviewCard({ review }) {
         onPress: async () => {
           try {
             await removeReview(review.id);
-            // if (from === "Detail") {
-            //   navigation.navigate("Detail", {
-            //     itemId: review.itemId,
-            //   });
-            // } else if (from === "MyPage") {
-            //   navigation.navigate("Tabs", { screen: "MyPage" });
-            // }
           } catch (err) {
             console.log("err:", err);
           }
@@ -73,7 +68,7 @@ export default function ReviewCard({ review }) {
               <RatingText>{review.rating}</RatingText>
             </Row>
             <Row>
-              <Nickname>nickname</Nickname>
+              <Nickname>{review.userNickName}</Nickname>
 
               <ReviewDate>
                 {new Date(review.createdAt)
@@ -82,9 +77,9 @@ export default function ReviewCard({ review }) {
               </ReviewDate>
             </Row>
           </View>
-          <Row>
-            <Button onPress={openMenuHandler} title="︙" />
-          </Row>
+          {authService.currentUser?.uid === review.userId ? (
+            <Button onPress={openMenuHandler} title="︙" color="gray" />
+          ) : null}
         </Rowbtw>
         <Row>
           <View>
@@ -113,7 +108,7 @@ const CardItem = styled.TouchableOpacity`
 const AbovePart = styled.View`
   padding: 5px;
   padding-left: 15px;
-  padding-right: 10px;
+  padding-right: 15px;
 `;
 
 const ReviewTitle = styled.Text`
@@ -136,6 +131,7 @@ const Nickname = styled.Text`
   color: ${(props) => props.theme.text};
   color: gray;
   font-size: 13px;
+  margin-top: 1px;
 `;
 const Row = styled.View`
   flex-direction: row;

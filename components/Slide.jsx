@@ -12,7 +12,7 @@ import Swiper from "react-native-swiper";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
 import { useNavigation } from "@react-navigation/native";
-
+import { authService } from "../firebase";
 import { getEventList } from "../api";
 import { useQuery } from "react-query";
 

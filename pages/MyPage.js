@@ -1,13 +1,12 @@
-
-import styled from '@emotion/native';
-import React, { useEffect, useState, useCallback } from 'react';
+import styled from "@emotion/native";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Text,
   ScrollView,
   TouchableOpacity,
   ImageBackground,
-} from 'react-native';
-import MyInfor from '../components/modal/MyInfor';
+} from "react-native";
+import MyInfor from "../components/modal/MyInfor";
 
 import {
   collection,
@@ -19,7 +18,7 @@ import {
 } from "firebase/firestore";
 import { authService, dbService } from "../firebase";
 import { useFocusEffect } from "@react-navigation/native";
-import { signOut } from "firebase/auth";
+import { signOut, updateProfile } from "firebase/auth";
 import MyReview from "../components/review/MyReview";
 
 const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
@@ -38,6 +37,9 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const addProfile = async () => {
     if (nickName && profileText) {
       await addDoc(collection(dbService, "profile"), newProfile);
+      await updateProfile(authService.currentUser, {
+        displayName: nickName ? nickName : null,
+      });
       setIsOpenModal(!isOpenModal);
       setNickName("");
       setProfileText("");
@@ -57,7 +59,6 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       })
       .catch((err) => alert(err));
   };
-
 
   useFocusEffect(
     useCallback(() => {
@@ -81,7 +82,6 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         });
         return;
       }
-
       setOptions({
         headerRight: () => {
           return (
@@ -93,9 +93,9 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       });
 
       const q = query(
-        collection(dbService, 'profile'),
-        orderBy('createdAt', 'desc'),
-        where('userId', '==', authService.currentUser?.uid)
+        collection(dbService, "profile"),
+        orderBy("createdAt", "desc")
+        // where("userId", "==", authService.currentUser?.uid)
       );
       onSnapshot(q, (snapshot) => {
         const newProfiles = snapshot.docs.map((doc) => {
@@ -114,8 +114,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   return (
     <>
       <MypageTop>
-
-        <ProfileId>{profileFirst?.nickName ?? '닉네임없음'}</ProfileId>
+        <ProfileId>{profileFirst?.nickName ?? "닉네임없음"}</ProfileId>
 
         <ProfileText>
           {profileFirst?.profileText ?? "안녕하세요. 반갑습니다."}
@@ -129,7 +128,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
-      <MyReview />
+      {authService.currentUser ? <MyReview /> : null}
 
       <MyInfor
         isOpenModal={isOpenModal}
