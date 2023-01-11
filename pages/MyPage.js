@@ -94,8 +94,8 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
 
       const q = query(
         collection(dbService, "profile"),
-        orderBy("createdAt", "desc")
-        // where("userId", "==", authService.currentUser?.uid)
+        orderBy("createdAt", "desc"),
+        where("userId", "==", authService.currentUser?.uid)
       );
       onSnapshot(q, (snapshot) => {
         const newProfiles = snapshot.docs.map((doc) => {

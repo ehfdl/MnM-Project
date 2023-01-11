@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Modal, Text, TextInput } from 'react-native';
-import styled from '@emotion/native';
+import React, { useState } from "react";
+import { Modal, Text, TextInput } from "react-native";
+import styled from "@emotion/native";
+import { SCREEN_HEIGHT } from "../../util";
 
 const myInfor = ({
   isOpenModal,
@@ -39,9 +40,9 @@ const myInfor = ({
               onPress={() => {
                 setIsOpenModal(!isOpenModal);
               }}
-              title={'cancel'}
+              title={"cancel"}
             >
-              <BTNText title={'cancel'}>취소</BTNText>
+              <BTNText title={"cancel"}>취소</BTNText>
             </ModalBTN>
             <ModalBTN onPress={addProfile} disabled={!nickName || !profileText}>
               <BTNText disabled={!nickName || !profileText}>확인</BTNText>
@@ -65,7 +66,7 @@ const Backdrop = styled.View`
 const Dialog = styled.KeyboardAvoidingView`
   background-color: white;
   width: 80%;
-  height: 40%;
+  height: ${SCREEN_HEIGHT * 0.4 + "px"};
   padding: 20px;
   border-radius: 5px;
   align-items: center;
@@ -102,7 +103,7 @@ const InputText = styled.Text`
 const UserName = styled.TextInput`
   width: 100%;
   font-size: 16px;
-  border-radius: 0em;
+  /* border-radius: 0em; */
   padding: 8px;
   border: 1px solid #ccc;
   margin-bottom: 16px;
@@ -119,9 +120,9 @@ const ModalBTN = styled.TouchableOpacity`
   flex: 0.4;
   background-color: ${(props) =>
     props.disabled
-      ? 'background: rgba(229, 0, 21, .5)'
-      : props.theme.pointColor && props.title == 'cancel'
-      ? '#4A4A4A'
+      ? "background: rgba(229, 0, 21, .5)"
+      : props.theme.pointColor && props.title == "cancel"
+      ? "#4A4A4A"
       : props.theme.pointColor};
   padding: 12px;
   border-radius: 4px;
@@ -133,7 +134,7 @@ const BTNText = styled.Text`
   color: ${(props) =>
     props.disabled
       ? props.theme.pointTextWhite
-      : props.theme.pointColor && props.title == 'cancel'
+      : props.theme.pointColor && props.title == "cancel"
       ? props.theme.pointTextWhite
       : props.theme.pointText};
 `;
