@@ -14,13 +14,19 @@ import Vote from "./Vote";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import ReviewMenu from "./ReviewMenu";
 
-export default function MyReview({ setIsOpenMenuModal, isOpenMenuModal }) {
+export default function MyReview({
+  setIsOpenMenuModal,
+  isOpenMenuModal,
+  from,
+}) {
   const isDark = useColorScheme() === "dark";
   const [reviews, setReviews] = useState([]);
   const [reviewId, setReviewId] = useState("");
+  const [reviewObj, setReviewObj] = useState({});
 
-  const openMenuHandler = (id) => {
-    setReviewId(id);
+  const openMenuHandler = (item) => {
+    setReviewId(item.id);
+    setReviewObj(item);
     setIsOpenMenuModal(true);
   };
 
@@ -48,30 +54,39 @@ export default function MyReview({ setIsOpenMenuModal, isOpenMenuModal }) {
       contentContainerStyle={{ paddingHorizontal: 20 }}
       showsHorizontalScrollIndicator={false}
       data={reviews}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <MyReviewWrap>
-          <ReviewItem>
-            <Row>
-              <Vote vote_average={item.rating} />
-              <MenuBtn onPress={() => openMenuHandler(item.id)} title="︙">
-                <Fontisto name="more-v-a" size={14} color="gray" />
-              </MenuBtn>
-            </Row>
-            <ReviewTitle numberOfLines={1}>{item.title}</ReviewTitle>
-            <ReviewText numberOfLines={1}>{item.contents}</ReviewText>
-            <ReviewDate>
-              {new Date(item.createdAt).toLocaleDateString("kr")}
-            </ReviewDate>
-          </ReviewItem>
+      ListHeaderComponent={
+        <>
           <ReviewMenu
             setIsOpenMenuModal={setIsOpenMenuModal}
             isOpenMenuModal={isOpenMenuModal}
             reviewId={reviewId}
-            review={item}
+            review={reviewObj}
+            from={from}
           />
-        </MyReviewWrap>
-      )}
+        </>
+      }
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => {
+        if (item.itemId) {
+          return (
+            <MyReviewWrap>
+              <ReviewItem>
+                <Row>
+                  <Vote vote_average={item.rating} />
+                  <MenuBtn onPress={() => openMenuHandler(item)} title="︙">
+                    <Fontisto name="more-v-a" size={14} color="gray" />
+                  </MenuBtn>
+                </Row>
+                <ReviewTitle numberOfLines={1}>{item.title}</ReviewTitle>
+                <ReviewText numberOfLines={1}>{item.contents}</ReviewText>
+                <ReviewDate>
+                  {new Date(item.createdAt).toLocaleDateString("kr")}
+                </ReviewDate>
+              </ReviewItem>
+            </MyReviewWrap>
+          );
+        }
+      }}
     />
   );
 }

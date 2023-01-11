@@ -145,7 +145,6 @@ export default function Main({ navigation: { navigate } }) {
                 imgId={imgId}
               />
             )}
-            keyExtractor={(item) => item.id}
             ItemSeparatorComponent={<View style={{ width: 10 }} />}
           />
           <TouchableOpacity
@@ -166,9 +165,11 @@ export default function Main({ navigation: { navigate } }) {
           imgId={imgId}
         />
       )}
+
       ItemSeparatorComponent={
         <View style={{ height: 15, flexDirection: 'row' }} />
       }
+
     />
   );
 }
