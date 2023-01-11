@@ -18,9 +18,9 @@ export default function MyReview({ review }) {
 
   const { navigate } = useNavigation();
   const goToReview = () => {
-    navigate("Review", {
-      review,
-      from: "MyPage",
+    navigate("Stacks", {
+      screen: "Review",
+      params: { review },
     });
   };
   useFocusEffect(
@@ -42,30 +42,6 @@ export default function MyReview({ review }) {
   );
 
   return (
-    // <FlatList
-    //   contentContainerStyle={{ padding: 20 }}
-    //   data={reviews}
-    //   ItemSeparatorComponent={VSeperator}
-    //   ListHeaderComponent={
-    //     <ListTitle style={{ marginBottom: 20 }}>내가 쓴 글</ListTitle>
-    //   }
-    //   keyExtractor={(item) => item.id}
-    //   renderItem={({ item }) => (
-    //     <ReviewWrapper onPress={() => goToReview(item)}>
-    //       <ContentsBox>
-    //         <Title numberOfLines={1}>{item.title}</Title>
-    //         <Contents numberOfLines={1}>{item.contents}</Contents>
-    //         <Row>
-    //           <Vote vote_average={item.rating} />
-    //           <ReviewAt>
-    //             {new Date(item.createdAt).toLocaleDateString("kr")}
-    //           </ReviewAt>
-    //         </Row>
-    //       </ContentsBox>
-    //       <SeparateLine />
-    //     </ReviewWrapper>
-    // />
-
     <FlatList
       horizontal
       contentContainerStyle={{ paddingHorizontal: 20 }}
@@ -74,8 +50,8 @@ export default function MyReview({ review }) {
       // ListHeaderComponent={}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <MyReviewWrap onPress={() => goToReview(item)}>
-          <ReviewItem>
+        <MyReviewWrap>
+          <ReviewItem onPress={() => goToReview(item)}>
             <ReviewTitle numberOfLines={1}>{item.title}</ReviewTitle>
             <ReviewText numberOfLines={1}>{item.contents}</ReviewText>
             <Vote vote_average={item.rating} />

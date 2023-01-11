@@ -41,7 +41,6 @@ const Detail = ({
     },
   },
 }) => {
-  //
   const [reviews, setReviews] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -78,10 +77,6 @@ const Detail = ({
     });
     return unsubscribe;
   }, []);
-
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
 
   return (
     <FlatList
