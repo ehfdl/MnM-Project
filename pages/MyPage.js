@@ -19,9 +19,12 @@ import { authService, dbService } from "../firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { signOut, updateProfile } from "firebase/auth";
 import MyReview from "../components/review/MyReview";
+import ReviewMenu from "../components/review/ReviewMenu";
 
 const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
+
   const [profile, setProfile] = useState([]);
   const [nickName, setNickName] = useState("");
   const [profileText, setProfileText] = useState("");
@@ -127,7 +130,12 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
-      {authService.currentUser ? <MyReview /> : null}
+      {authService.currentUser ? (
+        <MyReview
+          setIsOpenMenuModal={setIsOpenMenuModal}
+          isOpenMenuModal={isOpenMenuModal}
+        />
+      ) : null}
 
       <MyInfor
         isOpenModal={isOpenModal}

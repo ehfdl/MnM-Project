@@ -1,16 +1,55 @@
 import styled from "@emotion/native";
-
-import { Modal, Text, Pressable } from "react-native";
-
-import { authService, dbService } from "../../firebase";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Modal, Alert } from "react-native";
+import { useMutation } from "react-query";
+import { deleteReview } from "../../api";
+import Loader from "./Loader";
+import { useNavigation } from "@react-navigation/native";
 
 const ReviewMenu = ({
   isOpenMenuModal,
   setIsOpenMenuModal,
-  onDelete,
-  goToReviewEdit,
+  reviewId,
+  review,
 }) => {
+  const { navigate } = useNavigation();
+  console.log(reviewId);
+  const { isLoading: isLoadingDeleting, mutate: removeReview } = useMutation(
+    ["deleteReview", reviewId],
+    (body) => deleteReview(body),
+    {
+      onSuccess: () => {
+        console.log("삭제성공");
+      },
+      onError: (err) => {
+        console.log("err in delete:", err);
+      },
+    }
+  );
+  const onDelete = async () => {
+    Alert.alert("리뷰 삭제", "리뷰를 삭제하시겠습니까?", [
+      { text: "취소", style: "destructive" },
+      {
+        text: "삭제",
+        onPress: async () => {
+          try {
+            await removeReview(reviewId);
+          } catch (err) {
+            console.log("err:", err);
+          }
+        },
+      },
+    ]);
+  };
+
+  if (isLoadingDeleting) {
+    return <Loader />;
+  }
+
+  const goToReviewEdit = () => {
+    navigate("ReviewEdit", { review });
+    setIsOpenMenuModal(false);
+  };
+
   return (
     <Modal
       visible={isOpenMenuModal}
