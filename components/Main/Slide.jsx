@@ -4,8 +4,18 @@ import { SCREEN_HEIGHT } from "../../util";
 import styled from "@emotion/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
+import { useQuery } from "react-query";
+import { getEventList } from "../../api";
+import Detail from "../../pages/Detail";
+
 export default function Slide({ realtime }) {
   const { navigate } = useNavigation();
+
+  const { data: getEventListData, isLoading: isLoadingEV } = useQuery(
+    "getEventList",
+    getEventList
+  );
+
   return (
     <SwiperChildView>
       <BackgroundImg
@@ -23,7 +33,18 @@ export default function Slide({ realtime }) {
         onPress={() =>
           navigate("Stacks", {
             screen: "Detail",
-            params: { realtimeId: realtime.id },
+            params: {
+              // itemId: imgId(item.MAIN_IMG),
+              main_img: realtime.MAIN_IMG,
+              codename: realtime.CODENAME,
+              title: realtime.TITLE,
+              date: realtime.DATE,
+              target: realtime.USE_TRGT,
+              target_fee: realtime.USE_FEE,
+              place: realtime.PLACE,
+              link: realtime.ORG_LINK,
+              program: realtime.PROGRAM,
+            },
           })
         }
       >

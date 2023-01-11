@@ -1,28 +1,45 @@
 import React from "react";
 import styled from "@emotion/native";
 import { useNavigation } from "@react-navigation/native";
+import Detail from "../../pages/Detail";
+import { useQuery } from "react-query";
+import { getEventList } from "../../api";
+import { View } from "react-native";
 
 export default function HCard({ realtime }) {
   const { navigate } = useNavigation();
+
   return (
-    <UpcomingRow
-      key={realtime.id}
-      onPress={() =>
-        navigate("Stacks", {
-          screen: "Detail",
-          params: { realtimeId: realtime.id },
-        })
-      }
-    >
-      <UpcomingPoster source={{ uri: realtime.MAIN_IMG }} />
-      <UpcomingColumn>
-        <UpcomingTitle>{realtime.TITLE}</UpcomingTitle>
-        <Release>{realtime.DATE}</Release>
-        <UpcomingOverview>{realtime.USE_FEE}</UpcomingOverview>
-        <UpcomingOverview>{realtime.PLACE}</UpcomingOverview>
-        <UpcomingOverview>{realtime.USE_TRGT}</UpcomingOverview>
-      </UpcomingColumn>
-    </UpcomingRow>
+    <View>
+      <UpcomingRow
+        onPress={() =>
+          navigate("Stacks", {
+            screen: "Detail",
+            params: {
+              // itemId: imgId(item.MAIN_IMG),
+              main_img: realtime.MAIN_IMG,
+              codename: realtime.CODENAME,
+              title: realtime.TITLE,
+              date: realtime.DATE,
+              target: realtime.USE_TRGT,
+              target_fee: realtime.USE_FEE,
+              place: realtime.PLACE,
+              link: realtime.ORG_LINK,
+              program: realtime.PROGRAM,
+            },
+          })
+        }
+      >
+        <UpcomingPoster source={{ uri: realtime.MAIN_IMG }} />
+        <UpcomingColumn>
+          <UpcomingTitle>{realtime.TITLE}</UpcomingTitle>
+          <Release>{realtime.DATE}</Release>
+          <UpcomingOverview>{realtime.USE_FEE}</UpcomingOverview>
+          <UpcomingOverview>{realtime.PLACE}</UpcomingOverview>
+          <UpcomingOverview>{realtime.USE_TRGT}</UpcomingOverview>
+        </UpcomingColumn>
+      </UpcomingRow>
+    </View>
   );
 }
 const UpcomingRow = styled.TouchableOpacity`

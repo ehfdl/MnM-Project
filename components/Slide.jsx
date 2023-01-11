@@ -5,62 +5,49 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
-
 import Swiper from "react-native-swiper";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
 import { useNavigation } from "@react-navigation/native";
-
-import { getEventList } from "../api";
 import { useQuery } from "react-query";
+import { getEventList } from "../api";
+import { ActivityIndicator } from "react-native";
 
 const Slide = () => {
   // 네비게이션 to Detail
   const { navigate } = useNavigation();
 
-  const { data: getEventListData, isLoading: isLoadingEV } = useQuery(
+  const { data: getEventListData, isLoading: isLoadingGel } = useQuery(
     "getEventList",
     getEventList
   );
 
-  const isLoading = isLoadingEV;
+  console.log(getEventListData);
 
-  // const [eventList, setEventList] = useState([]);
-  // const BASE_URL = "http://openapi.seoul.go.kr:8088";
-  // const API_KEY = "446b6b7968676d6c35307165706969";
+  const isLoading = isLoadingGel;
 
-  // const getEventList = async () => {
-  //   const { culturalEventInfo } = await fetch(
-  //     `${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`
-  //   )
-  //     .then((res) => res.json())
-  //     .catch((error) => console.log(error));
-  //   const { row } = culturalEventInfo;
-  //   setEventList(row);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClinet.refetchQueries(["movie"]);
+    setRefreshing(false);
+  };
 
-  //   // setEventList(JSON.parse(response));
-  // };
-  // useEffect(() => {
-  //   getEventList();
-  // }, []);
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
     id = id.split("atchFileId=");
     id = id[1].split("&");
+    // console.log("id", id[0]);
     return id[0];
   };
-  // 로딩 예외처리
-  if (isLoading) {
-    // ActivityIndicator 로딩 애니메이션이 구현된 컴포넌트
-    return (
-      <Loader>
-        <ActivityIndicator />
-      </Loader>
-    );
-  }
 
   return (
     <ScrollView>
@@ -71,8 +58,7 @@ const Slide = () => {
             navigate("Stacks", {
               screen: "Detail",
               params: {
-                isLoading,
-                itemId: imgId(item.MAIN_IMG),
+                // itemId: imgId(item.MAIN_IMG),
                 main_img: item.MAIN_IMG,
                 codename: item.CODENAME,
                 title: item.TITLE,
@@ -155,12 +141,6 @@ const Rating = styled.Text`
   color: black;
   margin-top: 5px;
   margin-bottom: 5px;
-`;
-// ActivityIndicator를 감싸는 View
-const Loader = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
 `;
 
 export default Slide;

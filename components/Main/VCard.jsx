@@ -9,7 +9,18 @@ export default function VCard({ realtime }) {
       onPress={() =>
         navigate("Stacks", {
           screen: "Detail",
-          params: { realtimeId: realtime.id },
+          params: {
+            // itemId: imgId(item.MAIN_IMG),
+            main_img: realtime.MAIN_IMG,
+            codename: realtime.CODENAME,
+            title: realtime.TITLE,
+            date: realtime.DATE,
+            target: realtime.USE_TRGT,
+            target_fee: realtime.USE_FEE,
+            place: realtime.PLACE,
+            link: realtime.ORG_LINK,
+            program: realtime.PROGRAM,
+          },
         })
       }
     >
