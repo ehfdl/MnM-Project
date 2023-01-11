@@ -1,47 +1,52 @@
 import { SCREEN_HEIGHT } from "../../util";
-import { StyleSheet, Modal, Text, Animated } from "react-native";
-import { PinchGestureHandler, State } from "react-native-gesture-handler";
+import {
+  StyleSheet,
+  Modal,
+  Pressable,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import styled from "@emotion/native";
 import { useState } from "react";
-const ImgDetail = ({ main_img }) => {
-  scale = new Animated.Value(1);
-  onZoomEvent = Animated.event(
-    [
-      {
-        nativeEvent: { scale: this.scale },
-      },
-    ],
-    {
-      useNativeDriver: true, // 중요..
-    }
-  );
+import { useNavigation } from "@react-navigation/native";
 
-  onZoomStateChange = (event) => {
-    if (event.nativeEvent.oldState == State.ACTIVE) {
-      Animated.spring(this.scale, {
-        toValue: 1,
-        useNativeDriver: true,
-      }).start();
-    }
-  };
+const ImgDetail = ({ main_img }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const { navigate } = useNavigation();
 
   return (
     <>
+      {/* <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <ImgDT source={{ uri: main_img }} />
+        <Pressable onPress={() => setModalVisible(!modalVisible)}>
+          <Text>Hide Modal</Text>
+        </Pressable>
+      </Modal> */}
+
       <ImgContainer>
-        <ImgBG source={{ uri: main_img }} imageStyle={{ opacity: 0.6 }} />
-        <PinchGestureHandler
-          onGestureEvent={this.onZoomEvent}
-          onHandlerStateChange={this.onZoomStateChange}
+        <TouchableOpacity
+          onPress={() =>
+            navigate("Stacks", {
+              screen: "InfoImg",
+            })
+          }
         >
-          <Animated.Image
+          <ImgBG source={{ uri: main_img }} imageStyle={{ opacity: 0.6 }} />
+          {/* <Pressable onPress={() => setModalVisible(true)}> */}
+          <ImgDT
             resizeMode="contain"
             source={{ uri: main_img }}
-            style={{
-              ...StyleSheet.absoluteFill,
-              transform: [{ scale: this.scale }],
-            }}
+            style={StyleSheet.absoluteFill}
           />
-        </PinchGestureHandler>
+        </TouchableOpacity>
+        {/* </Pressable> */}
       </ImgContainer>
     </>
   );
@@ -51,11 +56,10 @@ const ImgContainer = styled.View`
   height: ${SCREEN_HEIGHT / 4 + "px"};
 `;
 
-// const ImgDT = styled.Animated.Image`
-//   /* width: 100%; */
-//   height: 100%;
-
-// `;
+const ImgDT = styled.Image`
+  /* width: 100%; */
+  height: 100%;
+`;
 const ImgBG = styled.ImageBackground`
   width: 100%;
   height: 100%;
