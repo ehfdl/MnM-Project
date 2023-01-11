@@ -59,11 +59,6 @@ const ReviewMenu = ({
     }
   };
 
-  // const goToReviewEdit = () => {
-  //   navigate("ReviewEdit", { review });
-  //   setIsOpenMenuModal(false);
-  // };
-
   return (
     <Modal
       visible={isOpenMenuModal}
