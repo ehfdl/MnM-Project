@@ -57,9 +57,9 @@ export default function Main({ navigation: { navigate } }) {
   const deadLine = () => {
     const res = upcomingsData.culturalEventInfo.row.map((item) => {
       // DATE: "2023-02-19~2023-02-19"
-      temp = item.DATE.split("~")[1];
-      temp = temp.split("-"); //["2023", "03", "11"]
-      temp = temp.join(""); //[20230311]
+      temp = item.DATE.split('~')[1];
+      temp = temp.split('-'); //["2023", "03", "11"]
+      temp = temp.join(''); //[20230311]
       // temp.parseInt();
       // temp.parseInt();
       console.log(typeof temp);
@@ -85,7 +85,6 @@ export default function Main({ navigation: { navigate } }) {
       onRefresh={onRefresh}
       ListHeaderComponent={
         <>
-          <ListTitle>실시간</ListTitle>
           <Swiper height="100%" showsPagination={false} autoplay loop>
             {nowPlayingsData.culturalEventInfo.row.map((realtime) => (
               <Slide
@@ -165,11 +164,9 @@ export default function Main({ navigation: { navigate } }) {
           imgId={imgId}
         />
       )}
-
       ItemSeparatorComponent={
         <View style={{ height: 15, flexDirection: 'row' }} />
       }
-
     />
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SCREEN_HEIGHT } from '../../util';
 import styled from '@emotion/native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -18,6 +18,7 @@ export default function Slide({ realtime, imgId }) {
 
   return (
     <SwiperChildView>
+      {/* <View style={{ position: 'relative' }}> */}
       <BackgroundImg
         style={StyleSheet.absoluteFill}
         // style={{ position: "absolute", top: 0, left: 0 }}
@@ -25,6 +26,7 @@ export default function Slide({ realtime, imgId }) {
           uri: realtime.MAIN_IMG,
         }}
       />
+      {/* </View> */}
       <LinearGradient
         style={StyleSheet.absoluteFill}
         colors={['transparent', 'black']}
@@ -68,7 +70,7 @@ export default function Slide({ realtime, imgId }) {
 const SwiperChildView = styled.TouchableOpacity`
   flex: 1;
   justify-content: flex-end;
-  height: ${SCREEN_HEIGHT / 3 + 'px'};
+  height: ${SCREEN_HEIGHT / 2 + 'px'};
   background-color: green;
 `;
 
@@ -79,27 +81,32 @@ const BackgroundImg = styled.Image`
 
 const Row = styled.TouchableOpacity`
   flex: 1;
-  flex-direction: row;
-  align-items: flex-end;
+  /* flex-direction: row; */
+  align-items: center;
+  justify-content: center;
 `;
 
 const Column = styled.View`
-  width: 65%;
+  width: 68%;
   margin-left: 10px;
   margin-bottom: 10px;
 `;
 
 const Poster = styled.Image`
-  width: 100px;
-  height: 160px;
+  width: 200px;
+  height: 280px;
   margin-left: 10px;
   margin-bottom: 10px;
+  border-radius: 6px;
 `;
 
 const Title = styled.Text`
   font-size: 20px;
   font-weight: 600;
   color: white;
+  margin-top: 20px;
+  letter-spacing: -0.5px;
+  text-align: center;
 `;
 
 const Overview = styled.Text`
@@ -109,6 +116,7 @@ const Overview = styled.Text`
 
 const Rating = styled.Text`
   color: white;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 10px;
+  /* margin-bottom: 5px; */
+  text-align: center;
 `;
