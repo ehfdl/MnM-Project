@@ -8,7 +8,10 @@ import { useState } from "react";
 import { View } from "react-native";
 import ReviewMenu from "./ReviewMenu";
 
-export default function ReviewCard({ review }) {
+
+export default function ReviewCard({ review, from }) {
+  const { navigate } = useNavigation();
+
   const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
 
   const openMenuHandler = () => {

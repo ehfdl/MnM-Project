@@ -118,7 +118,7 @@ const Detail = ({
       ItemSeparatorComponent={HSeprator}
       renderItem={({ item }) => {
         if (item.itemId === itemId) {
-          return <ReviewCard review={item} />;
+          return <ReviewCard review={item} from={"Detail"} />;
         }
       }}
     />

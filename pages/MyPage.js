@@ -130,12 +130,15 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
+
       {authService.currentUser ? (
         <MyReview
+        from={"MyPage"}
           setIsOpenMenuModal={setIsOpenMenuModal}
           isOpenMenuModal={isOpenMenuModal}
         />
       ) : null}
+
 
       <MyInfor
         isOpenModal={isOpenModal}
