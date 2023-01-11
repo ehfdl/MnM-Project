@@ -27,11 +27,7 @@ const Main = () => {
   };
 
   if (isLoading) {
-    return (
-      <View>
-        <ActivityIndicator />
-      </View>
-    );
+    return <Loader />;
   }
 
   // 키값으로 이것을 넘겨주면 어떨지

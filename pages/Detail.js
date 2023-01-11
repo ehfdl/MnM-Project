@@ -9,7 +9,6 @@ import {
   ImageBackground,
 } from "react-native";
 import styled from "@emotion/native";
-
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
 import { TabActions } from "@react-navigation/native";
 import ReviewModal from "../components/review/ReviewModal";
@@ -41,7 +40,6 @@ const Detail = ({
     },
   },
 }) => {
-  //
   const [reviews, setReviews] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -79,46 +77,43 @@ const Detail = ({
     return unsubscribe;
   }, []);
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
-
   return (
     <FlatList
       ListHeaderComponent={
         <>
           <ImgDetail main_img={main_img}></ImgDetail>
-          {/* <Container> */}
-          <Info
-            title={title}
-            codename={codename}
-            target={target}
-            target_fee={target_fee}
-            place={place}
-            link={link}
-            date={date}
-            program={program}
-          ></Info>
-          {/* 공연리뷰 전까지 */}
-          <Section>
-            <RowReview>
-              <InfoLabel>
-                <InfoLabelText>공연리뷰</InfoLabelText>
-              </InfoLabel>
-              <TouchableOpacity
-                style={{ justifyContent: "center" }}
-                onPress={handleAdding}
-              >
-                <Text>리뷰쓰기</Text>
-              </TouchableOpacity>
-            </RowReview>
-            <ReviewModal
-              itemId={itemId}
-              isOpenModal={isOpenModal}
-              setIsOpenModal={setIsOpenModal}
-            />
-          </Section>
-          {/* </Container> */}
+          <Container>
+            <Info
+              title={title}
+              codename={codename}
+              target={target}
+              target_fee={target_fee}
+              place={place}
+              link={link}
+              date={date}
+              program={program}
+            ></Info>
+            {/* 공연리뷰 전까지 */}
+            <Section>
+              <RowReview>
+                <InfoLabel>
+                  <InfoLabelText>공연리뷰</InfoLabelText>
+                </InfoLabel>
+                <TouchableOpacity
+                  style={{ justifyContent: "center" }}
+                  onPress={handleAdding}
+                >
+                  <Text>리뷰쓰기</Text>
+                </TouchableOpacity>
+              </RowReview>
+              <BrView />
+              <ReviewModal
+                itemId={itemId}
+                isOpenModal={isOpenModal}
+                setIsOpenModal={setIsOpenModal}
+              />
+            </Section>
+          </Container>
         </>
       }
       showsHorizontalScrollIndicator={false}
@@ -142,6 +137,12 @@ const Detail = ({
 
 const HSeprator = styled.View`
   width: 10px;
+`;
+const BrView = styled.View`
+  width: 100%;
+  height: 1px;
+  border-color: lightgray;
+  border-bottom-width: 1px;
 `;
 
 const Container = styled.View`
