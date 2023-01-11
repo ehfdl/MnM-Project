@@ -77,15 +77,10 @@ export default function Main({ navigation: { navigate } }) {
     );
   }
 
-  const Scroll = () => {
-    Alert.alert("Scroll");
-  };
-
   return (
     <FlatList
       refreshing={isRefreshing}
       onEndReachedThreshold={1}
-      onEndReached={Scroll}
       onRefresh={onRefresh}
       ListHeaderComponent={
         <>
