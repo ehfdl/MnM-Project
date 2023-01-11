@@ -115,18 +115,23 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
             />
           </InputWrapper>
           <Row style={{ justifyContent: "space-between" }}>
-            <ModalBtn
+            <ModalBTN
               onPress={() => setIsOpenSignUpModal(false)}
-              title="Cancel"
-              color={RED_COLOR}
-            />
-
-            <ModalBtn
+              title="cancel"
+            >
+              <BTNText title={"cancel"}>Cancel</BTNText>
+            </ModalBTN>
+            <ModalBTN
               disabled={!userEmail || !userPassword || !userCheckPassword}
               onPress={onPressSignUp}
               title="Sign Up"
-              color={RED_COLOR}
-            />
+            >
+              <BTNText
+                disabled={!userEmail || !userPassword || !userCheckPassword}
+              >
+                Sign Up
+              </BTNText>
+            </ModalBTN>
           </Row>
         </Dialog>
       </Backdrop>
@@ -142,7 +147,7 @@ const Hidden = styled.Text`
 
 const SignUpTitle = styled.Text`
   font-size: 25px;
-  color: black;
+  color: white;
   margin-bottom: 30px;
 `;
 
@@ -151,20 +156,43 @@ const SignUpInput = styled.TextInput`
   /* background-color: white; */
   border-radius: 5px;
   /* border: 1px solid black; */
-  border-color: black;
+  border-color: white;
   border-bottom-width: 1px;
 `;
-const ModalBtn = styled.Button`
-  width: 80px;
-  height: 50px;
-  /* background-color: #eee; */
-  align-items: center;
-  justify-content: center;
-  color: red;
-  &:disabled {
-    /* background-color: blue; */
-  }
+// const ModalBtn = styled.Button`
+//   width: 80px;
+//   height: 50px;
+//   /* background-color: #eee; */
+//   align-items: center;
+//   justify-content: center;
+//   color: red;
+//   &:disabled {
+//     /* background-color: blue; */
+//   }
+// `;
+const ModalBTN = styled.TouchableOpacity`
+  flex: 0.4;
+  background-color: ${(props) =>
+    props.disabled
+      ? "background: rgba(229, 0, 21, .5)"
+      : props.theme.pointColor && props.title === "cancel"
+      ? "#4A4A4A"
+      : props.theme.pointColor};
+  padding: 12px;
+  border-radius: 4px;
 `;
+
+const BTNText = styled.Text`
+  text-align: center;
+  font-size: 16px;
+  color: ${(props) =>
+    props.disabled
+      ? props.theme.pointTextWhite
+      : props.theme.pointColor && props.title === "cancel"
+      ? props.theme.pointTextWhite
+      : props.theme.pointText};
+`;
+
 const InputWrapper = styled.View`
   width: 100%;
 `;
@@ -175,19 +203,20 @@ const Backdrop = styled.View`
   align-items: center;
 `;
 const Dialog = styled.KeyboardAvoidingView`
-  background-color: white;
+  background-color: rgba(32, 33, 36, 1);
+
   width: 80%;
   height: 500px;
   padding: 20px;
   border-radius: 5px;
-  border: 1px solid black;
+  border: 1px solid white;
   align-items: center;
   position: absolute;
 `;
 const InputTitle = styled.Text`
   font-size: 16px;
   font-weight: 600;
-  color: gray;
+  color: white;
   margin-bottom: 5px;
   margin-top: 5px;
 `;
