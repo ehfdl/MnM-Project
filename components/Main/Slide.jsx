@@ -1,11 +1,10 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { getImgPath, SCREEN_HEIGHT } from "../util";
+import { SCREEN_HEIGHT } from "../../util";
 import styled from "@emotion/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
-
-export default function Slide({ movie }) {
+export default function Slide({ realtime }) {
   const { navigate } = useNavigation();
   return (
     <SwiperChildView>
@@ -13,35 +12,35 @@ export default function Slide({ movie }) {
         style={StyleSheet.absoluteFill}
         // style={{ position: "absolute", top: 0, left: 0 }}
         source={{
-          uri: getImgPath(movie.main_img),
+          uri: realtime.MAIN_IMG,
         }}
       />
       <LinearGradient
         style={StyleSheet.absoluteFill}
         colors={["transparent", "black"]}
       />
-      <RowCom
+      <Row
         onPress={() =>
           navigate("Stacks", {
             screen: "Detail",
-            params: { movieId: movie.id },
+            params: { realtimeId: realtime.id },
           })
         }
       >
         <Poster
           source={{
-            uri: getImgPath(movie.main_img || ""),
+            uri: realtime.MAIN_IMG,
           }}
         />
         <Column>
-          <Title>{movie.title}</Title>
-          <Rating>{movie.guname}</Rating>
+          <Title>{realtime.TITLE}</Title>
+          <Rating>{realtime.DATE}</Rating>
           <Overview>
-            {movie.program.slice(0, 150)}
-            {movie.etc_desc > 150 && "..."}
+            {realtime.PROGRAM.slice(0, 80)}
+            {realtime.PROGRAM.length > 80 && "..."}
           </Overview>
         </Column>
-      </RowCom>
+      </Row>
     </SwiperChildView>
   );
 }
@@ -57,7 +56,7 @@ const BackgroundImg = styled.Image`
   width: 100%;
 `;
 
-const RowCom = styled.TouchableOpacity`
+const Row = styled.TouchableOpacity`
   flex: 1;
   flex-direction: row;
   align-items: flex-end;
@@ -72,7 +71,6 @@ const Column = styled.View`
 const Poster = styled.Image`
   width: 100px;
   height: 160px;
-  /* height: 100%; */
   margin-left: 10px;
   margin-bottom: 10px;
 `;

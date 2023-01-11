@@ -30,15 +30,12 @@ const Tabs = ({ navigation: { navigate, setOptions } }) => {
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="filmstrip"
-              size={size}
-              color={color}
-            />
+            <MaterialCommunityIcons name="text-box" size={size} color={color} />
           ),
+          title: "Main",
         }}
-        name="Slide"
-        component={Slide}
+        name="Main"
+        component={Main}
       />
       <Tab.Screen
         options={{
