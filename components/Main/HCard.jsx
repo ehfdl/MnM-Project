@@ -33,29 +33,25 @@ export default function HCard({ realtime, imgId }) {
         <UpcomingPoster source={{ uri: realtime.MAIN_IMG }} />
         <UpcomingColumn>
           <UpcomingTitle>{realtime.TITLE}</UpcomingTitle>
-          <Release>{realtime.DATE}</Release>
-          {/* <UpcomingOverview>{realtime.USE_FEE}</UpcomingOverview>
-          <UpcomingOverview>{realtime.PLACE}</UpcomingOverview>
-          <UpcomingOverview>{realtime.USE_TRGT}</UpcomingOverview> */}
+          <Release>~ {realtime.DATE.toLocaleString().split('~')[1]}</Release>
         </UpcomingColumn>
       </UpcomingRow>
     </HWrapper>
   );
 }
 const HWrapper = styled.View`
-  /* background-color: red; */
   width: 50%;
+
   align-items: center;
 `;
 const UpcomingRow = styled.TouchableOpacity`
-  /* text-align: center; */
   align-items: flex-start;
   margin-bottom: 10px;
   /* background-color: blue; */
   /* flex: 1; */
 `;
 const UpcomingPoster = styled.Image`
-  width: 200px;
+  width: 190px;
   height: 200px;
   background-color: grey;
   border-radius: 5px;
