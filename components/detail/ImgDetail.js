@@ -9,44 +9,37 @@ import {
 import styled from "@emotion/native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import InfoImg from "../modal/InfoImg";
 
 const ImgDetail = ({ main_img }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { navigate } = useNavigation();
-
+  const ImgModalOpenHandler = () => {
+    setModalVisible(true);
+  };
   return (
     <>
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <ImgDT source={{ uri: main_img }} />
-        <Pressable onPress={() => setModalVisible(!modalVisible)}>
-          <Text>Hide Modal</Text>
-        </Pressable>
-      </Modal> */}
-
       <ImgContainer>
         <TouchableOpacity
-          onPress={() =>
-            navigate("Stacks", {
-              screen: "InfoImg",
-            })
-          }
+          // onPress={() =>
+          //   navigate("Stacks", {
+          //     screen: "InfoImg",
+          //   })
+          // }
+          onPress={ImgModalOpenHandler}
         >
           <ImgBG source={{ uri: main_img }} imageStyle={{ opacity: 0.6 }} />
-          {/* <Pressable onPress={() => setModalVisible(true)}> */}
           <ImgDT
             resizeMode="contain"
             source={{ uri: main_img }}
             style={StyleSheet.absoluteFill}
           />
         </TouchableOpacity>
-        {/* </Pressable> */}
+        <InfoImg
+          main_img={main_img}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        ></InfoImg>
       </ImgContainer>
     </>
   );
