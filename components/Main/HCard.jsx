@@ -33,7 +33,7 @@ export default function HCard({ realtime, imgId }) {
         <UpcomingPoster source={{ uri: realtime.MAIN_IMG }} />
         <UpcomingColumn>
           <UpcomingTitle>{realtime.TITLE}</UpcomingTitle>
-          <Release>~ {realtime.DATE.toLocaleString().split('~')[1]}</Release>
+          <Release>~ {realtime.DATE.split('~')[1]}</Release>
         </UpcomingColumn>
       </UpcomingRow>
     </HWrapper>
