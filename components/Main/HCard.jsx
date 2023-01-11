@@ -1,20 +1,20 @@
-import React from "react";
-import styled from "@emotion/native";
-import { useNavigation } from "@react-navigation/native";
-import Detail from "../../pages/Detail";
-import { useQuery } from "react-query";
-import { getEventList } from "../../api";
-import { View } from "react-native";
+import React from 'react';
+import styled from '@emotion/native';
+import { useNavigation } from '@react-navigation/native';
+import Detail from '../../pages/Detail';
+import { useQuery } from 'react-query';
+import { getEventList } from '../../api';
+import { View } from 'react-native';
 
 export default function HCard({ realtime, imgId }) {
   const { navigate } = useNavigation();
 
   return (
-    <View>
+    <HWrapper>
       <UpcomingRow
         onPress={() =>
-          navigate("Stacks", {
-            screen: "Detail",
+          navigate('Stacks', {
+            screen: 'Detail',
             params: {
               itemId: imgId(realtime.MAIN_IMG),
               main_img: realtime.MAIN_IMG,
@@ -34,29 +34,31 @@ export default function HCard({ realtime, imgId }) {
         <UpcomingColumn>
           <UpcomingTitle>{realtime.TITLE}</UpcomingTitle>
           <Release>{realtime.DATE}</Release>
-          <UpcomingOverview>{realtime.USE_FEE}</UpcomingOverview>
+          {/* <UpcomingOverview>{realtime.USE_FEE}</UpcomingOverview>
           <UpcomingOverview>{realtime.PLACE}</UpcomingOverview>
-          <UpcomingOverview>{realtime.USE_TRGT}</UpcomingOverview>
+          <UpcomingOverview>{realtime.USE_TRGT}</UpcomingOverview> */}
         </UpcomingColumn>
       </UpcomingRow>
-    </View>
+    </HWrapper>
   );
 }
+const HWrapper = styled.View`
+  /* background-color: red; */
+  width: 50%;
+  align-items: center;
+`;
 const UpcomingRow = styled.TouchableOpacity`
-  flex-direction: row;
-  margin-left: 20px;
-  /* margin-bottom: 20px; */
+  /* text-align: center; */
+  align-items: flex-start;
+  margin-bottom: 10px;
+  /* background-color: blue; */
+  /* flex: 1; */
 `;
 const UpcomingPoster = styled.Image`
-  width: 100px;
+  width: 200px;
   height: 200px;
   background-color: grey;
   border-radius: 5px;
-`;
-const UpcomingTitle = styled.Text`
-  font-size: 20px;
-  font-weight: 500;
-  color: ${(props) => props.theme.upcomingText};
 `;
 
 const UpcomingOverview = styled.Text`
@@ -68,17 +70,21 @@ const UpcomingOverview = styled.Text`
   color: ${(props) => props.theme.upcomingText};
 `;
 
-const UpcomingColumn = styled.View`
-  margin-left: 20px;
-  width: 60%;
-`;
+const UpcomingColumn = styled.View``;
 
 const Release = styled.Text`
-  font-size: 16px;
-  font-weight: 300;
+  font-size: 13px;
+  font-weight: 500;
+  color: ${(props) => props.theme.pointTextGry};
+  /* margin: 10px 0; */
+`;
+
+const UpcomingTitle = styled.Text`
+  font-size: 18px;
+  letter-spacing: -1.3px;
+  font-weight: 600;
+  padding: 15px 20px 8px 0;
   color: ${(props) => props.theme.upcomingText};
-  margin-top: 10px;
-  margin-bottom: 10px;
 `;
 
 const UpcomingView = styled.View``;
