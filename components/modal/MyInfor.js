@@ -23,6 +23,7 @@ const myInfor = ({
               <UserName
                 textContentType="text"
                 value={nickName}
+                placeholderTextColor="#90969E"
                 placeholder="닉네임을 적어주세요."
                 onChangeText={(text) => setNickName(text)}
               />
@@ -30,6 +31,7 @@ const myInfor = ({
               <UserName
                 textContentType="text"
                 value={profileText}
+                placeholderTextColor="#90969E"
                 placeholder="자기소개를 적어주세요."
                 onChangeText={(text) => setProfileText(text)}
               />
@@ -107,7 +109,7 @@ const InputText = styled.Text`
 const UserName = styled.TextInput`
   width: 100%;
   font-size: 16px;
-
+  color: ${(props) => props.theme.text};
   padding: 8px;
   border: 1px solid #ccc;
   margin-bottom: 16px;

@@ -48,7 +48,7 @@ export default function ReviewModal({ isOpenModal, setIsOpenModal, itemId }) {
               onFinishRating={getRatings}
               ratingCount={5}
               imageSize={20}
-              tintColor={isDark ? "#202124" : "#eee"}
+              tintColor={isDark ? "#202124" : null}
             />
             <ModalTitle>제목</ModalTitle>
             <TitleInput

@@ -16,6 +16,9 @@ const TitleEdit = styled.TextInput`
   margin-bottom: 20px;
   padding: 10px 15px;
   border-radius: 10px;
+  border-color: ${(props) => props.theme.text};
+  border-width: 1px;
+  color: ${(props) => props.theme.text};
 `;
 const ContentEdit = styled(TitleEdit)`
   min-height: 150px;
@@ -25,7 +28,7 @@ const ContentEdit = styled(TitleEdit)`
 const SectionTitle = styled.Text`
   font-size: 25px;
   font-weight: 600;
-  color: ${(props) => props.theme.title};
+  color: ${(props) => props.theme.text};
   margin-bottom: 15px;
 `;
 
@@ -34,16 +37,14 @@ const EditButton = styled.TouchableOpacity`
   padding: 10px 15px;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => props.theme.text};
-  /* border-width: 1px; */
-  /* border-color: ${(props) =>
-    props.disabled ? "grey" : props.theme.title}; */
+  background-color: ${(props) =>
+    props.disabled ? "rgba(229, 0, 21, 0.5)" : "#e50015"};
   border-radius: 30px;
   margin-bottom: 20px;
 `;
 
 const BtnTitle = styled.Text`
-  color: ${(props) => (props.disabled ? "grey" : props.theme.title)};
+  color: white;
   font-size: 20px;
   font-weight: 500;
 `;
@@ -84,38 +85,6 @@ export default function ReviewEdit({
       },
     }
   );
-
-  const onDelete = async () => {
-    Alert.alert("리뷰 삭제", "리뷰를 삭제하시겠습니까?", [
-      { text: "취소", style: "destructive" },
-      {
-        text: "삭제",
-        onPress: async () => {
-          try {
-            // await deleteDoc(doc(dbService, "reviews", review.id));
-            await removeReview(review.id);
-            if (from === "Detail") {
-              navigation.reset({
-                index: 1,
-                routes: [
-                  {
-                    name: "Detail",
-                    params: {
-                      itemId: review.itemId,
-                    },
-                  },
-                ],
-              });
-            } else if (from === "MyPage") {
-              navigation.navigate("Tabs", { screen: "MyPage" });
-            }
-          } catch (err) {
-            console.log("err:", err);
-          }
-        },
-      },
-    ]);
-  };
 
   const onEditDone = () => {
     if (!ratings && !newTitle && !newContents) {
@@ -216,14 +185,14 @@ export default function ReviewEdit({
         onFinishRating={getRatings}
         ratingCount={5}
         imageSize={20}
-        tintColor={"black"}
+        tintColor={isDark ? "black" : "#f2f2f2"}
       />
 
       <SectionTitle>제목</SectionTitle>
 
       <TitleEdit
         value={newTitle}
-        placeholderTextColor="#d2dae2"
+        placeholderTextColor="#90969E"
         onChangeText={onChangeTitle}
         placeholder={review.title}
         maxLength={30}
@@ -237,7 +206,7 @@ export default function ReviewEdit({
         onChangeText={(text) => setNewContents(text)}
         multiline
         maxLength={300}
-        placeholderTextColor="#d2dae2"
+        placeholderTextColor="#90969E"
         placeholder={review.contents}
       />
       <EditButton
@@ -247,9 +216,6 @@ export default function ReviewEdit({
         <BtnTitle disabled={!newContents && !newTitle && !ratings}>
           수정완료
         </BtnTitle>
-      </EditButton>
-      <EditButton onPress={onDelete}>
-        <BtnTitle>삭제</BtnTitle>
       </EditButton>
     </Container>
   );

@@ -95,6 +95,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
             <InputTitle>ID</InputTitle>
             <SignUpInput
               ref={emailRef}
+              placeholderTextColor="#90969E"
               placeholder="이메일"
               value={userEmail}
               onChangeText={(text) => setUserEmail(text)}
@@ -102,6 +103,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
             <InputTitle>Password</InputTitle>
             <SignUpInput
               ref={pwRef}
+              placeholderTextColor="#90969E"
               placeholder="비밀번호"
               value={userPassword}
               onChangeText={(text) => setUserPassword(text)}
@@ -109,6 +111,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
             <InputTitle>Password 확인</InputTitle>
             <SignUpInput
               ref={pwckRef}
+              placeholderTextColor="#90969E"
               placeholder="비밀번호 확인"
               value={userCheckPassword}
               onChangeText={(text) => setUserCheckPassword(text)}
