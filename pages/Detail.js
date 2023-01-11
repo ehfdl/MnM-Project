@@ -80,41 +80,41 @@ const Detail = ({
   return (
     <FlatList
       ListHeaderComponent={
-        <>
+        <Container>
+          {/* <Container> */}
           <ImgDetail main_img={main_img}></ImgDetail>
-          <Container>
-            <Info
-              title={title}
-              codename={codename}
-              target={target}
-              target_fee={target_fee}
-              place={place}
-              link={link}
-              date={date}
-              program={program}
-            ></Info>
-            {/* 공연리뷰 전까지 */}
-            <Section>
-              <RowReview>
-                <InfoLabel>
-                  <InfoLabelText>공연리뷰</InfoLabelText>
-                </InfoLabel>
-                <TouchableOpacity
-                  style={{ justifyContent: "center" }}
-                  onPress={handleAdding}
-                >
-                  <Text>리뷰쓰기</Text>
-                </TouchableOpacity>
-              </RowReview>
-              <BrView />
-              <ReviewModal
-                itemId={itemId}
-                isOpenModal={isOpenModal}
-                setIsOpenModal={setIsOpenModal}
-              />
-            </Section>
-          </Container>
-        </>
+          <Info
+            title={title}
+            codename={codename}
+            target={target}
+            target_fee={target_fee}
+            place={place}
+            link={link}
+            date={date}
+            program={program}
+          ></Info>
+          {/* 공연리뷰 전까지 */}
+          <Section>
+            <RowReview>
+              <InfoLabel>
+                <InfoLabelText>공연리뷰</InfoLabelText>
+              </InfoLabel>
+              <TouchableOpacity
+                style={{ justifyContent: "center" }}
+                onPress={handleAdding}
+              >
+                <Text>리뷰쓰기</Text>
+              </TouchableOpacity>
+            </RowReview>
+            <BrView />
+            <ReviewModal
+              itemId={itemId}
+              isOpenModal={isOpenModal}
+              setIsOpenModal={setIsOpenModal}
+            />
+          </Section>
+          {/* </Container> */}
+        </Container>
       }
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
@@ -147,6 +147,7 @@ const BrView = styled.View`
 
 const Container = styled.View`
   /* height: ${SCREEN_HEIGHT + "px"}; */
+  /* height: "fit-content"; */
   /* flex: 1; */
   width: ${SCREEN_WIDTH + "px"};
   justify-content: center;
@@ -181,6 +182,7 @@ const Section = styled.View`
 `;
 // 공연리뷰 섹션
 const RowReview = styled.View`
+  background-color: red;
   flex-direction: row;
   justify-content: space-between;
   margin-right: 15px;

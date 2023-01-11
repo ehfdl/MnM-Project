@@ -1,7 +1,7 @@
-import { Linking, TouchableOpacity, View, Text } from 'react-native';
-import styled from '@emotion/native';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../util';
-import { AntDesign, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { Linking, TouchableOpacity, View, Text } from "react-native";
+import styled from "@emotion/native";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../util";
+import { AntDesign, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 
 const Info = ({
   title,
@@ -71,8 +71,22 @@ const Info = ({
             </InfoLabelText>
             <InfoBoxText>
               {target_fee}
-              {target_fee.length === 0 && '무료'}
+              {target_fee.length === 0 && "무료"}
             </InfoBoxText>
+          </InfoLabel>
+
+          <InfoLabel>
+            <InfoLabelText>
+              <FontAwesome5
+                name="home"
+                size={22}
+                color="black"
+                title="홈페이지"
+              />
+            </InfoLabelText>
+            <TouchableOpacity onPress={() => openURL(link)}>
+              <InfoBoxText>바로가기</InfoBoxText>
+            </TouchableOpacity>
           </InfoLabel>
         </RowTop>
       </Column>
@@ -80,24 +94,22 @@ const Info = ({
         <InfoLabel>
           <InfoLabelText>상세설명</InfoLabelText>
         </InfoLabel>
-        <Overview>
-          {program.slice(0, 250)}
-          {program.length > 250 && '...'}
-          {program.length == 0 && '없음'}
-        </Overview>
-        <InfoLabel>
-          <InfoLabelText>홈페이지</InfoLabelText>
-        </InfoLabel>
-        <TouchableOpacity onPress={() => openURL(link)}>
-          <Text>웹사이트로 이동</Text>
-        </TouchableOpacity>
+        {program.length === 0 ? (
+          <Overview style={{ backgroundColor: "red" }}>없음</Overview>
+        ) : (
+          <Overview>
+            {program.slice(0, 250)}
+            {program.length > 250 && "..."}
+            {/* {program.length == 0 && "없음"} */}
+          </Overview>
+        )}
       </Column>
     </>
   );
 };
 
 const ImgContainer = styled.View`
-  height: ${SCREEN_HEIGHT / 4 + 'px'};
+  height: ${SCREEN_HEIGHT / 4 + "px"};
 `;
 
 // 행사 타이틀
