@@ -5,3 +5,18 @@ export const getEventList = () =>
   fetch(`${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/10/`)
     .then((res) => res.json())
     .catch((error) => console.log(error));
+
+export const getNowPlaying = () =>
+  fetch(`${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`).then((res) =>
+    res.json()
+  );
+
+export const getTopRated = async () =>
+  fetch(`${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`).then((res) =>
+    res.json()
+  );
+
+export const getUpcoming = async () =>
+  fetch(`${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/10/`).then((res) =>
+    res.json()
+  );
