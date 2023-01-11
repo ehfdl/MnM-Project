@@ -179,5 +179,3 @@ const Toggle = styled.TouchableOpacity`
 const ToggleBar = styled.View`
   flex-direction: row;
 `;
-
-// Path: components\Main\Slide.js

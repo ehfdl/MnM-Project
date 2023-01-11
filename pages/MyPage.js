@@ -55,7 +55,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
     signOut(authService)
       .then(() => {
         console.log("로그아웃 성공");
-        navigate("Slide");
+        navigate("Main");
       })
       .catch((err) => alert(err));
   };
@@ -69,7 +69,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
             {
               name: "Tabs",
               params: {
-                screen: "Slide",
+                screen: "Main",
               },
             },
             {
