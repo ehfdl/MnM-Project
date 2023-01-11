@@ -219,7 +219,6 @@ export default function ReviewEdit({
         onFinishRating={getRatings}
         ratingCount={5}
         imageSize={20}
-        // tintColor={isDark ? "black" : "#d2dae2"}
         tintColor={"black"}
       />
 
