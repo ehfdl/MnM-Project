@@ -62,16 +62,14 @@ const Backdrop = styled.View`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const Dialog = styled.View`
-  background-color: #fff;
-  width: 90%;
-  height: 70%;
-  border-radius: 20px;
-  padding: 40px 20px;
-  justify-content: center;
+const Dialog = styled.KeyboardAvoidingView`
+  background-color: white;
+  width: 80%;
+  height: 40%;
+  padding: 20px;
+  border-radius: 5px;
   align-items: center;
 `;
-
 const InforWrap = styled.View`
   flex: 1;
   width: 100%;

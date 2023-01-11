@@ -1,6 +1,7 @@
-import { Linking, TouchableOpacity, View, Text } from "react-native";
-import styled from "@emotion/native";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../util";
+import { Linking, TouchableOpacity, View, Text } from 'react-native';
+import styled from '@emotion/native';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../util';
+import { AntDesign, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 
 const Info = ({
   title,
@@ -10,6 +11,7 @@ const Info = ({
   date,
   place,
   program,
+  link,
 }) => {
   // 홈페이지 연결
   const openURL = async (url) => {
@@ -19,62 +21,70 @@ const Info = ({
   return (
     <>
       <RowTitleSection>
-        <EVTitle>
-          <EVTitleText>{title}</EVTitleText>
-        </EVTitle>
         <EVCategory>
           <EVCategoryText>{codename}</EVCategoryText>
         </EVCategory>
+        <EVTitle>
+          <EVTitleText>{title}</EVTitleText>
+        </EVTitle>
       </RowTitleSection>
       <Column>
-        <Row>
+        <RowTop>
           <InfoLabel>
-            <InfoLabelText>날짜</InfoLabelText>
-          </InfoLabel>
-          <InfoBox>
+            <InfoLabelText>
+              <AntDesign name="calendar" size={24} color="black" title="날짜" />
+            </InfoLabelText>
             <InfoBoxText>{date}</InfoBoxText>
-          </InfoBox>
-        </Row>
-        <Row>
+          </InfoLabel>
           <InfoLabel>
-            <InfoLabelText>장소</InfoLabelText>
+            <InfoLabelText>
+              <MaterialIcons
+                name="place"
+                size={24}
+                color="black"
+                title="위치"
+              />
+            </InfoLabelText>
+            <InfoBoxText>{place}</InfoBoxText>
           </InfoLabel>
 
-          <InfoBox>
-            <InfoBoxText>{place}</InfoBoxText>
-          </InfoBox>
-        </Row>
-        <Row>
           <InfoLabel>
-            <InfoLabelText>이용대상</InfoLabelText>
-          </InfoLabel>
-          <InfoBox>
+            <InfoLabelText>
+              <FontAwesome5
+                name="exclamation-circle"
+                size={24}
+                color="black"
+                title="이용제한"
+              />
+            </InfoLabelText>
             <InfoBoxText>{target}</InfoBoxText>
-          </InfoBox>
-        </Row>
-        <Row>
-          <InfoLabel>
-            <InfoLabelText>이용금액</InfoLabelText>
           </InfoLabel>
-          <InfoBox>
+
+          <InfoLabel>
+            <InfoLabelText>
+              <AntDesign
+                name="heart"
+                size={24}
+                color="black"
+                title="이용금액"
+              />
+            </InfoLabelText>
             <InfoBoxText>
               {target_fee}
-              {target_fee.length === 0 && "무료"}
+              {target_fee.length === 0 && '무료'}
             </InfoBoxText>
-          </InfoBox>
-        </Row>
+          </InfoLabel>
+        </RowTop>
       </Column>
       <Column>
         <InfoLabel>
           <InfoLabelText>상세설명</InfoLabelText>
         </InfoLabel>
-        <Column>
-          <Overview>
-            {program.slice(0, 250)}
-            {program.length > 250 && "..."}
-            {program.length == 0 && "없음"}
-          </Overview>
-        </Column>
+        <Overview>
+          {program.slice(0, 250)}
+          {program.length > 250 && '...'}
+          {program.length == 0 && '없음'}
+        </Overview>
         <InfoLabel>
           <InfoLabelText>홈페이지</InfoLabelText>
         </InfoLabel>
@@ -87,34 +97,54 @@ const Info = ({
 };
 
 const ImgContainer = styled.View`
-  height: ${SCREEN_HEIGHT / 4 + "px"};
+  height: ${SCREEN_HEIGHT / 4 + 'px'};
 `;
 
+// 행사 타이틀
 const RowTitleSection = styled.View`
-  flex-direction: row;
-  margin: 15px;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  padding: 15px;
+  align-items: flex-start;
 `;
-const Row = styled.View`
-  width: ${SCREEN_WIDTH + "px"};
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: center;
+
+const EVTitle = styled.View`
+  margin-top: 10px;
 `;
+const EVTitleText = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+`;
+// 행사 카테고리 텍스트 ex)연극
+const EVCategory = styled.View`
+  justify-content: center;
+  background-color: ${(props) => props.theme.pointColor};
+  border-radius: 60px;
+  justify-content: flex-end;
+`;
+const EVCategoryText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  color: ${(props) => props.theme.pointTextWhite};
+  padding: 8px;
+`;
+
+const RowTop = styled.View`
+  width: 100%;
+  padding: 8px 16px;
+  justify-content: flex-start;
+`;
+
 const Column = styled.View`
-  width: 90%;
-  flex-direction: column;
-  align-content: center;
-  margin-left: 20px;
-  margin-bottom: 10px;
+  flex: 1;
+  padding: 8px 15px;
 `;
 
 const InfoLabel = styled.View`
-  width: 80px;
-  margin-bottom: 10px;
-  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 16px;
+  justify-content: flex-start;
+  align-items: center;
 `;
+
 const InfoLabelText = styled.Text`
   font-weight: bold;
   font-size: 16px;
@@ -124,7 +154,7 @@ const InfoBox = styled.View`
   margin-bottom: 10px;
   flex-wrap: wrap;
   flex-direction: row;
-  /* 부모컨테이너를 벗어날 시 줄바꿈 */
+  background-color: red;
 `;
 const InfoBoxText = styled.Text`
   font-weight: bold;
@@ -139,25 +169,7 @@ const Overview = styled.Text`
   margin-bottom: 15px;
   line-height: 20px;
 `;
-// 행사 타이틀
-const EVTitle = styled.View`
-  /* align-items: center; */
-  /* justify-content: center; */
-`;
-const EVTitleText = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-`;
-// 행사 카테고리 텍스트 ex)연극
-const EVCategory = styled.View`
-  justify-content: center;
-  flex-wrap: wrap;
-`;
-const EVCategoryText = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  flex-wrap: wrap;
-`;
+
 // 상세설명 섹션
 const Section = styled.View`
   margin: 10px 15px;
