@@ -8,7 +8,7 @@ import { useQuery } from "react-query";
 import { getEventList } from "../../api";
 import Detail from "../../pages/Detail";
 
-export default function Slide({ realtime }) {
+export default function Slide({ realtime, imgId }) {
   const { navigate } = useNavigation();
 
   const { data: getEventListData, isLoading: isLoadingEV } = useQuery(
@@ -34,7 +34,7 @@ export default function Slide({ realtime }) {
           navigate("Stacks", {
             screen: "Detail",
             params: {
-              // itemId: imgId(item.MAIN_IMG),
+              itemId: imgId(realtime.MAIN_IMG),
               main_img: realtime.MAIN_IMG,
               codename: realtime.CODENAME,
               title: realtime.TITLE,

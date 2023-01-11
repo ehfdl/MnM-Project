@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import { getEventList } from "../../api";
 import { View } from "react-native";
 
-export default function HCard({ realtime }) {
+export default function HCard({ realtime, imgId }) {
   const { navigate } = useNavigation();
 
   return (
@@ -16,7 +16,7 @@ export default function HCard({ realtime }) {
           navigate("Stacks", {
             screen: "Detail",
             params: {
-              // itemId: imgId(item.MAIN_IMG),
+              itemId: imgId(realtime.MAIN_IMG),
               main_img: realtime.MAIN_IMG,
               codename: realtime.CODENAME,
               title: realtime.TITLE,

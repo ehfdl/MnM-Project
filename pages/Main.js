@@ -16,10 +16,6 @@ import { useQuery, useQueryClient } from "react-query";
 import { getNowPlaying, getTopRated, getUpcoming } from "../api";
 
 export default function Main({ navigation: { navigate } }) {
-  // const [nowPlayings, setNowPlayings] = useState([]);
-  // const [topRateds, setTopRateds] = useState([]);
-  // const [upcomings, setUpcomings] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const queryClient = useQueryClient();
 
@@ -41,6 +37,13 @@ export default function Main({ navigation: { navigate } }) {
     // await Promise.all([refetchNP(), refetchTR(), refetchUC()]);
     await queryClient.refetchQueries(["Mains"]);
     setIsRefreshing(false);
+  };
+
+  // 키값으로 이것을 넘겨주면 어떨지
+  const imgId = (id) => {
+    id = id.split("atchFileId=");
+    id = id[1].split("&");
+    return id[0];
   };
 
   const isLoading = isLoadingNP || isLoadingTR || isLoadingUC;
@@ -69,9 +72,10 @@ export default function Main({ navigation: { navigate } }) {
           <Swiper height="100%" showsPagination={false} autoplay loop>
             {nowPlayingsData.culturalEventInfo.row.map((realtime) => (
               <Slide
-                key={realtime.id}
+                key={imgId(realtime.MAIN_IMG)}
                 realtime={realtime}
                 navigate={navigate}
+                imgId={imgId}
               />
             ))}
           </Swiper>
@@ -116,7 +120,14 @@ export default function Main({ navigation: { navigate } }) {
             contentContainerStyle={{ paddingHorizontal: 20 }}
             showsHorizontalScrollIndicator={false}
             data={topRatedsData.culturalEventInfo.row}
-            renderItem={({ item }) => <VCard realtime={item} />}
+            renderItem={({ item }) => (
+              <VCard
+                realtime={item}
+                key={imgId(item.MAIN_IMG)}
+                navigate={navigate}
+                imgId={imgId}
+              />
+            )}
             keyExtractor={(item) => item.id}
             ItemSeparatorComponent={<View style={{ width: 10 }} />}
           />
@@ -124,7 +135,14 @@ export default function Main({ navigation: { navigate } }) {
         </>
       }
       data={upcomingsData.culturalEventInfo.row}
-      renderItem={({ item }) => <HCard realtime={item} />}
+      renderItem={({ item }) => (
+        <HCard
+          realtime={item}
+          key={imgId(item.MAIN_IMG)}
+          navigate={navigate}
+          imgId={imgId}
+        />
+      )}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={<View style={{ height: 15 }} />}
     />

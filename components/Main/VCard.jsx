@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/native";
 import { useNavigation } from "@react-navigation/native";
 
-export default function VCard({ realtime }) {
+export default function VCard({ realtime, imgId }) {
   const { navigate } = useNavigation();
   return (
     <VWrapper
@@ -10,7 +10,7 @@ export default function VCard({ realtime }) {
         navigate("Stacks", {
           screen: "Detail",
           params: {
-            // itemId: imgId(item.MAIN_IMG),
+            itemId: imgId(realtime.MAIN_IMG),
             main_img: realtime.MAIN_IMG,
             codename: realtime.CODENAME,
             title: realtime.TITLE,
