@@ -148,6 +148,7 @@ const BrView = styled.View`
 const Container = styled.View`
   /* height: ${SCREEN_HEIGHT + "px"}; */
   /* flex: 1; */
+  width: ${SCREEN_WIDTH + "px"};
   justify-content: center;
 `;
 

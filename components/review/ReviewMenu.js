@@ -15,22 +15,22 @@ const ReviewMenu = ({
     <Modal
       visible={isOpenMenuModal}
       transparent
-      animationType="slide"
+      animationType="fade"
       presentationStyle={"overFullScreen"}
     >
       <Backdrop>
         <Dialog>
-          <Row>
+          <MenuView>
             <MenuTouchEdit title="edit" onPress={goToReviewEdit}>
-              <ModalTitle>수정</ModalTitle>
+              <ModalTitle title="edit">수정</ModalTitle>
             </MenuTouchEdit>
             <MenuTouchDelete title="delete" onPress={onDelete}>
-              <ModalTitle>삭제</ModalTitle>
+              <ModalTitle title="delete">삭제</ModalTitle>
             </MenuTouchDelete>
-          </Row>
-          <MenuTouch title="out" onPress={() => setIsOpenMenuModal(false)}>
-            <ModalTitle>나가기</ModalTitle>
-          </MenuTouch>
+            <MenuTouch title="out" onPress={() => setIsOpenMenuModal(false)}>
+              <ModalTitle title="out">나가기</ModalTitle>
+            </MenuTouch>
+          </MenuView>
         </Dialog>
       </Backdrop>
     </Modal>
@@ -41,64 +41,60 @@ export default ReviewMenu;
 
 const MenuTouch = styled.TouchableOpacity`
   width: 100%;
-  height: 33%;
-  /* background-color: black; */
+  height: 50px;
+  background-color: white;
+
   justify-content: center;
+
+  border-radius: 10px;
   align-items: center;
 `;
 
 const MenuTouchDelete = styled.TouchableOpacity`
-  width: 40%;
+  width: 100%;
   height: 50px;
-  background-color: red;
-
+  background-color: white;
+  border-radius: 10px;
   justify-content: center;
-  border-color: gray;
-  border-top-width: 1px;
-  border-bottom-width: 1px;
   align-items: center;
 `;
 
 const MenuTouchEdit = styled.TouchableOpacity`
-  width: 40%;
+  width: 100%;
   height: 50px;
-  background-color: green;
-
+  background-color: #eee;
   justify-content: center;
-  border-color: gray;
-  border-top-width: 1px;
-  border-bottom-width: 1px;
+  border-radius: 10px;
   align-items: center;
 `;
 
 const Backdrop = styled.View`
   flex: 1;
-  /* background-color: rgba(0, 0, 0, 0.6); */
+  background-color: rgba(0, 0, 0, 0.3);
   justify-content: flex-end;
   align-items: center;
 `;
 
 const Dialog = styled.KeyboardAvoidingView`
-  background-color: white;
+  background-color: transparent;
   width: 100%;
   height: 30%;
-
   border-radius: 20px;
   justify-content: center;
   align-items: center;
 `;
 const ModalTitle = styled.Text`
-  font-size: 19px;
-  font-weight: 600;
-  color: black;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  font-size: 17px;
+  color: ${(props) =>
+    props.title === "edit"
+      ? "blue"
+      : props.title === "delete"
+      ? "red"
+      : "black"};
 `;
 
-const Row = styled.View`
-  flex-direction: row;
-  width: 80%;
+const MenuView = styled.View`
+  width: 90%;
+  height: 67%;
   justify-content: space-between;
-
-  border: 1px solid black;
 `;

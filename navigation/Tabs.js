@@ -14,7 +14,7 @@ import Slide from "../components/Slide";
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = ({ navigation: { navigate, setOptions } }) => {
+const Tabs = () => {
   const isDark = useColorScheme() === "dark";
   return (
     <Tab.Navigator
