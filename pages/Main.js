@@ -1,98 +1,130 @@
-
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  ScrollView,
+  View,
+} from "react-native";
 import styled from "@emotion/native";
 import Swiper from "react-native-swiper";
-import MainImg from "../component/MainImg";
+import Slide from "../components/Main/Slide";
+import VCard from "../components/Main/VCard";
+import HCard from "../components/Main/HCard";
+import { useQuery, useQueryClient } from "react-query";
+import { getNowPlaying, getTopRated, getUpcoming } from "../api";
 
-export default function Movies({ navigation: { navigate } }) {
-  const [nowPlayings, setNowPlayings] = useState([]);
-  const [topRateds, setTopRateds] = useState([]);
-  const [upcomings, setUpcomings] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const queryClient = useQueryClient();
 
-  const API_KEY = "474c4d4954716f613635754d717646";
-  const BASE_URL = "http://openapi.seoul.go.kr:8088";
-
-  const getNowPlaying = async () => {
-    const { row } = await fetch(
-      `${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`
-    ).then((res) => res.json());
-    setNowPlayings(row);
-  };
-  // const getTopRated = async () => {
-  //   const { results } = await fetch(
-  //     `${BASE_URL}/top_rated?api_key=${API_KEY}&language=en-US&page=1`
-  //   ).then((res) => res.json());
-  //   setTopRateds(results);
-  // };
-  // const getUpcoming = async () => {
-  //   const { results } = await fetch(
-  //     `${BASE_URL}/upcoming?api_key=${API_KEY}&language=en-US&page=1`
-  //   ).then((res) => res.json());
-  //   setUpcomings(results);
-  // };
-
-  const getData = async () => {
-    await Promise.all([getNowPlaying(), getTopRated(), getUpcoming()]);
-    setIsLoading(false);
-  };
+  const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
+    ["Mains", "nowPlayings"],
+    getNowPlaying
+  );
+  const { data: topRatedsData, isLoading: isLoadingTR } = useQuery(
+    ["Mains", "topRateds"],
+    getTopRated
+  );
+  const { data: upcomingsData, isLoading: isLoadingUC } = useQuery(
+    ["Mains", "upcomings"],
+    getUpcoming
+  );
 
   const onRefresh = async () => {
     setIsRefreshing(true);
-    await getData();
+    // await Promise.all([refetchNP(), refetchTR(), refetchUC()]);
+    await queryClient.refetchQueries(["Mains"]);
     setIsRefreshing(false);
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  const isLoading = isLoadingNP || isLoadingTR || isLoadingUC;
 
-  // if (isLoading) {
-  //   return (
-  //     <Loader>
-  //       <ActivityIndicator />
-  //     </Loader>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <Loader>
+        <ActivityIndicator />
+      </Loader>
+    );
+  }
+
+  const Scroll = () => {
+    Alert.alert("Scroll");
+  };
 
   return (
     <FlatList
       refreshing={isRefreshing}
+      onEndReachedThreshold={1}
+      onEndReached={Scroll}
       onRefresh={onRefresh}
       ListHeaderComponent={
         <>
           <ListTitle>실시간</ListTitle>
           <Swiper height="100%" showsPagination={false} autoplay loop>
-            {nowPlayings.row.map((movie) => (
-              <MainImg key={movie.id} movie={movie} />
+            {nowPlayingsData.culturalEventInfo.row.map((realtime) => (
+              <Slide
+                key={realtime.id}
+                realtime={realtime}
+                navigate={navigate}
+              />
             ))}
           </Swiper>
-          <ListTitle>Top Rated Movies</ListTitle>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <Toggle>
+              <ListTitle onPress={() => navigate("Stacks", {})}>무료</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>연극</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>뮤지컬/오페라</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>국악</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>문화교양/강좌</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>클래식</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>축제-전통/역사</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>무용</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>콘서트</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>전시/미술</ListTitle>
+            </Toggle>
+            <Toggle>
+              <ListTitle>기타</ListTitle>
+            </Toggle>
+          </ScrollView>
+
           <FlatList
             horizontal
             contentContainerStyle={{ paddingHorizontal: 20 }}
             showsHorizontalScrollIndicator={false}
-            data={topRateds}
-            // renderItem={({ item }) => <VCard movie={item} />}
+            data={topRatedsData.culturalEventInfo.row}
+            renderItem={({ item }) => <VCard realtime={item} />}
             keyExtractor={(item) => item.id}
             ItemSeparatorComponent={<View style={{ width: 10 }} />}
           />
-          <ListTitle>Upcoming Movies</ListTitle>
+          <ListTitle>이름</ListTitle>
         </>
       }
-      data={upcomings}
-      // renderItem={({ item }) => <HCard movie={item} />}
+      data={upcomingsData.culturalEventInfo.row}
+      renderItem={({ item }) => <HCard realtime={item} />}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={<View style={{ height: 15 }} />}
     />
-
   );
-};
-
-export default Main;
-
+}
 
 const Loader = styled.View`
   flex: 1;
@@ -107,5 +139,22 @@ const ListTitle = styled.Text`
   font-size: 20px;
   font-weight: 500;
   color: ${(props) => props.theme.title};
-
 `;
+
+const Toggle = styled.TouchableOpacity`
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  & > * {
+    font-size: 16px;
+    font-weight: 500;
+    color: ${(props) => props.theme.title};
+  }
+`;
+const ToggleBar = styled.View`
+  flex-direction: row;
+`;
+
+// Path: components\Main\Slide.js
