@@ -95,7 +95,7 @@ const Info = ({
           <InfoLabelText>상세설명</InfoLabelText>
         </InfoLabel>
         {program.length === 0 ? (
-          <Overview style={{ backgroundColor: "red" }}>없음</Overview>
+          <Overview>없음</Overview>
         ) : (
           <Overview>
             {program.slice(0, 250)}

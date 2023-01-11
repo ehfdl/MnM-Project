@@ -182,7 +182,6 @@ const Section = styled.View`
 `;
 // 공연리뷰 섹션
 const RowReview = styled.View`
-  background-color: red;
   flex-direction: row;
   justify-content: space-between;
   margin-right: 15px;
