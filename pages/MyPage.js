@@ -7,7 +7,6 @@ import {
   ImageBackground,
 } from "react-native";
 import MyInfor from "../components/modal/MyInfor";
-
 import {
   collection,
   onSnapshot,
@@ -86,7 +85,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         headerRight: () => {
           return (
             <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
-              <Text>로그아웃</Text>
+              <HeaderRightText>로그아웃</HeaderRightText>
             </TouchableOpacity>
           );
         },
@@ -145,6 +144,9 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
 
 export default MyPage;
 
+const HeaderRightText = styled.Text`
+  color: ${(props) => props.theme.title}; ;
+`;
 //Title
 const Title = styled.Text`
   font-size: 24px;
@@ -163,11 +165,13 @@ const ProfileId = styled.Text`
   font-weight: 600;
   font-size: 24px;
   margin: 24px 0 8px;
+  color: ${(props) => props.theme.text};
 `;
 
 const ProfileText = styled.Text`
   font-size: 16px;
   margin-bottom: 8px;
+  color: ${(props) => props.theme.text};
 `;
 
 const ProfileBTN = styled.TouchableOpacity`

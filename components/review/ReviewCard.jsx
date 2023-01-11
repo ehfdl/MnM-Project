@@ -100,7 +100,7 @@ export default function ReviewCard({ review }) {
   );
 }
 
-const CardItem = styled.TouchableOpacity`
+const CardItem = styled.View`
   border-color: lightgray;
   border-bottom-width: 1px;
   min-height: 100px;
@@ -110,8 +110,9 @@ const CardItem = styled.TouchableOpacity`
 
 const MenuBtn = styled.TouchableOpacity`
   color: gray;
-  width: 20px;
+  width: 40px;
   height: 30px;
+  align-items: center;
 `;
 
 const AbovePart = styled.View`
@@ -121,7 +122,7 @@ const AbovePart = styled.View`
 `;
 
 const ReviewTitle = styled.Text`
-  color: ${(props) => props.theme.title};
+  color: ${(props) => props.theme.text};
   font-size: 17px;
   padding-left: 5px;
   padding-right: 5px;

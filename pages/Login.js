@@ -1,11 +1,9 @@
 import styled from "@emotion/native";
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text } from "react-native";
 import SignUpModal from "../components/SignUpModal";
 import { authService } from "../firebase";
 import { emailRegex } from "../util";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { async } from "@firebase/util";
 
 const Login = ({ navigation: { goBack, setOptions } }) => {
   const emailRef = useRef(null);

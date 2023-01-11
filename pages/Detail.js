@@ -43,16 +43,6 @@ const Detail = ({
   const [reviews, setReviews] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  // const getDetail = ({ queryKey }) => {
-  //   const [_, movieId] = queryKey;
-  //   return fetch(
-  //     `${BASE_URL}/${movieId}?api_key=${API_KEY}&append_to_response=videos`
-  //   ).then((res) => res.json());
-  // };
-  // const { data, isLoading } = useQuery(["program", itemId], getEventList);
-
-  // const isDark = useColorScheme() === "dark";
-
   const handleAdding = async () => {
     const isLogin = !!authService.currentUser;
     if (!isLogin) {
@@ -103,7 +93,7 @@ const Detail = ({
                 style={{ justifyContent: "center" }}
                 onPress={handleAdding}
               >
-                <Text>리뷰쓰기</Text>
+                <ReviewAddText>리뷰쓰기</ReviewAddText>
               </TouchableOpacity>
             </RowReview>
             <BrView />
@@ -146,24 +136,8 @@ const BrView = styled.View`
 `;
 
 const Container = styled.View`
-  /* height: ${SCREEN_HEIGHT + "px"}; */
-  /* height: "fit-content"; */
-  /* flex: 1; */
   width: ${SCREEN_WIDTH + "px"};
   justify-content: center;
-`;
-
-const Row = styled.View`
-  width: ${SCREEN_WIDTH + "px"};
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: center;
-`;
-const Column = styled.View`
-  width: 90%;
-  flex-direction: column;
-  align-content: center;
-  margin-left: 15px;
 `;
 
 const InfoLabel = styled.View`
@@ -174,6 +148,12 @@ const InfoLabel = styled.View`
 const InfoLabelText = styled.Text`
   font-weight: bold;
   font-size: 16px;
+  color: ${(props) => props.theme.text};
+`;
+
+const ReviewAddText = styled.Text`
+  color: ${(props) => props.theme.text};
+  margin-bottom: 12px;
 `;
 
 // 상세설명 섹션

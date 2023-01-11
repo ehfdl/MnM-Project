@@ -16,13 +16,6 @@ export default function MyReview({ review }) {
   const isDark = useColorScheme() === "dark";
   const [reviews, setReviews] = useState([]);
 
-  // const { navigate } = useNavigation();
-  // const goToReview = () => {
-  //   navigate("Stacks", {
-  //     screen: "Review",
-  //     params: { review },
-  //   });
-  // };
   useFocusEffect(
     useCallback(() => {
       const q = query(
@@ -47,7 +40,6 @@ export default function MyReview({ review }) {
       contentContainerStyle={{ paddingHorizontal: 20 }}
       showsHorizontalScrollIndicator={false}
       data={reviews}
-      // ListHeaderComponent={}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <MyReviewWrap>
@@ -75,11 +67,9 @@ const MyReviewWrap = styled.View`
 
 const ReviewItem = styled.TouchableOpacity`
   width: 300px;
-  /* height: 80px; */
   background-color: rgba(255, 255, 255, 0.3);
   border: 3px solid #ddd;
   border-radius: 16px;
-  /* flex: 0.3; */
   justify-content: space-between;
   height: 200px;
   padding: 24px 16px;
