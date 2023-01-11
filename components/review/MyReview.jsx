@@ -14,7 +14,11 @@ import Vote from "./Vote";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import ReviewMenu from "./ReviewMenu";
 
-export default function MyReview({ setIsOpenMenuModal, isOpenMenuModal }) {
+export default function MyReview({
+  setIsOpenMenuModal,
+  isOpenMenuModal,
+  from,
+}) {
   const isDark = useColorScheme() === "dark";
   const [reviews, setReviews] = useState([]);
   const [reviewId, setReviewId] = useState("");
@@ -57,27 +61,32 @@ export default function MyReview({ setIsOpenMenuModal, isOpenMenuModal }) {
             isOpenMenuModal={isOpenMenuModal}
             reviewId={reviewId}
             review={reviewObj}
+            from={from}
           />
         </>
       }
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <MyReviewWrap>
-          <ReviewItem>
-            <Row>
-              <Vote vote_average={item.rating} />
-              <MenuBtn onPress={() => openMenuHandler(item)} title="︙">
-                <Fontisto name="more-v-a" size={14} color="gray" />
-              </MenuBtn>
-            </Row>
-            <ReviewTitle numberOfLines={1}>{item.title}</ReviewTitle>
-            <ReviewText numberOfLines={1}>{item.contents}</ReviewText>
-            <ReviewDate>
-              {new Date(item.createdAt).toLocaleDateString("kr")}
-            </ReviewDate>
-          </ReviewItem>
-        </MyReviewWrap>
-      )}
+      renderItem={({ item }) => {
+        if (item.itemId) {
+          return (
+            <MyReviewWrap>
+              <ReviewItem>
+                <Row>
+                  <Vote vote_average={item.rating} />
+                  <MenuBtn onPress={() => openMenuHandler(item)} title="︙">
+                    <Fontisto name="more-v-a" size={14} color="gray" />
+                  </MenuBtn>
+                </Row>
+                <ReviewTitle numberOfLines={1}>{item.title}</ReviewTitle>
+                <ReviewText numberOfLines={1}>{item.contents}</ReviewText>
+                <ReviewDate>
+                  {new Date(item.createdAt).toLocaleDateString("kr")}
+                </ReviewDate>
+              </ReviewItem>
+            </MyReviewWrap>
+          );
+        }
+      }}
     />
   );
 }

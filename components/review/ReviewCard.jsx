@@ -52,6 +52,7 @@ export default function ReviewCard({ review, from }) {
         isOpenMenuModal={isOpenMenuModal}
         reviewId={review.id}
         review={review}
+        from={"Detail"}
       />
     </CardItem>
   );

@@ -55,6 +55,7 @@ export default function ReviewEdit({
     params: { review, from },
   },
 }) {
+  console.log(review, from);
   const isDark = useColorScheme() === "dark";
   const [ratings, setRatings] = useState(0);
   const [newTitle, setNewTitle] = useState("");
@@ -114,7 +115,6 @@ export default function ReviewEdit({
         text: "수정하기",
         onPress: async () => {
           try {
-            // await updateDoc(doc(dbService, "reviews", review.id), editingObj);
             await reviseReview({ reviewId: review.id, editingObj });
             setNewContents("");
             setNewTitle("");

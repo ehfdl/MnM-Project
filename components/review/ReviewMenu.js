@@ -10,9 +10,9 @@ const ReviewMenu = ({
   setIsOpenMenuModal,
   reviewId,
   review,
+  from,
 }) => {
   const { navigate } = useNavigation();
-  console.log(review);
   const { isLoading: isLoadingDeleting, mutate: removeReview } = useMutation(
     ["deleteReview", reviewId],
     (body) => deleteReview(body),
@@ -47,7 +47,10 @@ const ReviewMenu = ({
   }
 
   const goToReviewEdit = () => {
-    navigate("ReviewEdit", { review });
+    navigate("Stacks", {
+      screen: "ReviewEdit",
+      params: { review, from },
+    });
     setIsOpenMenuModal(false);
   };
 
