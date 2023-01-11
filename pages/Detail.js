@@ -82,38 +82,38 @@ const Detail = ({
       ListHeaderComponent={
         <>
           <ImgDetail main_img={main_img}></ImgDetail>
-          {/* <Container> */}
-          <Info
-            title={title}
-            codename={codename}
-            target={target}
-            target_fee={target_fee}
-            place={place}
-            link={link}
-            date={date}
-            program={program}
-          ></Info>
-          {/* 공연리뷰 전까지 */}
-          <Section>
-            <RowReview>
-              <InfoLabel>
-                <InfoLabelText>공연리뷰</InfoLabelText>
-              </InfoLabel>
-              <TouchableOpacity
-                style={{ justifyContent: "center" }}
-                onPress={handleAdding}
-              >
-                <Text>리뷰쓰기</Text>
-              </TouchableOpacity>
-            </RowReview>
-            <BrView />
-            <ReviewModal
-              itemId={itemId}
-              isOpenModal={isOpenModal}
-              setIsOpenModal={setIsOpenModal}
-            />
-          </Section>
-          {/* </Container> */}
+          <Container>
+            <Info
+              title={title}
+              codename={codename}
+              target={target}
+              target_fee={target_fee}
+              place={place}
+              link={link}
+              date={date}
+              program={program}
+            ></Info>
+            {/* 공연리뷰 전까지 */}
+            <Section>
+              <RowReview>
+                <InfoLabel>
+                  <InfoLabelText>공연리뷰</InfoLabelText>
+                </InfoLabel>
+                <TouchableOpacity
+                  style={{ justifyContent: "center" }}
+                  onPress={handleAdding}
+                >
+                  <Text>리뷰쓰기</Text>
+                </TouchableOpacity>
+              </RowReview>
+              <BrView />
+              <ReviewModal
+                itemId={itemId}
+                isOpenModal={isOpenModal}
+                setIsOpenModal={setIsOpenModal}
+              />
+            </Section>
+          </Container>
         </>
       }
       showsHorizontalScrollIndicator={false}
