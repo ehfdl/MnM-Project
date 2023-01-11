@@ -12,7 +12,7 @@ import { useMutation } from "react-query";
 import { deleteReview } from "../../api";
 import Loader from "./Loader";
 
-export default function ReviewCard({ review }) {
+export default function ReviewCard({ review, from }) {
   const { navigate } = useNavigation();
   const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
 
@@ -54,7 +54,7 @@ export default function ReviewCard({ review }) {
   }
 
   const goToReviewEdit = () => {
-    navigate("ReviewEdit", { review });
+    navigate("ReviewEdit", { review, from });
     setIsOpenMenuModal(false);
   };
 
