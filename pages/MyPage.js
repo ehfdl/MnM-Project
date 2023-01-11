@@ -53,18 +53,37 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       }
     }
   };
+
+  const handleAuth = () => {
+    if (!!authService.currentUser?.uid) {
+      // 로그아웃 요청
+      signOut(authService)
+        .then(() => {
+          console.log("로그아웃 성공");
+          setOptions({ headerRight: null });
+        })
+        .catch((err) => alert(err));
+    } else {
+      // 로그인 화면으로
+      navigate("Login");
+    }
+  };
   const logout = () => {
-    signOut(authService)
-      .then(() => {
-        console.log("로그아웃 성공");
-        navigate("Main");
-      })
-      .catch((err) => alert(err));
+    if (!!authService.currentUser?.uid) {
+      // 로그아웃 요청
+      signOut(authService)
+        .then(() => {
+          console.log("로그아웃 성공");
+          navigate("Main");
+        })
+        .catch((err) => alert(err));
+    }
   };
 
   useFocusEffect(
     useCallback(() => {
       if (!authService.currentUser) {
+        console.log("잘 나갔다.");
         reset({
           index: 1,
           routes: [
@@ -97,7 +116,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       const q = query(
         collection(dbService, "profile"),
         orderBy("createdAt", "desc"),
-        where("userId", "==", authService.currentUser?.uid)
+        where("userId", "==", authService.currentUser?.uid ?? "")
       );
       onSnapshot(q, (snapshot) => {
         const newProfiles = snapshot.docs.map((doc) => {
@@ -109,7 +128,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         });
         setProfile(newProfiles);
       });
-    }, [])
+    }, [authService.currentUser?.uid])
   );
   const profileFirst = profile[0];
 
@@ -130,15 +149,13 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
-
       {authService.currentUser ? (
         <MyReview
-        from={"MyPage"}
+          from={"MyPage"}
           setIsOpenMenuModal={setIsOpenMenuModal}
           isOpenMenuModal={isOpenMenuModal}
         />
       ) : null}
-
 
       <MyInfor
         isOpenModal={isOpenModal}

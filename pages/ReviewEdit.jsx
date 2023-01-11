@@ -23,6 +23,7 @@ const TitleEdit = styled.TextInput`
 const ContentEdit = styled(TitleEdit)`
   min-height: 150px;
   margin-bottom: 50px;
+  color: ${(props) => props.theme.text};
 `;
 
 const SectionTitle = styled.Text`

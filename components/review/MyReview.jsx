@@ -19,6 +19,7 @@ export default function MyReview({
   isOpenMenuModal,
   from,
 }) {
+  console.log("니가 왜 거기서 나와");
   const isDark = useColorScheme() === "dark";
   const [reviews, setReviews] = useState([]);
   const [reviewId, setReviewId] = useState("");
@@ -35,7 +36,7 @@ export default function MyReview({
       const q = query(
         collection(dbService, "reviews"),
         orderBy("createdAt", "desc"),
-        where("userId", "==", authService.currentUser?.uid)
+        where("userId", "==", authService.currentUser?.uid ?? "")
       );
       const unsubcribe = onSnapshot(q, (snapshot) => {
         const newReviews = snapshot.docs.map((doc) => ({
@@ -45,7 +46,7 @@ export default function MyReview({
         setReviews(newReviews);
       });
       return unsubcribe;
-    }, [])
+    }, [authService.currentUser?.uid])
   );
 
   return (
