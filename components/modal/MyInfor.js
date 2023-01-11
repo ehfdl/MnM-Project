@@ -3,6 +3,7 @@ import { Modal, Text, TextInput } from "react-native";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../../util";
 
+
 const myInfor = ({
   isOpenModal,
   setIsOpenModal,
@@ -103,7 +104,7 @@ const InputText = styled.Text`
 const UserName = styled.TextInput`
   width: 100%;
   font-size: 16px;
-  /* border-radius: 0em; */
+
   padding: 8px;
   border: 1px solid #ccc;
   margin-bottom: 16px;

@@ -8,6 +8,10 @@ import { authService } from "../firebase";
 import { signOut } from "firebase/auth";
 
 import Detail from "../pages/Detail";
+
+
+import Main from "../pages/Main";
+
 import ReviewEdit from "../pages/ReviewEdit";
 // 이미지확대 테스트
 import InfoImg from "../components/modal/InfoImg";
@@ -54,6 +58,13 @@ const Stacks = ({ navigation: { goBack, navigate, setOptions } }) => {
         },
       }}
     >
+      <Stack.Screen
+        name="Main"
+        component={Main}
+        options={{
+          title: "Main",
+        }}
+      />
       <Stack.Screen
         name="Detail"
         component={Detail}
