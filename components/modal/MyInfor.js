@@ -104,6 +104,7 @@ const InputText = styled.Text`
 const UserName = styled.TextInput`
   width: 100%;
   font-size: 16px;
+
   padding: 8px;
   border: 1px solid #ccc;
   margin-bottom: 16px;

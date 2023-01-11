@@ -9,11 +9,10 @@ import Loader from "../components/review/Loader";
 
 const Container = styled.ScrollView`
   padding: 20px;
-  background-color: black;
 `;
 const TitleEdit = styled.TextInput`
   width: 100%;
-  background-color: white;
+  /* background-color: white; */
   margin-bottom: 20px;
   padding: 10px 15px;
   border-radius: 10px;
@@ -35,8 +34,7 @@ const EditButton = styled.TouchableOpacity`
   padding: 10px 15px;
   justify-content: center;
   align-items: center;
-  /* background-color: ${(props) => props.theme.text}; */
-  background-color: red;
+  background-color: ${(props) => props.theme.text};
   /* border-width: 1px; */
   /* border-color: ${(props) =>
     props.disabled ? "grey" : props.theme.title}; */
@@ -45,8 +43,7 @@ const EditButton = styled.TouchableOpacity`
 `;
 
 const BtnTitle = styled.Text`
-  /* color: ${(props) => (props.disabled ? "grey" : props.theme.title)}; */
-  color: black;
+  color: ${(props) => (props.disabled ? "grey" : props.theme.title)};
   font-size: 20px;
   font-weight: 500;
 `;
@@ -219,7 +216,6 @@ export default function ReviewEdit({
         onFinishRating={getRatings}
         ratingCount={5}
         imageSize={20}
-        // tintColor={isDark ? "black" : "#d2dae2"}
         tintColor={"black"}
       />
 
