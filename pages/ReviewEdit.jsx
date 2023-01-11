@@ -78,8 +78,6 @@ export default function ReviewEdit({
     (body) => editReview(body),
     {
       onSuccess: () => {
-        console.log(review, from);
-
         console.log("수정성공");
       },
       onError: (err) => {

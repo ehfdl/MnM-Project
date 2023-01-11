@@ -45,14 +45,24 @@ const ReviewMenu = ({
   if (isLoadingDeleting) {
     return <Loader />;
   }
-
+  // 노션에 적을것
   const goToReviewEdit = () => {
-    navigate("Stacks", {
-      screen: "ReviewEdit",
-      params: { review, from },
-    });
-    setIsOpenMenuModal(false);
+    if (from === "MyPage") {
+      navigate("Stacks", {
+        screen: "ReviewEdit",
+        params: { review, from },
+      });
+      setIsOpenMenuModal(false);
+    } else if (from === "Detail") {
+      navigate("ReviewEdit", { review, from });
+      setIsOpenMenuModal(false);
+    }
   };
+
+  // const goToReviewEdit = () => {
+  //   navigate("ReviewEdit", { review });
+  //   setIsOpenMenuModal(false);
+  // };
 
   return (
     <Modal
