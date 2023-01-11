@@ -83,13 +83,13 @@ const Stacks = ({ navigation: { goBack, navigate, setOptions } }) => {
           title: "ReviewEdit",
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="InfoImg"
         component={InfoImg}
         options={{
           title: "InfoImg",
         }}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };
