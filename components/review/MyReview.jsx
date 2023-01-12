@@ -112,7 +112,6 @@ const MyReviewWrap = styled.View`
 
 const ReviewItem = styled.View`
   width: 300px;
-  /* background-color: ; */
   border: 3px solid #ddd;
   border-radius: 16px;
   justify-content: space-between;
