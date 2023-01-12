@@ -187,16 +187,14 @@ const ListTitle = styled.Text`
   margin-bottom: 20px;
   margin-left: 20px;
   font-size: 20px;
-  text-align: center;
-  animation: fadeIn 1s ease-in-out;
+  font-weight: 500;
+  color: ${(props) => props.theme.pointText}; ;
 `;
 
 const Toggle = styled.TouchableOpacity`
-  justify-content: center;
   margin-bottom: 10px;
   margin-left: 20px;
   margin-right: 20px;
-  background-color: gray;
   border-radius: 10px;
 
   & > * {
