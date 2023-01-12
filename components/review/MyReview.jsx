@@ -19,7 +19,6 @@ export default function MyReview({
   isOpenMenuModal,
   from,
 }) {
-  console.log("니가 왜 거기서 나와");
   const isDark = useColorScheme() === "dark";
   const [reviews, setReviews] = useState([]);
   const [reviewId, setReviewId] = useState("");

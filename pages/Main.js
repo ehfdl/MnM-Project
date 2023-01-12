@@ -21,8 +21,6 @@ export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const queryClient = useQueryClient();
 
-  console.log(authService.currentUser);
-
   const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
     ["Mains", "nowPlayings"],
     getNowPlaying

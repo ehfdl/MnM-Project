@@ -23,16 +23,11 @@ export default function ReviewCard({ review, from }) {
             <Row>
               <Vote vote_average={review.rating} />
               <RatingText>{review.rating}</RatingText>
-            </Row>
-            <Row>
               <Nickname>{review.userNickName}</Nickname>
-
-              <ReviewDate>
-                {new Date(review.createdAt)
-                  .toLocaleDateString("kr")
-                  .slice(2, 11)}
-              </ReviewDate>
             </Row>
+            <ReviewDate>
+              {new Date(review.createdAt).toLocaleDateString("kr")}
+            </ReviewDate>
           </View>
           {authService.currentUser?.uid === review.userId ? (
             <MenuBtn onPress={openMenuHandler} title="︙">
@@ -40,12 +35,10 @@ export default function ReviewCard({ review, from }) {
             </MenuBtn>
           ) : null}
         </Rowbtw>
-        <Row>
-          <View>
-            <ReviewTitle numberOfLines={1}>{review.title}</ReviewTitle>
-            <ReviewContents>{review.contents}</ReviewContents>
-          </View>
-        </Row>
+        <View>
+          <ReviewTitle numberOfLines={1}>{review.title}</ReviewTitle>
+          <ReviewContents>{review.contents}</ReviewContents>
+        </View>
       </AbovePart>
       <ReviewMenu
         setIsOpenMenuModal={setIsOpenMenuModal}
@@ -84,15 +77,13 @@ const ReviewTitle = styled.Text`
   font-size: 17px;
   padding-left: 5px;
   padding-right: 5px;
-
   margin-bottom: 10px;
 `;
 const ReviewContents = styled.Text`
   color: ${(props) => props.theme.text};
   font-size: 14px;
-  padding-left: 10px;
+  padding-left: 5px;
   padding-right: 10px;
-
   margin-bottom: 5px;
 `;
 const Nickname = styled.Text`
@@ -100,13 +91,13 @@ const Nickname = styled.Text`
   color: gray;
   font-size: 13px;
   margin-top: 1px;
+  margin-left: 30px;
 `;
 const Row = styled.View`
   flex-direction: row;
 `;
 const Rowbtw = styled.View`
   width: ${SCREEN_WIDTH / 1.1 + "px"};
-
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 10px;
