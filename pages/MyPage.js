@@ -1,12 +1,12 @@
-import styled from '@emotion/native';
-import React, { useEffect, useState, useCallback } from 'react';
+import styled from "@emotion/native";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Text,
   ScrollView,
   TouchableOpacity,
   ImageBackground,
-} from 'react-native';
-import MyInfor from '../components/modal/MyInfor';
+} from "react-native";
+import MyInfor from "../components/modal/MyInfor";
 import {
   collection,
   onSnapshot,
@@ -14,20 +14,20 @@ import {
   query,
   where,
   addDoc,
-} from 'firebase/firestore';
-import { authService, dbService } from '../firebase';
-import { useFocusEffect } from '@react-navigation/native';
-import { signOut, updateProfile } from 'firebase/auth';
-import MyReview from '../components/review/MyReview';
-import ReviewMenu from '../components/review/ReviewMenu';
+} from "firebase/firestore";
+import { authService, dbService } from "../firebase";
+import { useFocusEffect } from "@react-navigation/native";
+import { signOut, updateProfile } from "firebase/auth";
+import MyReview from "../components/review/MyReview";
+import ReviewMenu from "../components/review/ReviewMenu";
 
 const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
 
   const [profile, setProfile] = useState([]);
-  const [nickName, setNickName] = useState('');
-  const [profileText, setProfileText] = useState('');
+  const [nickName, setNickName] = useState("");
+  const [profileText, setProfileText] = useState("");
 
   const newProfile = {
     nickName,
@@ -38,18 +38,18 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
 
   const addProfile = async () => {
     if (nickName && profileText) {
-      await addDoc(collection(dbService, 'profile'), newProfile);
+      await addDoc(collection(dbService, "profile"), newProfile);
       await updateProfile(authService.currentUser, {
         displayName: nickName ? nickName : null,
       });
       setIsOpenModal(!isOpenModal);
-      setNickName('');
-      setProfileText('');
+      setNickName("");
+      setProfileText("");
     } else {
       if (!nickName) {
-        alert('닉네임을 입력해주세요.');
+        alert("닉네임을 입력해주세요.");
       } else if (!profileText) {
-        alert('자기소개를 입력해주세요.');
+        alert("자기소개를 입력해주세요.");
       }
     }
   };
@@ -59,13 +59,13 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       // 로그아웃 요청
       signOut(authService)
         .then(() => {
-          console.log('로그아웃 성공');
+          console.log("로그아웃 성공");
           setOptions({ headerRight: null });
         })
         .catch((err) => alert(err));
     } else {
       // 로그인 화면으로
-      navigate('Login');
+      navigate("Login");
     }
   };
   const logout = () => {
@@ -73,8 +73,8 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       // 로그아웃 요청
       signOut(authService)
         .then(() => {
-          console.log('로그아웃 성공');
-          navigate('Main');
+          console.log("로그아웃 성공");
+          navigate("Main");
         })
         .catch((err) => alert(err));
     }
@@ -87,15 +87,15 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
           index: 1,
           routes: [
             {
-              name: 'Tabs',
+              name: "Tabs",
               params: {
-                screen: 'Main',
+                screen: "Main",
               },
             },
             {
-              name: 'Stacks',
+              name: "Stacks",
               params: {
-                screen: 'Login',
+                screen: "Login",
               },
             },
           ],
@@ -113,9 +113,9 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       });
 
       const q = query(
-        collection(dbService, 'profile'),
-        orderBy('createdAt', 'desc'),
-        where('userId', '==', authService.currentUser?.uid ?? '')
+        collection(dbService, "profile"),
+        orderBy("createdAt", "desc"),
+        where("userId", "==", authService.currentUser?.uid ?? "")
       );
       onSnapshot(q, (snapshot) => {
         const newProfiles = snapshot.docs.map((doc) => {
@@ -134,10 +134,10 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   return (
     <>
       <MypageTop>
-        <ProfileId>{profileFirst?.nickName ?? '닉네임없음'}</ProfileId>
+        <ProfileId>{profileFirst?.nickName ?? "닉네임없음"}</ProfileId>
 
         <ProfileText>
-          {profileFirst?.profileText ?? '안녕하세요. 반갑습니다.'}
+          {profileFirst?.profileText ?? "안녕하세요. 반갑습니다."}
         </ProfileText>
         <ProfileBTN
           onPress={() => {
@@ -148,10 +148,9 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
-      <ProfileId>내가 쓴 리뷰</ProfileId>
       {authService.currentUser ? (
         <MyReview
-          from={'MyPage'}
+          from={"MyPage"}
           setIsOpenMenuModal={setIsOpenMenuModal}
           isOpenMenuModal={isOpenMenuModal}
         />
@@ -190,7 +189,6 @@ const MypageTop = styled.View`
 `;
 
 const ProfileId = styled.Text`
-  font-family: 'twayair';
   font-weight: 600;
   font-size: 24px;
   margin: 24px 0 8px;
@@ -200,7 +198,6 @@ const ProfileId = styled.Text`
 const ProfileText = styled.Text`
   font-size: 16px;
   margin-bottom: 8px;
-  margin-top: 4px;
   color: ${(props) => props.theme.text};
 `;
 
