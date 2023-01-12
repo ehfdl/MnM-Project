@@ -1,16 +1,16 @@
-import React from 'react';
-import styled from '@emotion/native';
-import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet } from 'react-native';
+import React from "react";
+import styled from "@emotion/native";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet } from "react-native";
 
 export default function VCard({ realtime, imgId }) {
   const { navigate } = useNavigation();
   return (
     <VWrapper
       onPress={() =>
-        navigate('Stacks', {
-          screen: 'Detail',
+        navigate("Stacks", {
+          screen: "Detail",
           params: {
             itemId: imgId(realtime.MAIN_IMG),
             main_img: realtime.MAIN_IMG,
@@ -29,15 +29,13 @@ export default function VCard({ realtime, imgId }) {
       <TRPoster source={{ uri: realtime.MAIN_IMG }} />
       <LinearGradient
         style={StyleSheet.absoluteFill}
-        colors={['transparent', 'rgba(0,0,0,.9)']}
+        colors={["transparent", "rgba(0,0,0,.9)"]}
       />
       <TRColumn>
-        {/* <Rating>{realtime.DATE}</Rating> */}
-        <TRText> {realtime.USE_FEE.length > 11 && '...'}</TRText>
         <TRText>{realtime.THEMECODE}</TRText>
         <TRTitle>
-          {/* {realtime.USE_FEE.slice(0, 11)} */}
-          {realtime.TITLE}
+          {realtime.TITLE.slice(0, 17)}
+          {realtime.TITLE.length > 17 && "..."}
         </TRTitle>
       </TRColumn>
     </VWrapper>
@@ -45,11 +43,13 @@ export default function VCard({ realtime, imgId }) {
 }
 
 const VWrapper = styled.TouchableOpacity`
-  /* background-color: black; */
   border-radius: 5px;
-  /* margin-right: 10px; */
+  justify-content: center;
+  align-items: center;
   width: 300px;
   position: relative;
+  margin-right: 10px;
+  margin-left: 10px;
 `;
 
 const TRColumn = styled.View`

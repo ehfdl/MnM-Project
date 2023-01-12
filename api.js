@@ -28,6 +28,6 @@ export const getTopRated = async () =>
   );
 
 export const getUpcoming = async () =>
-  fetch(`${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/10/`).then((res) =>
+  fetch(`${BASE_URL}/${API_KEY}/json/culturalEventInfo/1/30/`).then((res) =>
     res.json()
   );
