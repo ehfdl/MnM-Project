@@ -47,26 +47,6 @@ export default function Main({ navigation: { navigate } }) {
     return id[0];
   };
 
-  // 마감임박 공연 정렬
-  // 데이터를 가져와서 이 함수 안에서 타이틀, 기간만 뽑고
-  // 정렬해주기?
-  //   const deadLineData =()=>{
-  //     const data = deadLine();
-  //     data.map()
-  // }
-  const deadLine = () => {
-    const res = upcomingsData.culturalEventInfo.row.map((item) => {
-      // DATE: "2023-02-19~2023-02-19"
-      temp = item.DATE.split("~")[1];
-      temp = temp.split("-"); //["2023", "03", "11"]
-      temp = temp.join(""); //[20230311]
-      // temp.parseInt();
-      // temp.parseInt();
-      console.log(typeof temp);
-    });
-    return res;
-  };
-
   const isLoading = isLoadingNP || isLoadingTR || isLoadingUC;
 
   if (isLoading) {
@@ -77,15 +57,28 @@ export default function Main({ navigation: { navigate } }) {
     );
   }
 
-  const Scroll = () => {
-    Alert.alert("Scroll");
+  // const mutation = useMutation(getUpcoming);
+
+  const sorting = () => {
+    // 정답은 필터 ㄴㄴ, 맵 ㅇㅇ
+    // const temp = data.map((item) => {
+    //   return item.END_DATE;
+    // });
+    const new_data = [...upcomingsData.culturalEventInfo.row].sort((a, b) => {
+      return new Date(a.END_DATE) - new Date(b.END_DATE);
+    });
+    return new_data;
   };
+
+  // const Scroll = () => {
+  //   Alert.alert("Scroll");
+  // };
 
   return (
     <FlatList
       refreshing={isRefreshing}
       onEndReachedThreshold={1}
-      onEndReached={Scroll}
+      // onEndReached={Scroll}
       onRefresh={onRefresh}
       ListHeaderComponent={
         <>
@@ -149,19 +142,13 @@ export default function Main({ navigation: { navigate } }) {
                 imgId={imgId}
               />
             )}
-            keyExtractor={(item) => item.id}
             ItemSeparatorComponent={<View style={{ width: 10 }} />}
           />
-          <TouchableOpacity
-            onPress={() => {
-              deadLine();
-            }}
-          >
-            <ListTitle>마감임박 공연</ListTitle>
-          </TouchableOpacity>
+
+          <ListTitle>마감임박 공연</ListTitle>
         </>
       }
-      data={upcomingsData.culturalEventInfo.row}
+      data={sorting()}
       renderItem={({ item }) => (
         <HCard
           realtime={item}
@@ -170,7 +157,6 @@ export default function Main({ navigation: { navigate } }) {
           imgId={imgId}
         />
       )}
-      keyExtractor={(item) => item.id}
       ItemSeparatorComponent={<View style={{ height: 15 }} />}
     />
   );
