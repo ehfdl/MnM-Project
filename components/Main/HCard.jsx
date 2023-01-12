@@ -46,11 +46,10 @@ const HWrapper = styled.View`
 const UpcomingRow = styled.TouchableOpacity`
   align-items: flex-start;
   margin-bottom: 10px;
-  /* background-color: blue; */
-  /* flex: 1; */
+  width: 100%;
 `;
 const UpcomingPoster = styled.Image`
-  width: 190px;
+  width: 95%;
   height: 200px;
   background-color: grey;
   border-radius: 5px;
