@@ -69,7 +69,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
             {
               name: 'Tabs',
               params: {
-                screen: 'MyPage',
+                screen: 'Main',
               },
             },
             {
