@@ -8,8 +8,7 @@ export const lightTheme = {
   pointTextWhite: WHITE_COLOR,
   pointColor: RED_COLOR,
   modalBack: 'white',
-  pointTextGray: '#202124',
-  colorWhite: '#fff',
+  pointTextGry: '#202124',
 };
 
 export const darkTheme = {
@@ -21,5 +20,4 @@ export const darkTheme = {
   pointColor: RED_COLOR,
   modalBack: '#202124',
   pointTextGray: '#D9D9D9',
-  colorWhite: '#fff',
 };

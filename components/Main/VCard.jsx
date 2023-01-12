@@ -1,16 +1,16 @@
-import React from 'react';
-import styled from '@emotion/native';
-import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet } from 'react-native';
+import React from "react";
+import styled from "@emotion/native";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet } from "react-native";
 
 export default function VCard({ realtime, imgId }) {
   const { navigate } = useNavigation();
   return (
     <VWrapper
       onPress={() =>
-        navigate('Stacks', {
-          screen: 'Detail',
+        navigate("Stacks", {
+          screen: "Detail",
           params: {
             itemId: imgId(realtime.MAIN_IMG),
             main_img: realtime.MAIN_IMG,
@@ -29,13 +29,13 @@ export default function VCard({ realtime, imgId }) {
       <TRPoster source={{ uri: realtime.MAIN_IMG }} />
       <LinearGradient
         style={StyleSheet.absoluteFill}
-        colors={['transparent', 'rgba(0,0,0,.9)']}
+        colors={["transparent", "rgba(0,0,0,.9)"]}
       />
       <TRColumn>
         <TRText>{realtime.THEMECODE}</TRText>
         <TRTitle>
           {realtime.TITLE.slice(0, 17)}
-          {realtime.TITLE.length > 17 && '...'}
+          {realtime.TITLE.length > 17 && "..."}
         </TRTitle>
       </TRColumn>
     </VWrapper>
@@ -66,7 +66,6 @@ const TRPoster = styled.Image`
   border-top-right-radius: 5px;
 `;
 const TRTitle = styled.Text`
-  font-family: 'twayair';
   font-weight: 600;
   color: white;
   font-size: 18px;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -7,39 +7,39 @@ import {
   TouchableOpacity,
   View,
   Text,
-} from 'react-native';
-import styled from '@emotion/native';
-import Loader from '../components/review/Loader';
-import Swiper from 'react-native-swiper';
-import Slide from '../components/Main/Slide';
-import VCard from '../components/Main/VCard';
-import HCard from '../components/Main/HCard';
-import { useQuery, useQueryClient } from 'react-query';
-import { getNowPlaying, getTopRated, getUpcoming } from '../api';
-import { authService } from '../firebase';
+} from "react-native";
+import styled from "@emotion/native";
+import Loader from "../components/review/Loader";
+import Swiper from "react-native-swiper";
+import Slide from "../components/Main/Slide";
+import VCard from "../components/Main/VCard";
+import HCard from "../components/Main/HCard";
+import { useQuery, useQueryClient } from "react-query";
+import { getNowPlaying, getTopRated, getUpcoming } from "../api";
+import { authService } from "../firebase";
 
 export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [cate, setCate] = useState('연극');
+  const [cate, setCate] = useState("연극");
   const queryClient = useQueryClient();
 
   const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
-    ['Mains', 'nowPlayings'],
+    ["Mains", "nowPlayings"],
     getNowPlaying
   );
   const { data: topRatedsData, isLoading: isLoadingTR } = useQuery(
-    ['Mains', 'topRateds'],
+    ["Mains", "topRateds"],
     getTopRated
   );
   const { data: upcomingsData, isLoading: isLoadingUC } = useQuery(
-    ['Mains', 'upcomings'],
+    ["Mains", "upcomings"],
     getUpcoming
   );
 
   const onRefresh = async () => {
     setIsRefreshing(true);
     // await Promise.all([refetchNP(), refetchTR(), refetchUC()]);
-    await queryClient.refetchQueries(['Mains']);
+    await queryClient.refetchQueries(["Mains"]);
     setIsRefreshing(false);
   };
 
@@ -49,8 +49,8 @@ export default function Main({ navigation: { navigate } }) {
 
   // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
-    id = id.split('atchFileId=');
-    id = id[1].split('&');
+    id = id.split("atchFileId=");
+    id = id[1].split("&");
     return id[0];
   };
 
@@ -101,34 +101,34 @@ export default function Main({ navigation: { navigate } }) {
             ))}
           </Swiper>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <Toggle title="연극" onPress={() => onPressCate('연극')}>
+            <Toggle title="연극" onPress={() => onPressCate("연극")}>
               <ListTitle title="연극">연극</ListTitle>
             </Toggle>
             <Toggle
               title="뮤지컬/오페라"
-              onPress={() => onPressCate('뮤지컬/오페라')}
+              onPress={() => onPressCate("뮤지컬/오페라")}
             >
               <ListTitle>뮤지컬/오페라</ListTitle>
             </Toggle>
-            <Toggle onPress={() => onPressCate('국악')}>
+            <Toggle onPress={() => onPressCate("국악")}>
               <ListTitle>국악</ListTitle>
             </Toggle>
-            <Toggle onPress={() => onPressCate('클래식')}>
+            <Toggle onPress={() => onPressCate("클래식")}>
               <ListTitle>클래식</ListTitle>
             </Toggle>
-            <Toggle onPress={() => onPressCate('축제-전통/역사')}>
+            <Toggle onPress={() => onPressCate("축제-전통/역사")}>
               <ListTitle>축제-전통/역사</ListTitle>
             </Toggle>
-            <Toggle onPress={() => onPressCate('무용')}>
+            <Toggle onPress={() => onPressCate("무용")}>
               <ListTitle>무용</ListTitle>
             </Toggle>
-            <Toggle onPress={() => onPressCate('콘서트')}>
+            <Toggle onPress={() => onPressCate("콘서트")}>
               <ListTitle>콘서트</ListTitle>
             </Toggle>
-            <Toggle onPress={() => onPressCate('전시/미술')}>
+            <Toggle onPress={() => onPressCate("전시/미술")}>
               <ListTitle>전시/미술</ListTitle>
             </Toggle>
-            <Toggle onPress={() => onPressCate('기타')}>
+            <Toggle onPress={() => onPressCate("기타")}>
               <ListTitle>기타</ListTitle>
             </Toggle>
           </ScrollView>
@@ -166,7 +166,7 @@ export default function Main({ navigation: { navigate } }) {
         />
       )}
       ItemSeparatorComponent={
-        <View style={{ height: 15, flexDirection: 'row' }} />
+        <View style={{ height: 15, flexDirection: "row" }} />
       }
     />
   );
@@ -183,13 +183,12 @@ const HiddenView = styled.View`
 `;
 
 const ListTitle = styled.Text`
-  font-family: 'twayair';
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 20px;
   font-size: 20px;
-  font-weight: 500;
-  color: ${(props) => props.theme.pointText}; ;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
 `;
 
 const Toggle = styled.TouchableOpacity`
@@ -197,6 +196,9 @@ const Toggle = styled.TouchableOpacity`
   margin-bottom: 10px;
   margin-left: 20px;
   margin-right: 20px;
+  background-color: gray;
+  border-radius: 10px;
+
   & > * {
     font-size: 16px;
     font-weight: 500;

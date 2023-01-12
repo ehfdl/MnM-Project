@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
-import styled from '@emotion/native';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../util';
-import ReviewModal from '../components/review/ReviewModal';
-import { FlatList } from 'react-native';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { authService, dbService } from '../firebase';
-import ReviewCard from '../components/review/ReviewCard';
-import Info from '../components/detail/Info';
-import ImgDetail from '../components/detail/ImgDetail';
+import React, { useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native";
+import styled from "@emotion/native";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
+import ReviewModal from "../components/review/ReviewModal";
+import { FlatList } from "react-native";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { authService, dbService } from "../firebase";
+import ReviewCard from "../components/review/ReviewCard";
+import Info from "../components/detail/Info";
+import ImgDetail from "../components/detail/ImgDetail";
 // route에 params넘겨주기
 const Detail = ({
   navigation: { navigate },
@@ -34,7 +34,7 @@ const Detail = ({
   const handleAdding = async () => {
     const isLogin = !!authService.currentUser;
     if (!isLogin) {
-      navigate('Login');
+      navigate("Login");
       return;
     }
     setIsOpenModal(true);
@@ -42,8 +42,8 @@ const Detail = ({
 
   useEffect(() => {
     const q = query(
-      collection(dbService, 'reviews'),
-      orderBy('createdAt', 'desc')
+      collection(dbService, "reviews"),
+      orderBy("createdAt", "desc")
     );
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const newReviews = snapshot.docs.map((doc) => ({
@@ -78,7 +78,7 @@ const Detail = ({
                 <InfoLabelText>공연리뷰</InfoLabelText>
               </InfoLabel>
               <TouchableOpacity
-                style={{ justifyContent: 'center' }}
+                style={{ justifyContent: "center" }}
                 onPress={handleAdding}
               >
                 <ReviewAddText>리뷰쓰기</ReviewAddText>
@@ -97,15 +97,15 @@ const Detail = ({
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
         marginBottom: 50,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: "flex-start",
+        alignItems: "center",
       }}
       keyExtractor={(item) => item.id}
       data={reviews}
       ItemSeparatorComponent={HSeprator}
       renderItem={({ item }) => {
         if (item.itemId === itemId) {
-          return <ReviewCard review={item} from={'Detail'} />;
+          return <ReviewCard review={item} from={"Detail"} />;
         }
       }}
     />
@@ -123,7 +123,7 @@ const BrView = styled.View`
 `;
 
 const Container = styled.View`
-  width: ${SCREEN_WIDTH + 'px'};
+  width: ${SCREEN_WIDTH + "px"};
   justify-content: center;
 `;
 
@@ -133,7 +133,6 @@ const InfoLabel = styled.View`
   justify-content: center;
 `;
 const InfoLabelText = styled.Text`
-  font-family: 'twayair';
   font-weight: bold;
   font-size: 16px;
   color: ${(props) => props.theme.text};
