@@ -89,35 +89,50 @@ export default function Main({ navigation: { navigate } }) {
             ))}
           </Swiper>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <Toggle title="연극" onPress={() => onPressCate("연극")}>
-              <ListTitle title="연극">연극</ListTitle>
+            <Toggle onPress={() => onPressCate("연극")}>
+              <ListTitle title="연극" cate={cate}>
+                연극
+              </ListTitle>
             </Toggle>
-            <Toggle
-              title="뮤지컬/오페라"
-              onPress={() => onPressCate("뮤지컬/오페라")}
-            >
-              <ListTitle>뮤지컬/오페라</ListTitle>
+            <Toggle onPress={() => onPressCate("뮤지컬/오페라")}>
+              <ListTitle title="뮤지컬/오페라" cate={cate}>
+                뮤지컬/오페라
+              </ListTitle>
             </Toggle>
             <Toggle onPress={() => onPressCate("국악")}>
-              <ListTitle>국악</ListTitle>
+              <ListTitle title="국악" cate={cate}>
+                국악
+              </ListTitle>
             </Toggle>
             <Toggle onPress={() => onPressCate("클래식")}>
-              <ListTitle>클래식</ListTitle>
+              <ListTitle title="클래식" cate={cate}>
+                클래식
+              </ListTitle>
             </Toggle>
             <Toggle onPress={() => onPressCate("축제-전통/역사")}>
-              <ListTitle>축제-전통/역사</ListTitle>
+              <ListTitle title="축제-전통/역사" cate={cate}>
+                축제-전통/역사
+              </ListTitle>
             </Toggle>
             <Toggle onPress={() => onPressCate("무용")}>
-              <ListTitle>무용</ListTitle>
+              <ListTitle title="무용" cate={cate}>
+                무용
+              </ListTitle>
             </Toggle>
             <Toggle onPress={() => onPressCate("콘서트")}>
-              <ListTitle>콘서트</ListTitle>
+              <ListTitle title="콘서트" cate={cate}>
+                콘서트
+              </ListTitle>
             </Toggle>
             <Toggle onPress={() => onPressCate("전시/미술")}>
-              <ListTitle>전시/미술</ListTitle>
+              <ListTitle title="전시/미술" cate={cate}>
+                전시/미술
+              </ListTitle>
             </Toggle>
             <Toggle onPress={() => onPressCate("기타")}>
-              <ListTitle>기타</ListTitle>
+              <ListTitle title="기타" cate={cate}>
+                기타
+              </ListTitle>
             </Toggle>
           </ScrollView>
 
@@ -160,16 +175,6 @@ export default function Main({ navigation: { navigate } }) {
   );
 }
 
-// const Loader = styled.View`
-//   flex: 1;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
-const HiddenView = styled.View`
-  display: none;
-`;
-
 const ListTitle = styled.Text`
   font-family: "twayair";
   margin-top: 20px;
@@ -177,7 +182,8 @@ const ListTitle = styled.Text`
   margin-left: 20px;
   font-size: 20px;
   font-weight: 500;
-  color: ${(props) => props.theme.pointText}; ;
+  color: ${(props) =>
+    props.cate === props.title ? "#e50015" : props.theme.text};
 `;
 
 const Toggle = styled.TouchableOpacity`
