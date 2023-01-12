@@ -61,14 +61,14 @@ const Stacks = ({ navigation: { goBack, navigate, setOptions } }) => {
         name="Main"
         component={Main}
         options={{
-          title: "Main",
+          title: "홈",
         }}
       />
       <Stack.Screen
         name="Detail"
         component={Detail}
         options={{
-          title: "Detail",
+          title: "상세페이지",
         }}
       />
       <Stack.Screen

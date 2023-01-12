@@ -21,16 +21,21 @@ const Tabs = () => {
       }}
       screenOptions={{
         tabBarLabelPosition: "beside-icon",
-        tabBarActiveTintColor: isDark ? RED_COLOR : BLUE_COLOR,
+        tabBarActiveTintColor: RED_COLOR,
         headerTintColor: isDark ? RED_COLOR : BLACK_COLOR,
       }}
     >
       <Tab.Screen
         options={{
+          headerTitle: "홈",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="text-box" size={size} color={color} />
+            <MaterialCommunityIcons
+              name="home-circle-outline"
+              size={size}
+              color={color}
+            />
           ),
-          title: "Main",
+          title: "",
         }}
         name="Main"
         component={Main}
@@ -38,9 +43,14 @@ const Tabs = () => {
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="text-box" size={size} color={color} />
+            <MaterialCommunityIcons
+              name="account-details"
+              size={size}
+              color={color}
+            />
+            // <MaterialCommunityIcons name="text-box" size={size} color={color} />
           ),
-          title: "My",
+          title: "",
         }}
         name="MyPage"
         component={MyPage}
