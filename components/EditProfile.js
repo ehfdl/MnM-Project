@@ -21,7 +21,6 @@ const EditProfile = ({ isOpenEditProfileModal, setIsOpenEditProfileModal }) => {
         // includeBase64: Platform.OS === "android",
       },
       (res) => {
-        console.log(res);
         if (res.didCancel) return;
         setResponse(res);
       }
