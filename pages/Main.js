@@ -82,10 +82,6 @@ export default function Main({ navigation: { navigate } }) {
     return new_data;
   };
 
-  // const Scroll = () => {
-  //   Alert.alert("Scroll");
-  // };
-
   return (
     <FlatList
       numColumns={2}
@@ -187,62 +183,24 @@ const HiddenView = styled.View`
 `;
 
 const ListTitle = styled.Text`
-  width: 130px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  font-family: "twayair";
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
   font-size: 20px;
-  text-align: center;
-  animation: fadeIn 1s ease-in-out;
+  font-weight: 500;
+  color: ${(props) => props.theme.pointText}; ;
 `;
 
 const Toggle = styled.TouchableOpacity`
   margin-bottom: 10px;
   margin-left: 20px;
   margin-right: 20px;
-  background-color: gray;
   border-radius: 10px;
 
   & > * {
     font-size: 16px;
     font-weight: 500;
-    color: ${(props) => props.theme.title};
+    color: ${(props) => props.theme.pointText};
   }
 `;
-
-/* font-weight: 600;
-  border: none;
-  overflow: hidden;
-  transition: 0.3s;
-  &:hover {
-    transform: scale(1.1);
-  }
-  &:active {
-    box-shadow: 0px 5px 0px 0px #007144;
-  } */
-
-// border: none;
-// color: #000;
-// &:after {
-//   position: relative;
-//   content: "";
-//   width: 0;
-//   height: 100%;
-//   top: 0;
-//   left: 0;
-//   direction: rtl;
-//   z-index: -1;
-//   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-//     7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
-//   transition: all 0.3s ease;
-// }
-// &:hover {
-//   color: #000;
-// }
-// &:hover:after {
-//   left: auto;
-//   right: 0;
-//   width: 9%;
-// }
-// &:active {
-//   top: 2px;
-// }
