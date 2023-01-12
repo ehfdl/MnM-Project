@@ -14,9 +14,6 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [seePassword, setSeePassword] = useState(true);
-  const [seeEye, setSeeEye] = useState(
-    <Ionicons name="eye" size={24} color={isDark ? "white" : "black"} />
-  );
 
   const [validateEmail, setValidateEmail] = useState("");
 
@@ -60,16 +57,8 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
 
   const seePasswordHandler = () => {
     setSeePassword(!seePassword);
-    // if (seePassword) {
-    //   setSeeEye(
-    //     <Ionicons name="eye-off" size={22} color={isDark ? "white" : "black"} />
-    //   );
-    // } else if (!seePassword) {
-    //   setSeeEye(
-    //     <Ionicons name="eye" size={22} color={isDark ? "white" : "black"} />
-    //   );
-    // }
   };
+
   useEffect(() => {
     setOptions({ headerRight: () => null });
   }, []);
