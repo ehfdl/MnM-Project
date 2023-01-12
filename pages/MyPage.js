@@ -134,7 +134,6 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
-      <ProfileId>내가 쓴 리뷰</ProfileId>
       {authService.currentUser ? (
         <MyReview
           from={"MyPage"}
@@ -186,7 +185,6 @@ const ProfileId = styled.Text`
 const ProfileText = styled.Text`
   font-size: 16px;
   margin-bottom: 8px;
-  margin-top: 4px;
   color: ${(props) => props.theme.text};
 `;
 

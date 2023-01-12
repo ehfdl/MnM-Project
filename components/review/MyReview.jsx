@@ -51,7 +51,7 @@ export default function MyReview({
   return (
     <FlatList
       horizontal
-      contentContainerStyle={{ paddingHorizontal: 10 }}
+      contentContainerStyle={{ paddingHorizontal: 20 }}
       showsHorizontalScrollIndicator={false}
       data={reviews}
       ListHeaderComponent={
@@ -107,12 +107,12 @@ const MyReviewWrap = styled.View`
   color: #fff;
   font-weight: 600;
   font-size: 16px;
-  padding: 40px 4px;
+  padding: 40px 16px;
 `;
 
 const ReviewItem = styled.View`
   width: 300px;
-  /* background-color: ; */
+  background-color: rgba(255, 255, 255, 0.3);
   border: 3px solid #ddd;
   border-radius: 16px;
   justify-content: space-between;
@@ -124,17 +124,14 @@ const ReviewTitle = styled.Text`
   font-family: "twayair";
   font-weight: 600;
   font-size: 20px;
-  color: ${(props) => props.theme.pointText};
 `;
 const ReviewText = styled.Text`
   font-weight: 600;
   font-size: 16px;
   margin: 16px 0;
-  color: ${(props) => props.theme.pointText};
 `;
 const ReviewDate = styled.Text`
   font-weight: 600;
   font-size: 16px;
   text-align: right;
-  color: ${(props) => props.theme.pointText};
 `;

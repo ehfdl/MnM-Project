@@ -16,7 +16,6 @@
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",
     "expo": "~47.0.9",
-    "expo-font": "^11.0.1",
     "expo-image-picker": "^14.0.2",
     "expo-linear-gradient": "^12.0.1",
     "expo-status-bar": "~1.4.2",
@@ -32,11 +31,6 @@
     "react-native-swiper": "^1.6.0",
     "react-query": "^3.39.2",
     "requests": "^0.3.0"
-  },
-  "rnpm": {
-    "assets": [
-      "./assets/fonts"
-    ]
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

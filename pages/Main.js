@@ -17,10 +17,12 @@ import HCard from "../components/Main/HCard";
 import { useQuery, useQueryClient } from "react-query";
 import { getEventList } from "../api";
 
+
 export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [cate, setCate] = useState("연극");
   const queryClient = useQueryClient();
+
 
   const { data: getEventListsData, isLoading: isLoadingEL } = useQuery(
     ["Mains", "getEventLists"],
@@ -181,9 +183,12 @@ const ListTitle = styled.Text`
   margin-bottom: 20px;
   margin-left: 20px;
   font-size: 20px;
+
   font-weight: 500;
   color: ${(props) =>
     props.cate === props.title ? "#e50015" : props.theme.text};
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
 `;
 
 const Toggle = styled.TouchableOpacity`
@@ -191,6 +196,9 @@ const Toggle = styled.TouchableOpacity`
   margin-bottom: 10px;
   margin-left: 20px;
   margin-right: 20px;
+  background-color: gray;
+  border-radius: 10px;
+
   & > * {
     font-size: 16px;
     font-weight: 500;

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Modal, Text, TextInput } from 'react-native';
-import styled from '@emotion/native';
-import { SCREEN_HEIGHT } from '../../util';
+import React, { useState } from "react";
+import { Modal, Text, TextInput } from "react-native";
+import styled from "@emotion/native";
+import { SCREEN_HEIGHT } from "../../util";
 
 const myInfor = ({
   isOpenModal,
@@ -42,9 +42,9 @@ const myInfor = ({
               onPress={() => {
                 setIsOpenModal(!isOpenModal);
               }}
-              title={'cancel'}
+              title={"cancel"}
             >
-              <BTNText title={'cancel'}>취소</BTNText>
+              <BTNText title={"cancel"}>취소</BTNText>
             </ModalBTN>
             <ModalBTN onPress={addProfile} disabled={!nickName || !profileText}>
               <BTNText disabled={!nickName || !profileText}>확인</BTNText>
@@ -91,7 +91,6 @@ const UserInfor = styled.View`
 `;
 
 const InputTile = styled.Text`
-  font-family: 'twayair';
   padding: 8px 0;
   margin-bottom: 16px;
   font-size: 24px;
@@ -124,26 +123,24 @@ const BTNWarp = styled.View`
   flex-direction: row;
 `;
 const ModalBTN = styled.TouchableOpacity`
-  font-weight: 600;
   flex: 0.4;
   background-color: ${(props) =>
     props.disabled
-      ? 'background: rgba(229, 0, 21, .5)'
-      : props.theme.pointColor && props.title == 'cancel'
-      ? '#4A4A4A'
+      ? "background: rgba(229, 0, 21, .5)"
+      : props.theme.pointColor && props.title == "cancel"
+      ? "#4A4A4A"
       : props.theme.pointColor};
   padding: 12px;
   border-radius: 4px;
 `;
 
 const BTNText = styled.Text`
-  font-weight: 600;
   text-align: center;
   font-size: 16px;
   color: ${(props) =>
     props.disabled
-      ? props.theme.colorWhite
-      : props.theme.colorWhite && props.title == 'cancel'
-      ? props.theme.colorWhite
-      : props.theme.colorWhite};
+      ? props.theme.pointTextWhite
+      : props.theme.pointColor && props.title == "cancel"
+      ? props.theme.pointTextWhite
+      : props.theme.pointText};
 `;
