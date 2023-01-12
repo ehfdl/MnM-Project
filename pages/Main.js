@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  Text,
 } from "react-native";
 import styled from "@emotion/native";
 import Loader from "../components/review/Loader";
@@ -19,9 +20,8 @@ import { authService } from "../firebase";
 
 export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [cate, setCate] = useState("연극");
   const queryClient = useQueryClient();
-
-  console.log(authService.currentUser);
 
   const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
     ["Mains", "nowPlayings"],
@@ -43,6 +43,10 @@ export default function Main({ navigation: { navigate } }) {
     setIsRefreshing(false);
   };
 
+  const onPressCate = (category) => {
+    setCate(category);
+  };
+
   // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
     id = id.split("atchFileId=");
@@ -57,19 +61,6 @@ export default function Main({ navigation: { navigate } }) {
   //     const data = deadLine();
   //     data.map()
   // }
-  const deadLine = () => {
-    const res = upcomingsData.culturalEventInfo.row.map((item) => {
-      // DATE: "2023-02-19~2023-02-19"
-      temp = item.DATE.split("~")[1];
-      temp = temp.split("-"); //["2023", "03", "11"]
-      temp = temp.join(""); //[20230311]
-      // temp.parseInt();
-      // temp.parseInt();
-      console.log(typeof temp);
-    });
-    return res;
-  };
-
   const isLoading = isLoadingNP || isLoadingTR || isLoadingUC;
 
   if (isLoading) {
@@ -115,55 +106,56 @@ export default function Main({ navigation: { navigate } }) {
             ))}
           </Swiper>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <Toggle>
-              <ListTitle onPress={() => navigate("Stacks", {})}>무료</ListTitle>
+            <Toggle title="연극" onPress={() => onPressCate("연극")}>
+              <ListTitle title="연극">연극</ListTitle>
             </Toggle>
-            <Toggle>
-              <ListTitle>연극</ListTitle>
-            </Toggle>
-            <Toggle>
+            <Toggle
+              title="뮤지컬/오페라"
+              onPress={() => onPressCate("뮤지컬/오페라")}
+            >
               <ListTitle>뮤지컬/오페라</ListTitle>
             </Toggle>
-            <Toggle>
+            <Toggle onPress={() => onPressCate("국악")}>
               <ListTitle>국악</ListTitle>
             </Toggle>
-            <Toggle>
-              <ListTitle>문화교양/강좌</ListTitle>
-            </Toggle>
-            <Toggle>
+            <Toggle onPress={() => onPressCate("클래식")}>
               <ListTitle>클래식</ListTitle>
             </Toggle>
-            <Toggle>
+            <Toggle onPress={() => onPressCate("축제-전통/역사")}>
               <ListTitle>축제-전통/역사</ListTitle>
             </Toggle>
-            <Toggle>
+            <Toggle onPress={() => onPressCate("무용")}>
               <ListTitle>무용</ListTitle>
             </Toggle>
-            <Toggle>
+            <Toggle onPress={() => onPressCate("콘서트")}>
               <ListTitle>콘서트</ListTitle>
             </Toggle>
-            <Toggle>
+            <Toggle onPress={() => onPressCate("전시/미술")}>
               <ListTitle>전시/미술</ListTitle>
             </Toggle>
-            <Toggle>
+            <Toggle onPress={() => onPressCate("기타")}>
               <ListTitle>기타</ListTitle>
             </Toggle>
           </ScrollView>
 
           <FlatList
             horizontal
-            contentContainerStyle={{ paddingHorizontal: 20 }}
+            contentContainerStyle={{
+              paddingHorizontal: 20,
+            }}
             showsHorizontalScrollIndicator={false}
             data={topRatedsData.culturalEventInfo.row}
-            renderItem={({ item }) => (
-              <VCard
-                realtime={item}
-                key={imgId(item.MAIN_IMG)}
-                navigate={navigate}
-                imgId={imgId}
-              />
-            )}
-            ItemSeparatorComponent={<View style={{ width: 10 }} />}
+            renderItem={({ item }) =>
+              item.CODENAME === cate ? (
+                <VCard
+                  realtime={item}
+                  key={imgId(item.MAIN_IMG)}
+                  navigate={navigate}
+                  imgId={imgId}
+                />
+              ) : // <HiddenView></HiddenView>
+              null
+            }
           />
 
 
@@ -197,18 +189,20 @@ export default function Main({ navigation: { navigate } }) {
 //   align-items: center;
 // `;
 
+const HiddenView = styled.View`
+  display: none;
+`;
+
 const ListTitle = styled.Text`
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 20px;
   font-size: 20px;
   font-weight: 500;
-  color: ${(props) => props.theme.title};
 `;
 
 const Toggle = styled.TouchableOpacity`
-  flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   margin-bottom: 10px;
   margin-left: 20px;
   margin-right: 20px;
@@ -217,7 +211,4 @@ const Toggle = styled.TouchableOpacity`
     font-weight: 500;
     color: ${(props) => props.theme.title};
   }
-`;
-const ToggleBar = styled.View`
-  flex-direction: row;
 `;

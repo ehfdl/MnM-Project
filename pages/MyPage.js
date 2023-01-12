@@ -83,7 +83,6 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   useFocusEffect(
     useCallback(() => {
       if (!authService.currentUser) {
-        console.log("잘 나갔다.");
         reset({
           index: 1,
           routes: [
