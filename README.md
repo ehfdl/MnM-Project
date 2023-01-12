@@ -31,3 +31,9 @@ Read를 제외한 나머지는 modal로 구현
 2. Read > DetailPage & MyPage에서 리뷰읽기
 3. Update > DetailPage & MyPage에서 리뷰수정
 4. Delete > DetailPage & MyPage에서 리뷰삭제
+
+### ios
+![스크린샷 2023-01-12 오후 7 13 11](https://user-images.githubusercontent.com/75434044/212039990-943d8550-d4f4-487c-ab76-b8be5f5340ce.png)
+
+### Android
+![스크린샷 2023-01-12 오후 7 13 32](https://user-images.githubusercontent.com/75434044/212039998-e90a07fe-f119-4f0f-bd38-bca6d186551d.png)
