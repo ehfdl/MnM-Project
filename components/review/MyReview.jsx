@@ -1,27 +1,27 @@
-import { useState, useCallback } from "react";
-import { useColorScheme, FlatList, View } from "react-native";
-import styled from "@emotion/native";
-import { authService, dbService } from "../../firebase";
+import { useState, useCallback } from 'react';
+import { useColorScheme, FlatList, View } from 'react-native';
+import styled from '@emotion/native';
+import { authService, dbService } from '../../firebase';
 import {
   collection,
   onSnapshot,
   orderBy,
   query,
   where,
-} from "firebase/firestore";
-import { Fontisto } from "@expo/vector-icons";
-import Vote from "./Vote";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import ReviewMenu from "./ReviewMenu";
+} from 'firebase/firestore';
+import { Fontisto } from '@expo/vector-icons';
+import Vote from './Vote';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import ReviewMenu from './ReviewMenu';
 
 export default function MyReview({
   setIsOpenMenuModal,
   isOpenMenuModal,
   from,
 }) {
-  const isDark = useColorScheme() === "dark";
+  const isDark = useColorScheme() === 'dark';
   const [reviews, setReviews] = useState([]);
-  const [reviewId, setReviewId] = useState("");
+  const [reviewId, setReviewId] = useState('');
   const [reviewObj, setReviewObj] = useState({});
 
   const openMenuHandler = (item) => {
@@ -33,9 +33,9 @@ export default function MyReview({
   useFocusEffect(
     useCallback(() => {
       const q = query(
-        collection(dbService, "reviews"),
-        orderBy("createdAt", "desc"),
-        where("userId", "==", authService.currentUser?.uid ?? "")
+        collection(dbService, 'reviews'),
+        orderBy('createdAt', 'desc'),
+        where('userId', '==', authService.currentUser?.uid ?? '')
       );
       const unsubcribe = onSnapshot(q, (snapshot) => {
         const newReviews = snapshot.docs.map((doc) => ({
@@ -80,7 +80,7 @@ export default function MyReview({
                 <ReviewTitle numberOfLines={1}>{item.title}</ReviewTitle>
                 <ReviewText numberOfLines={1}>{item.contents}</ReviewText>
                 <ReviewDate>
-                  {new Date(item.createdAt).toLocaleDateString("kr")}
+                  {new Date(item.createdAt).toLocaleDateString('kr')}
                 </ReviewDate>
               </ReviewItem>
             </MyReviewWrap>
@@ -121,7 +121,7 @@ const ReviewItem = styled.View`
   margin-right: 16px;
 `;
 const ReviewTitle = styled.Text`
-  font-family: "twayair";
+  font-family: 'twayair';
   font-weight: 600;
   font-size: 20px;
 `;
