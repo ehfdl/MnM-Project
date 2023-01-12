@@ -1,11 +1,6 @@
 import styled from "@emotion/native";
-import React, { useEffect, useState, useCallback } from "react";
-import {
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+import React, { useState, useCallback } from "react";
+import { TouchableOpacity } from "react-native";
 import MyInfor from "../components/modal/MyInfor";
 import {
   collection,
@@ -19,7 +14,6 @@ import { authService, dbService } from "../firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { signOut, updateProfile } from "firebase/auth";
 import MyReview from "../components/review/MyReview";
-import ReviewMenu from "../components/review/ReviewMenu";
 
 const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
