@@ -183,7 +183,6 @@ const HiddenView = styled.View`
 `;
 
 const ListTitle = styled.Text`
-  font-family: "twayair";
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 20px;
