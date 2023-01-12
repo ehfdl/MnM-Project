@@ -126,7 +126,7 @@ const Backdrop = styled.View`
 const Dialog = styled.KeyboardAvoidingView`
   background-color: transparent;
   width: 100%;
-  height: 30%;
+  height: 255px;
   border-radius: 20px;
   justify-content: center;
   align-items: center;
