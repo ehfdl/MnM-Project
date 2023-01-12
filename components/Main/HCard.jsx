@@ -44,7 +44,7 @@ const HWrapper = styled.View`
   align-items: center;
 `;
 const UpcomingRow = styled.TouchableOpacity`
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 10px;
   width: 100%;
 `;
