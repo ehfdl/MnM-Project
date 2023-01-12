@@ -121,6 +121,7 @@ const ReviewItem = styled.View`
   margin-right: 16px;
 `;
 const ReviewTitle = styled.Text`
+  font-family: "twayair";
   font-weight: 600;
   font-size: 20px;
 `;

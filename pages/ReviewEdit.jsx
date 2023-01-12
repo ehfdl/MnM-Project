@@ -166,6 +166,8 @@ export default function ReviewEdit({
         return null;
       },
     });
+    onChangeTitle(review.title);
+    setNewContents(review.contents);
   }, []);
 
   if (isLoadingDeleting || isLoadingEditing) {
@@ -193,8 +195,8 @@ export default function ReviewEdit({
       <TitleEdit
         value={newTitle}
         placeholderTextColor="#90969E"
-        onChangeText={onChangeTitle}
-        placeholder={review.title}
+        onChangeText={(text) => onChangeTitle(text)}
+        placeholder="제목을 입력하세요"
         maxLength={30}
       />
 
@@ -207,7 +209,7 @@ export default function ReviewEdit({
         multiline
         maxLength={300}
         placeholderTextColor="#90969E"
-        placeholder={review.contents}
+        placeholder="내용을 입력하세요"
       />
       <EditButton
         disabled={!newContents && !newTitle && !ratings}
