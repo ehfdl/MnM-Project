@@ -80,6 +80,22 @@ export default function Main({ navigation: { navigate } }) {
     );
   }
 
+
+  const sorting = () => {
+    // 정답은 필터 ㄴㄴ, 맵 ㅇㅇ
+    // const temp = data.map((item) => {
+    //   return item.END_DATE;
+    // });
+    const new_data = [...upcomingsData.culturalEventInfo.row].sort((a, b) => {
+      return new Date(a.END_DATE) - new Date(b.END_DATE);
+    });
+    return new_data;
+  };
+
+  // const Scroll = () => {
+  //   Alert.alert("Scroll");
+  // };
+
   return (
     <FlatList
       numColumns={2}
@@ -149,16 +165,15 @@ export default function Main({ navigation: { navigate } }) {
             )}
             ItemSeparatorComponent={<View style={{ width: 10 }} />}
           />
-          <TouchableOpacity
-            onPress={() => {
-              deadLine();
-            }}
-          >
-            <ListTitle>마감임박 공연</ListTitle>
-          </TouchableOpacity>
+
+
+          <ListTitle>마감임박 공연</ListTitle>
+
+       
+
         </>
       }
-      data={upcomingsData.culturalEventInfo.row}
+      data={sorting()}
       renderItem={({ item }) => (
         <HCard
           realtime={item}
@@ -167,9 +182,11 @@ export default function Main({ navigation: { navigate } }) {
           imgId={imgId}
         />
       )}
+
       ItemSeparatorComponent={
         <View style={{ height: 15, flexDirection: "row" }} />
       }
+
     />
   );
 }
