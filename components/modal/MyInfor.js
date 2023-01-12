@@ -129,9 +129,9 @@ const ModalBTN = styled.TouchableOpacity`
   background-color: ${(props) =>
     props.disabled
       ? 'background: rgba(229, 0, 21, .5)'
-      : props.theme.pointColor && props.title == 'cancel'
+      : props.theme.colorWhite && props.title == 'cancel'
       ? '#4A4A4A'
-      : props.theme.pointColor};
+      : props.theme.colorWhite};
   padding: 12px;
   border-radius: 4px;
 `;
@@ -140,10 +140,5 @@ const BTNText = styled.Text`
   font-weight: 600;
   text-align: center;
   font-size: 16px;
-  color: ${(props) =>
-    props.disabled
-      ? props.theme.colorWhite
-      : props.theme.colorWhite && props.title == 'cancel'
-      ? props.theme.colorWhite
-      : props.theme.colorWhite};
+  color: ${(props) => props.theme.colorWhite};
 `;

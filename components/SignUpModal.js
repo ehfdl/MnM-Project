@@ -1,36 +1,36 @@
-import { useState, useRef } from "react";
-import styled from "@emotion/native";
-import { emailRegex, pwRegex } from "../util";
-import { authService } from "../firebase";
-import { View, Text } from "react-native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Modal } from "react-native";
-import RED_COLOR from "../colors";
+import { useState, useRef } from 'react';
+import styled from '@emotion/native';
+import { emailRegex, pwRegex } from '../util';
+import { authService } from '../firebase';
+import { View, Text } from 'react-native';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Modal } from 'react-native';
+import RED_COLOR from '../colors';
 
 const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   const emailRef = useRef(null);
   const pwRef = useRef(null);
   const pwckRef = useRef(null);
 
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  const [userCheckPassword, setUserCheckPassword] = useState("");
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [userCheckPassword, setUserCheckPassword] = useState('');
 
   // const [emailCheck, setEmailCheck] = useState(false);
 
   const validateInputs = () => {
     if (!userEmail) {
-      alert("이메일을 입력해주세요.");
+      alert('이메일을 입력해주세요.');
       emailRef.current.focus();
       return true;
     }
     if (!userPassword) {
-      alert("패스워드를 입력해주세요.");
+      alert('패스워드를 입력해주세요.');
       pwRef.current.focus();
       return true;
     }
     if (!userCheckPassword) {
-      alert("패스워드 확인을 입력해주세요.");
+      alert('패스워드 확인을 입력해주세요.');
       pwckRef.current.focus();
       return true;
     }
@@ -38,17 +38,17 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
     const matchedPw = userPassword.match(pwRegex);
 
     if (matchedEmail === null) {
-      alert("이메일 형식에 맞게 입력해 주세요.");
+      alert('이메일 형식에 맞게 입력해 주세요.');
       emailRef.current.focus();
       return true;
     }
     if (matchedPw === null) {
-      alert("비밀번호는 8자리 이상 영문자, 숫자, 특수문자 조합이어야 합니다.");
+      alert('비밀번호는 8자리 이상 영문자, 숫자, 특수문자 조합이어야 합니다.');
       pwRef.current.focus();
       return true;
     }
     if (userPassword !== userCheckPassword) {
-      alert("비밀번호 확인이 다릅니다.");
+      alert('비밀번호 확인이 다릅니다.');
       pwckRef.current.focus();
       return true;
     }
@@ -63,16 +63,16 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
     await createUserWithEmailAndPassword(authService, userEmail, userPassword)
       .then((userCredential) => {
         // Signed in
-        console.log("회원가입 성공!");
-        alert("회원가입 성공!");
+        console.log('회원가입 성공!');
+        alert('회원가입 성공!');
 
         // const user = userCredential.user;
       })
       .catch((error) => {
         const errorMessage = error.message;
-        console.log("errorMessage:", errorMessage);
-        if (errorMessage.includes("email-already-in-use")) {
-          alert("이미 가입된 이메일입니다.");
+        console.log('errorMessage:', errorMessage);
+        if (errorMessage.includes('email-already-in-use')) {
+          alert('이미 가입된 이메일입니다.');
           signUpfail = true;
         }
       });
@@ -81,9 +81,9 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
       return;
     }
     setIsOpenSignUpModal(false);
-    setUserEmail("");
-    setUserPassword("");
-    setUserCheckPassword("");
+    setUserEmail('');
+    setUserPassword('');
+    setUserCheckPassword('');
   };
 
   return (
@@ -117,12 +117,12 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
               onChangeText={(text) => setUserCheckPassword(text)}
             />
           </InputWrapper>
-          <Row style={{ justifyContent: "space-between" }}>
+          <Row style={{ justifyContent: 'space-between' }}>
             <ModalBTN
               onPress={() => setIsOpenSignUpModal(false)}
               title="cancel"
             >
-              <BTNText title={"cancel"}>Cancel</BTNText>
+              <BTNText title={'cancel'}>Cancel</BTNText>
             </ModalBTN>
             <ModalBTN
               disabled={!userEmail || !userPassword || !userCheckPassword}
@@ -154,15 +154,16 @@ const SignUpInput = styled.TextInput`
   padding: 10px;
   border-color: gray;
   border-bottom-width: 1px;
+  color: ${(props) => props.theme.text};
 `;
 
 const ModalBTN = styled.TouchableOpacity`
   flex: 0.4;
   background-color: ${(props) =>
     props.disabled
-      ? "background: rgba(229, 0, 21, .5)"
-      : props.theme.pointColor && props.title === "cancel"
-      ? "#4A4A4A"
+      ? 'background: rgba(229, 0, 21, .5)'
+      : props.theme.pointColor && props.title === 'cancel'
+      ? '#4A4A4A'
       : props.theme.pointColor};
   border-color: ${(props) => props.theme.text};
   border-width: 0.2px;
@@ -173,12 +174,7 @@ const ModalBTN = styled.TouchableOpacity`
 const BTNText = styled.Text`
   text-align: center;
   font-size: 16px;
-  color: ${(props) =>
-    props.disabled
-      ? props.theme.pointTextWhite
-      : props.theme.pointColor && props.title === "cancel"
-      ? props.theme.pointTextWhite
-      : props.theme.pointText};
+  color: ${(props) => props.theme.colorWhite};
 `;
 
 const InputWrapper = styled.View`
