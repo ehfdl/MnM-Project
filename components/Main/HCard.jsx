@@ -41,7 +41,6 @@ export default function HCard({ realtime, imgId }) {
 }
 const HWrapper = styled.View`
   width: 50%;
-
   align-items: center;
 `;
 const UpcomingRow = styled.TouchableOpacity`
@@ -63,7 +62,7 @@ const UpcomingOverview = styled.Text`
   font-weight: 500;
   margin-top: 5px;
   margin-bottom: 5px;
-  color: ${(props) => props.theme.upcomingText};
+  color: ${(props) => props.theme.pointText};
 `;
 
 const UpcomingColumn = styled.View``;
@@ -71,16 +70,17 @@ const UpcomingColumn = styled.View``;
 const Release = styled.Text`
   font-size: 13px;
   font-weight: 500;
-  color: ${(props) => props.theme.pointTextGry};
+  color: ${(props) => props.theme.pointTextGray};
   /* margin: 10px 0; */
 `;
 
 const UpcomingTitle = styled.Text`
+  font-family: 'twayair';
   font-size: 18px;
   letter-spacing: -1.3px;
   font-weight: 600;
   padding: 15px 20px 8px 0;
-  color: ${(props) => props.theme.upcomingText};
+  color: ${(props) => props.theme.pointText};
 `;
 
 const UpcomingView = styled.View``;

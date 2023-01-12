@@ -1,8 +1,8 @@
-import { Linking, TouchableOpacity, View, Text } from "react-native";
-import styled from "@emotion/native";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../util";
-import { AntDesign, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
-import { useColorScheme } from "react-native";
+import { Linking, TouchableOpacity, View, Text } from 'react-native';
+import styled from '@emotion/native';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../util';
+import { AntDesign, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { useColorScheme } from 'react-native';
 
 const Info = ({
   title,
@@ -14,7 +14,7 @@ const Info = ({
   program,
   link,
 }) => {
-  const isDark = useColorScheme() === "dark";
+  const isDark = useColorScheme() === 'dark';
   // 홈페이지 연결
   const openURL = async (url) => {
     const res_url = `${url}`;
@@ -37,7 +37,7 @@ const Info = ({
               <AntDesign
                 name="calendar"
                 size={24}
-                color={isDark ? "white" : "black"}
+                color={isDark ? 'white' : 'black'}
                 title="날짜"
               />
             </InfoLabelText>
@@ -48,7 +48,7 @@ const Info = ({
               <MaterialIcons
                 name="place"
                 size={24}
-                color={isDark ? "white" : "black"}
+                color={isDark ? 'white' : 'black'}
                 title="위치"
               />
             </InfoLabelText>
@@ -60,7 +60,7 @@ const Info = ({
               <FontAwesome5
                 name="exclamation-circle"
                 size={24}
-                color={isDark ? "white" : "black"}
+                color={isDark ? 'white' : 'black'}
                 title="이용제한"
               />
             </InfoLabelText>
@@ -72,13 +72,13 @@ const Info = ({
               <AntDesign
                 name="heart"
                 size={24}
-                color={isDark ? "white" : "black"}
+                color={isDark ? 'white' : 'black'}
                 title="이용금액"
               />
             </InfoLabelText>
             <InfoBoxText>
               {target_fee}
-              {target_fee.length === 0 && "무료"}
+              {target_fee.length === 0 && '무료'}
             </InfoBoxText>
           </InfoLabel>
 
@@ -87,7 +87,7 @@ const Info = ({
               <FontAwesome5
                 name="home"
                 size={22}
-                color={isDark ? "white" : "black"}
+                color={isDark ? 'white' : 'black'}
                 title="홈페이지"
               />
             </InfoLabelText>
@@ -106,7 +106,7 @@ const Info = ({
         ) : (
           <Overview>
             {program.slice(0, 250)}
-            {program.length > 250 && "..."}
+            {program.length > 250 && '...'}
             {/* {program.length == 0 && "없음"} */}
           </Overview>
         )}
@@ -116,7 +116,7 @@ const Info = ({
 };
 
 const ImgContainer = styled.View`
-  height: ${SCREEN_HEIGHT / 4 + "px"};
+  height: ${SCREEN_HEIGHT / 4 + 'px'};
 `;
 
 // 행사 타이틀
@@ -129,6 +129,7 @@ const EVTitle = styled.View`
   margin-top: 10px;
 `;
 const EVTitleText = styled.Text`
+  font-family: 'twayair';
   font-size: 20px;
   font-weight: bold;
   color: ${(props) => props.theme.text};
@@ -141,6 +142,7 @@ const EVCategory = styled.View`
   justify-content: flex-end;
 `;
 const EVCategoryText = styled.Text`
+  font-family: 'twayair';
   font-size: 16px;
   font-weight: bold;
   color: white;
@@ -166,6 +168,7 @@ const InfoLabel = styled.View`
 `;
 
 const InfoLabelText = styled.Text`
+  font-family: 'twayair';
   font-weight: bold;
   font-size: 16px;
   color: ${(props) => props.theme.text};
