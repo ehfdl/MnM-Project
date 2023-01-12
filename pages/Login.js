@@ -157,7 +157,7 @@ const LoginText = styled.Text`
 
 const SignUpText = styled.Text`
   font-weight: bold;
-  color: ${(props) => props.theme.pointText};
+  color: ${(props) => props.theme.title};
   font-size: 16px;
 `;
 
