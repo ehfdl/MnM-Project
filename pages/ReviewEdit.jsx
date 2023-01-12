@@ -12,7 +12,6 @@ const Container = styled.ScrollView`
 `;
 const TitleEdit = styled.TextInput`
   width: 100%;
-  /* background-color: white; */
   margin-bottom: 20px;
   padding: 10px 15px;
   border-radius: 10px;
@@ -20,9 +19,14 @@ const TitleEdit = styled.TextInput`
   border-width: 1px;
   color: ${(props) => props.theme.text};
 `;
-const ContentEdit = styled(TitleEdit)`
+const ContentEdit = styled.TextInput`
+  width: 100%;
   min-height: 150px;
   margin-bottom: 50px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border-color: ${(props) => props.theme.text};
+  border-width: 1px;
   color: ${(props) => props.theme.text};
 `;
 
@@ -89,12 +93,10 @@ export default function ReviewEdit({
 
   const onEditDone = () => {
     if (!ratings && !newTitle && !newContents) {
-      // 입력값 3개 중 아무것도 입력없으면 그대로 원상복구
       alert("수정한 부분이 없습니다.");
       return;
     }
 
-    // 입력값이 3개 중 하나라도 있으면 해당값만 patch할 수 있도록 객체 구성
     let editingObj = {};
     if (ratings) {
       Object.assign(editingObj, { rating: ratings });
@@ -177,7 +179,6 @@ export default function ReviewEdit({
   return (
     <Container>
       <SectionTitle>별점</SectionTitle>
-
       <Rating
         startingValue={review.rating}
         style={{

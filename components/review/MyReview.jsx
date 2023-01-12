@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useColorScheme, FlatList, View } from "react-native";
+import { FlatList } from "react-native";
 import styled from "@emotion/native";
 import { authService, dbService } from "../../firebase";
 import {
@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { Fontisto } from "@expo/vector-icons";
 import Vote from "./Vote";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import ReviewMenu from "./ReviewMenu";
 
 export default function MyReview({
@@ -19,7 +19,6 @@ export default function MyReview({
   isOpenMenuModal,
   from,
 }) {
-  const isDark = useColorScheme() === "dark";
   const [reviews, setReviews] = useState([]);
   const [reviewId, setReviewId] = useState("");
   const [reviewObj, setReviewObj] = useState({});

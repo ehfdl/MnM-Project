@@ -1,13 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-  View,
-  Text,
-} from "react-native";
+import React, { useState } from "react";
+import { ActivityIndicator, FlatList, ScrollView, View } from "react-native";
 import styled from "@emotion/native";
 import Loader from "../components/review/Loader";
 import Swiper from "react-native-swiper";
@@ -37,20 +29,12 @@ export default function Main({ navigation: { navigate } }) {
     setCate(category);
   };
 
-  // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
     id = id.split("atchFileId=");
     id = id[1].split("&");
     return id[0];
   };
 
-  // 마감임박 공연 정렬
-  // 데이터를 가져와서 이 함수 안에서 타이틀, 기간만 뽑고
-  // 정렬해주기?
-  //   const deadLineData =()=>{
-  //     const data = deadLine();
-  //     data.map()
-  // }
   const isLoading = isLoadingEL;
 
   if (isLoading) {
@@ -151,8 +135,7 @@ export default function Main({ navigation: { navigate } }) {
                   navigate={navigate}
                   imgId={imgId}
                 />
-              ) : // <HiddenView></HiddenView>
-              null
+              ) : null
             }
           />
 

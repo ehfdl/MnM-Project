@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "@emotion/native";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
+import { SCREEN_WIDTH } from "../util";
 import ReviewModal from "../components/review/ReviewModal";
 import { FlatList } from "react-native";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
@@ -24,7 +24,6 @@ const Detail = ({
       date,
       program,
       itemId,
-      // isLoading,
     },
   },
 }) => {
@@ -59,7 +58,6 @@ const Detail = ({
     <FlatList
       ListHeaderComponent={
         <Container>
-          {/* <Container> */}
           <ImgDetail main_img={main_img}></ImgDetail>
           <Info
             title={title}
@@ -91,7 +89,6 @@ const Detail = ({
               setIsOpenModal={setIsOpenModal}
             />
           </Section>
-          {/* </Container> */}
         </Container>
       }
       showsHorizontalScrollIndicator={false}
@@ -152,7 +149,6 @@ const RowReview = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-right: 15px;
-  /* margin-bottom: 20px; */
 `;
 
 export default Detail;

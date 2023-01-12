@@ -1,40 +1,29 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { SCREEN_HEIGHT } from '../../util';
-import styled from '@emotion/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
-import { useQuery } from 'react-query';
-import { getEventList } from '../../api';
-import Detail from '../../pages/Detail';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { SCREEN_HEIGHT } from "../../util";
+import styled from "@emotion/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Slide({ realtime, imgId }) {
   const { navigate } = useNavigation();
 
-  const { data: getEventListData, isLoading: isLoadingEV } = useQuery(
-    'getEventList',
-    getEventList
-  );
-
   return (
     <SwiperChildView>
-      {/* <View style={{ position: 'relative' }}> */}
       <BackgroundImg
         style={StyleSheet.absoluteFill}
-        // style={{ position: "absolute", top: 0, left: 0 }}
         source={{
           uri: realtime.MAIN_IMG,
         }}
       />
-      {/* </View> */}
       <LinearGradient
         style={StyleSheet.absoluteFill}
-        colors={['transparent', 'black']}
+        colors={["transparent", "black"]}
       />
       <Row
         onPress={() =>
-          navigate('Stacks', {
-            screen: 'Detail',
+          navigate("Stacks", {
+            screen: "Detail",
             params: {
               itemId: imgId(realtime.MAIN_IMG),
               main_img: realtime.MAIN_IMG,
@@ -58,10 +47,6 @@ export default function Slide({ realtime, imgId }) {
         <Column>
           <Title>{realtime.TITLE}</Title>
           <Rating>{realtime.DATE}</Rating>
-          {/* <Overview>
-            {realtime.PROGRAM.slice(0, 80)}
-            {realtime.PROGRAM.length > 80 && "..."}
-          </Overview> */}
         </Column>
       </Row>
     </SwiperChildView>
@@ -70,7 +55,7 @@ export default function Slide({ realtime, imgId }) {
 const SwiperChildView = styled.TouchableOpacity`
   flex: 1;
   justify-content: flex-end;
-  height: ${SCREEN_HEIGHT / 2 + 'px'};
+  height: ${SCREEN_HEIGHT / 2 + "px"};
   background-color: green;
 `;
 
@@ -101,18 +86,13 @@ const Poster = styled.Image`
 `;
 
 const Title = styled.Text`
-  font-family: 'twayair';
+  font-family: "twayair";
   font-size: 20px;
   font-weight: 600;
   color: white;
   margin-top: 20px;
   letter-spacing: -0.5px;
   text-align: center;
-`;
-
-const Overview = styled.Text`
-  font-size: 12px;
-  color: white;
 `;
 
 const Rating = styled.Text`

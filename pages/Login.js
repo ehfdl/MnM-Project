@@ -1,5 +1,5 @@
 import styled from "@emotion/native";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SignUpModal from "../components/SignUpModal";
 import { authService } from "../firebase";
 import { emailRegex } from "../util";
@@ -145,26 +145,12 @@ const LoginInputBox = styled.View`
 const LoginInput = styled.TextInput`
   width: 100%;
   height: 50px;
-  /* background-color: white; */
   border-radius: 10px;
   margin-top: 20px;
   padding-left: 10px;
   color: ${(props) => props.theme.text};
   border-color: ${(props) => props.theme.text};
   border-bottom-width: 1px;
-  /* &:hover {
-    box-shadow: 3px 3px 5px #aaa;
-  } */
-  /* &::placeholder {
-    padding-left: 2px;
-  } */
-  /* &:focus {
-    box-shadow: 3px 3px 5px #aaa;
-    scale: 1.01;
-  } */
-  /* &:focus::placeholder {
-    color: #111;
-  } */
 `;
 
 const LoginButton = styled.TouchableOpacity`

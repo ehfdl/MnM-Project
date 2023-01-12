@@ -1,10 +1,6 @@
-import React from 'react';
-import styled from '@emotion/native';
-import { useNavigation } from '@react-navigation/native';
-import Detail from '../../pages/Detail';
-import { useQuery } from 'react-query';
-import { getEventList } from '../../api';
-import { View } from 'react-native';
+import React from "react";
+import styled from "@emotion/native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function HCard({ realtime, imgId }) {
   const { navigate } = useNavigation();
@@ -13,8 +9,8 @@ export default function HCard({ realtime, imgId }) {
     <HWrapper>
       <UpcomingRow
         onPress={() =>
-          navigate('Stacks', {
-            screen: 'Detail',
+          navigate("Stacks", {
+            screen: "Detail",
             params: {
               itemId: imgId(realtime.MAIN_IMG),
               main_img: realtime.MAIN_IMG,
@@ -33,7 +29,7 @@ export default function HCard({ realtime, imgId }) {
         <UpcomingPoster source={{ uri: realtime.MAIN_IMG }} />
         <UpcomingColumn>
           <UpcomingTitle>{realtime.TITLE}</UpcomingTitle>
-          <Release>~ {realtime.DATE.split('~')[1]}</Release>
+          <Release>~ {realtime.DATE.split("~")[1]}</Release>
         </UpcomingColumn>
       </UpcomingRow>
     </HWrapper>
@@ -55,15 +51,6 @@ const UpcomingPoster = styled.Image`
   border-radius: 5px;
 `;
 
-const UpcomingOverview = styled.Text`
-  font-size: 15px;
-  line-height: 20px;
-  font-weight: 500;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  color: ${(props) => props.theme.pointText};
-`;
-
 const UpcomingColumn = styled.View``;
 
 const Release = styled.Text`
@@ -74,12 +61,10 @@ const Release = styled.Text`
 `;
 
 const UpcomingTitle = styled.Text`
-  font-family: 'twayair';
+  font-family: "twayair";
   font-size: 18px;
   letter-spacing: -1.3px;
   font-weight: 600;
   padding: 15px 20px 8px 0;
   color: ${(props) => props.theme.pointText};
 `;
-
-const UpcomingView = styled.View``;

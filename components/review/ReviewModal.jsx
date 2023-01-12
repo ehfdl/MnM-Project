@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "@emotion/native";
 import { addDoc, collection } from "firebase/firestore";
-import { Modal, Text } from "react-native";
+import { Modal } from "react-native";
 import { Rating } from "react-native-ratings";
 import { authService, dbService } from "../../firebase";
 import { MaterialIcons } from "@expo/vector-icons";

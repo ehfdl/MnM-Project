@@ -1,14 +1,11 @@
 import React from "react";
-import { TouchableOpacity, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useColorScheme } from "react-native";
-import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR, RED_COLOR } from "../colors";
+import { BLACK_COLOR, RED_COLOR } from "../colors";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import Main from "../pages/Main";
 import MyPage from "../pages/MyPage";
-
-import { authService } from "../firebase";
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +45,6 @@ const Tabs = () => {
               size={size}
               color={color}
             />
-            // <MaterialCommunityIcons name="text-box" size={size} color={color} />
           ),
           title: "",
         }}

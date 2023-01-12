@@ -45,7 +45,6 @@ const ReviewMenu = ({
   if (isLoadingDeleting) {
     return <Loader />;
   }
-  // 노션에 적을것
   const goToReviewEdit = () => {
     if (from === "MyPage") {
       navigate("Stacks", {
