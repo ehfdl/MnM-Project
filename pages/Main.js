@@ -15,10 +15,13 @@ import VCard from "../components/Main/VCard";
 import HCard from "../components/Main/HCard";
 import { useQuery, useQueryClient } from "react-query";
 import { getNowPlaying, getTopRated, getUpcoming } from "../api";
+import { authService } from "../firebase";
 
 export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const queryClient = useQueryClient();
+
+  console.log(authService.currentUser);
 
   const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
     ["Mains", "nowPlayings"],
@@ -47,6 +50,26 @@ export default function Main({ navigation: { navigate } }) {
     return id[0];
   };
 
+  // 마감임박 공연 정렬
+  // 데이터를 가져와서 이 함수 안에서 타이틀, 기간만 뽑고
+  // 정렬해주기?
+  //   const deadLineData =()=>{
+  //     const data = deadLine();
+  //     data.map()
+  // }
+  const deadLine = () => {
+    const res = upcomingsData.culturalEventInfo.row.map((item) => {
+      // DATE: "2023-02-19~2023-02-19"
+      temp = item.DATE.split("~")[1];
+      temp = temp.split("-"); //["2023", "03", "11"]
+      temp = temp.join(""); //[20230311]
+      // temp.parseInt();
+      // temp.parseInt();
+      console.log(typeof temp);
+    });
+    return res;
+  };
+
   const isLoading = isLoadingNP || isLoadingTR || isLoadingUC;
 
   if (isLoading) {
@@ -57,7 +80,6 @@ export default function Main({ navigation: { navigate } }) {
     );
   }
 
-  // const mutation = useMutation(getUpcoming);
 
   const sorting = () => {
     // 정답은 필터 ㄴㄴ, 맵 ㅇㅇ
@@ -76,13 +98,12 @@ export default function Main({ navigation: { navigate } }) {
 
   return (
     <FlatList
+      numColumns={2}
       refreshing={isRefreshing}
       onEndReachedThreshold={1}
-      // onEndReached={Scroll}
       onRefresh={onRefresh}
       ListHeaderComponent={
         <>
-          <ListTitle>실시간</ListTitle>
           <Swiper height="100%" showsPagination={false} autoplay loop>
             {nowPlayingsData.culturalEventInfo.row.map((realtime) => (
               <Slide
@@ -145,7 +166,11 @@ export default function Main({ navigation: { navigate } }) {
             ItemSeparatorComponent={<View style={{ width: 10 }} />}
           />
 
+
           <ListTitle>마감임박 공연</ListTitle>
+
+       
+
         </>
       }
       data={sorting()}
@@ -157,7 +182,11 @@ export default function Main({ navigation: { navigate } }) {
           imgId={imgId}
         />
       )}
-      ItemSeparatorComponent={<View style={{ height: 15 }} />}
+
+      ItemSeparatorComponent={
+        <View style={{ height: 15, flexDirection: "row" }} />
+      }
+
     />
   );
 }

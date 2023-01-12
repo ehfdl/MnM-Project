@@ -23,6 +23,7 @@ const TitleEdit = styled.TextInput`
 const ContentEdit = styled(TitleEdit)`
   min-height: 150px;
   margin-bottom: 50px;
+  color: ${(props) => props.theme.text};
 `;
 
 const SectionTitle = styled.Text`
@@ -107,14 +108,13 @@ export default function ReviewEdit({
 
     Alert.alert("리뷰 수정", "이대로 리뷰를 수정하시겠습니까?", [
       {
-        text: "Cancel",
+        text: "취소",
         style: "destructive",
       },
       {
-        text: "OK. Edit it",
+        text: "수정하기",
         onPress: async () => {
           try {
-            // await updateDoc(doc(dbService, "reviews", review.id), editingObj);
             await reviseReview({ reviewId: review.id, editingObj });
             setNewContents("");
             setNewTitle("");

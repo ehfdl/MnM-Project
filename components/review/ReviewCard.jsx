@@ -5,57 +5,14 @@ import { Fontisto } from "@expo/vector-icons";
 import { SCREEN_WIDTH } from "../../util";
 import Vote from "./Vote";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { Button, View, Text, Alert } from "react-native";
+import { View } from "react-native";
 import ReviewMenu from "./ReviewMenu";
-import { useMutation } from "react-query";
-import { deleteReview } from "../../api";
-import Loader from "./Loader";
 
-export default function ReviewCard({ review }) {
-  const { navigate } = useNavigation();
+export default function ReviewCard({ review, from }) {
   const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
-
-  const { isLoading: isLoadingDeleting, mutate: removeReview } = useMutation(
-    ["deleteReview", review.id],
-    (body) => deleteReview(body),
-    {
-      onSuccess: () => {
-        console.log("삭제성공");
-      },
-      onError: (err) => {
-        console.log("err in delete:", err);
-      },
-    }
-  );
 
   const openMenuHandler = () => {
     setIsOpenMenuModal(true);
-  };
-
-  const onDelete = async () => {
-    Alert.alert("리뷰 삭제", "리뷰를 삭제하시겠습니까?", [
-      { text: "취소", style: "destructive" },
-      {
-        text: "삭제",
-        onPress: async () => {
-          try {
-            await removeReview(review.id);
-          } catch (err) {
-            console.log("err:", err);
-          }
-        },
-      },
-    ]);
-  };
-
-  if (isLoadingDeleting) {
-    return <Loader />;
-  }
-
-  const goToReviewEdit = () => {
-    navigate("ReviewEdit", { review });
-    setIsOpenMenuModal(false);
   };
 
   return (
@@ -93,8 +50,9 @@ export default function ReviewCard({ review }) {
       <ReviewMenu
         setIsOpenMenuModal={setIsOpenMenuModal}
         isOpenMenuModal={isOpenMenuModal}
-        onDelete={onDelete}
-        goToReviewEdit={goToReviewEdit}
+        reviewId={review.id}
+        review={review}
+        from={"Detail"}
       />
     </CardItem>
   );

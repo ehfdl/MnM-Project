@@ -19,9 +19,12 @@ import { authService, dbService } from "../firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { signOut, updateProfile } from "firebase/auth";
 import MyReview from "../components/review/MyReview";
+import ReviewMenu from "../components/review/ReviewMenu";
 
 const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
+
   const [profile, setProfile] = useState([]);
   const [nickName, setNickName] = useState("");
   const [profileText, setProfileText] = useState("");
@@ -50,18 +53,37 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       }
     }
   };
+
+  const handleAuth = () => {
+    if (!!authService.currentUser?.uid) {
+      // 로그아웃 요청
+      signOut(authService)
+        .then(() => {
+          console.log("로그아웃 성공");
+          setOptions({ headerRight: null });
+        })
+        .catch((err) => alert(err));
+    } else {
+      // 로그인 화면으로
+      navigate("Login");
+    }
+  };
   const logout = () => {
-    signOut(authService)
-      .then(() => {
-        console.log("로그아웃 성공");
-        navigate("Main");
-      })
-      .catch((err) => alert(err));
+    if (!!authService.currentUser?.uid) {
+      // 로그아웃 요청
+      signOut(authService)
+        .then(() => {
+          console.log("로그아웃 성공");
+          navigate("Main");
+        })
+        .catch((err) => alert(err));
+    }
   };
 
   useFocusEffect(
     useCallback(() => {
       if (!authService.currentUser) {
+        console.log("잘 나갔다.");
         reset({
           index: 1,
           routes: [
@@ -94,7 +116,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       const q = query(
         collection(dbService, "profile"),
         orderBy("createdAt", "desc"),
-        where("userId", "==", authService.currentUser?.uid)
+        where("userId", "==", authService.currentUser?.uid ?? "")
       );
       onSnapshot(q, (snapshot) => {
         const newProfiles = snapshot.docs.map((doc) => {
@@ -106,7 +128,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         });
         setProfile(newProfiles);
       });
-    }, [])
+    }, [authService.currentUser?.uid])
   );
   const profileFirst = profile[0];
 
@@ -127,7 +149,13 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
         </ProfileBTN>
       </MypageTop>
 
-      {authService.currentUser ? <MyReview /> : null}
+      {authService.currentUser ? (
+        <MyReview
+          from={"MyPage"}
+          setIsOpenMenuModal={setIsOpenMenuModal}
+          isOpenMenuModal={isOpenMenuModal}
+        />
+      ) : null}
 
       <MyInfor
         isOpenModal={isOpenModal}
@@ -185,38 +213,4 @@ const BTNText = styled.Text`
   color: #fff;
   font-weight: 600;
   font-size: 16px;
-`;
-
-const MyReviewWrap = styled.View`
-  color: #fff;
-  font-weight: 600;
-  font-size: 16px;
-  flex: 1;
-  padding: 40px 16px;
-`;
-
-const ReviewItem = styled.TouchableOpacity`
-  width: 300px;
-  /* height: 80px; */
-  border: 3px solid #ddd;
-  border-radius: 16px;
-  /* flex: 0.3; */
-  justify-content: space-between;
-  height: 200px;
-  padding: 24px 16px;
-  margin-right: 16px;
-`;
-const ReviewTitle = styled.Text`
-  font-weight: 600;
-  font-size: 20px;
-`;
-const ReviewText = styled.Text`
-  font-weight: 600;
-  font-size: 16px;
-  margin: 16px 0;
-`;
-const ReviewDate = styled.Text`
-  font-weight: 600;
-  font-size: 16px;
-  text-align: right;
 `;

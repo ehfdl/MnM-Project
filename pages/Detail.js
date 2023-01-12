@@ -1,24 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  ImageBackground,
-} from "react-native";
+import { TouchableOpacity } from "react-native";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
-import { TabActions } from "@react-navigation/native";
 import ReviewModal from "../components/review/ReviewModal";
 import { FlatList } from "react-native";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { authService, dbService } from "../firebase";
 import ReviewCard from "../components/review/ReviewCard";
-import Loader from "../components/review/Loader";
-import { useQuery } from "react-query";
-import { getEventList } from "../api";
 import Info from "../components/detail/Info";
 import ImgDetail from "../components/detail/ImgDetail";
 // route에 params넘겨주기
@@ -108,7 +96,6 @@ const Detail = ({
       }
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
-        // paddingHorizontal: 20,
         marginBottom: 50,
         justifyContent: "flex-start",
         alignItems: "center",
@@ -118,7 +105,7 @@ const Detail = ({
       ItemSeparatorComponent={HSeprator}
       renderItem={({ item }) => {
         if (item.itemId === itemId) {
-          return <ReviewCard review={item} />;
+          return <ReviewCard review={item} from={"Detail"} />;
         }
       }}
     />
