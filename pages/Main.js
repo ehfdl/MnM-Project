@@ -15,14 +15,20 @@ import Slide from "../components/Main/Slide";
 import VCard from "../components/Main/VCard";
 import HCard from "../components/Main/HCard";
 import { useQuery, useQueryClient } from "react-query";
+<<<<<<< HEAD
 import { getNowPlaying, getTopRated, getUpcoming } from "../api";
 import { authService } from "../firebase";
+=======
+import { getEventList } from "../api";
+
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
 
 export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [cate, setCate] = useState("연극");
   const queryClient = useQueryClient();
 
+<<<<<<< HEAD
   const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
     ["Mains", "nowPlayings"],
     getNowPlaying
@@ -34,11 +40,20 @@ export default function Main({ navigation: { navigate } }) {
   const { data: upcomingsData, isLoading: isLoadingUC } = useQuery(
     ["Mains", "upcomings"],
     getUpcoming
+=======
+
+  const { data: getEventListsData, isLoading: isLoadingEL } = useQuery(
+    ["Mains", "getEventLists"],
+    getEventList
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
   );
 
   const onRefresh = async () => {
     setIsRefreshing(true);
+<<<<<<< HEAD
     // await Promise.all([refetchNP(), refetchTR(), refetchUC()]);
+=======
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
     await queryClient.refetchQueries(["Mains"]);
     setIsRefreshing(false);
   };
@@ -61,7 +76,7 @@ export default function Main({ navigation: { navigate } }) {
   //     const data = deadLine();
   //     data.map()
   // }
-  const isLoading = isLoadingNP || isLoadingTR || isLoadingUC;
+  const isLoading = isLoadingEL;
 
   if (isLoading) {
     return (
@@ -72,13 +87,11 @@ export default function Main({ navigation: { navigate } }) {
   }
 
   const sorting = () => {
-    // 정답은 필터 ㄴㄴ, 맵 ㅇㅇ
-    // const temp = data.map((item) => {
-    //   return item.END_DATE;
-    // });
-    const new_data = [...upcomingsData.culturalEventInfo.row].sort((a, b) => {
-      return new Date(a.END_DATE) - new Date(b.END_DATE);
-    });
+    const new_data = [...getEventListsData.culturalEventInfo.row].sort(
+      (a, b) => {
+        return new Date(a.END_DATE) - new Date(b.END_DATE);
+      }
+    );
     return new_data;
   };
 
@@ -91,7 +104,7 @@ export default function Main({ navigation: { navigate } }) {
       ListHeaderComponent={
         <>
           <Swiper height="100%" showsPagination={false} autoplay loop>
-            {nowPlayingsData.culturalEventInfo.row.map((realtime) => (
+            {getEventListsData.culturalEventInfo.row.map((realtime) => (
               <Slide
                 key={imgId(realtime.MAIN_IMG)}
                 realtime={realtime}
@@ -101,6 +114,7 @@ export default function Main({ navigation: { navigate } }) {
             ))}
           </Swiper>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+<<<<<<< HEAD
             <Toggle title="연극" onPress={() => onPressCate("연극")}>
               <ListTitle title="연극">연극</ListTitle>
             </Toggle>
@@ -130,6 +144,52 @@ export default function Main({ navigation: { navigate } }) {
             </Toggle>
             <Toggle onPress={() => onPressCate("기타")}>
               <ListTitle>기타</ListTitle>
+=======
+            <Toggle onPress={() => onPressCate("연극")}>
+              <ListTitle title="연극" cate={cate}>
+                연극
+              </ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("뮤지컬/오페라")}>
+              <ListTitle title="뮤지컬/오페라" cate={cate}>
+                뮤지컬/오페라
+              </ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("국악")}>
+              <ListTitle title="국악" cate={cate}>
+                국악
+              </ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("클래식")}>
+              <ListTitle title="클래식" cate={cate}>
+                클래식
+              </ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("축제-전통/역사")}>
+              <ListTitle title="축제-전통/역사" cate={cate}>
+                축제-전통/역사
+              </ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("무용")}>
+              <ListTitle title="무용" cate={cate}>
+                무용
+              </ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("콘서트")}>
+              <ListTitle title="콘서트" cate={cate}>
+                콘서트
+              </ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("전시/미술")}>
+              <ListTitle title="전시/미술" cate={cate}>
+                전시/미술
+              </ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("기타")}>
+              <ListTitle title="기타" cate={cate}>
+                기타
+              </ListTitle>
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
             </Toggle>
           </ScrollView>
 
@@ -139,7 +199,7 @@ export default function Main({ navigation: { navigate } }) {
               paddingHorizontal: 20,
             }}
             showsHorizontalScrollIndicator={false}
-            data={topRatedsData.culturalEventInfo.row}
+            data={getEventListsData.culturalEventInfo.row}
             renderItem={({ item }) =>
               item.CODENAME === cate ? (
                 <VCard
@@ -172,21 +232,22 @@ export default function Main({ navigation: { navigate } }) {
   );
 }
 
-// const Loader = styled.View`
-//   flex: 1;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
-const HiddenView = styled.View`
-  display: none;
-`;
-
 const ListTitle = styled.Text`
+<<<<<<< HEAD
+=======
+  font-family: "twayair";
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 20px;
   font-size: 20px;
+<<<<<<< HEAD
+=======
+
+  font-weight: 500;
+  color: ${(props) =>
+    props.cate === props.title ? "#e50015" : props.theme.text};
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
   text-align: center;
   animation: fadeIn 1s ease-in-out;
 `;

@@ -54,6 +54,7 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
     }
   };
 
+<<<<<<< HEAD
   const handleAuth = () => {
     if (!!authService.currentUser?.uid) {
       // 로그아웃 요청
@@ -68,6 +69,8 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
       navigate("Login");
     }
   };
+=======
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
   const logout = () => {
     if (!!authService.currentUser?.uid) {
       // 로그아웃 요청
@@ -189,9 +192,13 @@ const MypageTop = styled.View`
 `;
 
 const ProfileId = styled.Text`
+<<<<<<< HEAD
+=======
+  font-family: "twayair";
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
   font-weight: 600;
   font-size: 24px;
-  margin: 24px 0 8px;
+  margin: 24px 20px 8px;
   color: ${(props) => props.theme.text};
 `;
 
