@@ -54,6 +54,23 @@ const MyPage = ({ navigation: { navigate, reset, setOptions } }) => {
     }
   };
 
+<<<<<<< HEAD
+  const handleAuth = () => {
+    if (!!authService.currentUser?.uid) {
+      // 로그아웃 요청
+      signOut(authService)
+        .then(() => {
+          console.log("로그아웃 성공");
+          setOptions({ headerRight: null });
+        })
+        .catch((err) => alert(err));
+    } else {
+      // 로그인 화면으로
+      navigate("Login");
+    }
+  };
+=======
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
   const logout = () => {
     if (!!authService.currentUser?.uid) {
       // 로그아웃 요청
@@ -175,7 +192,10 @@ const MypageTop = styled.View`
 `;
 
 const ProfileId = styled.Text`
+<<<<<<< HEAD
+=======
   font-family: "twayair";
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
   font-weight: 600;
   font-size: 24px;
   margin: 24px 20px 8px;

@@ -15,15 +15,30 @@ import Slide from "../components/Main/Slide";
 import VCard from "../components/Main/VCard";
 import HCard from "../components/Main/HCard";
 import { useQuery, useQueryClient } from "react-query";
+<<<<<<< HEAD
 import { getNowPlaying, getTopRated, getUpcoming } from "../api";
 import { authService } from "../firebase";
 import { getEventList } from "../api";
 
+=======
+<<<<<<< HEAD
+import { getNowPlaying, getTopRated, getUpcoming } from "../api";
+import { authService } from "../firebase";
+=======
+import { getEventList } from "../api";
+
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
+
+>>>>>>> 2ef5f32f9bc21cdda31e8bcbd2991661225886c4
 export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [cate, setCate] = useState("연극");
   const queryClient = useQueryClient();
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 2ef5f32f9bc21cdda31e8bcbd2991661225886c4
   const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
     ["Mains", "nowPlayings"],
     getNowPlaying
@@ -35,11 +50,27 @@ export default function Main({ navigation: { navigate } }) {
   const { data: upcomingsData, isLoading: isLoadingUC } = useQuery(
     ["Mains", "upcomings"],
     getUpcoming
+<<<<<<< HEAD
+=======
+=======
+
+  const { data: getEventListsData, isLoading: isLoadingEL } = useQuery(
+    ["Mains", "getEventLists"],
+    getEventList
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
+>>>>>>> 2ef5f32f9bc21cdda31e8bcbd2991661225886c4
   );
 
   const onRefresh = async () => {
     setIsRefreshing(true);
+<<<<<<< HEAD
     // await Promise.all([refetchNP(), refetchTR(), refetchUC()]);
+=======
+<<<<<<< HEAD
+    // await Promise.all([refetchNP(), refetchTR(), refetchUC()]);
+=======
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
+>>>>>>> 2ef5f32f9bc21cdda31e8bcbd2991661225886c4
     await queryClient.refetchQueries(["Mains"]);
     setIsRefreshing(false);
   };
@@ -102,6 +133,37 @@ export default function Main({ navigation: { navigate } }) {
             ))}
           </Swiper>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+<<<<<<< HEAD
+            <Toggle title="연극" onPress={() => onPressCate("연극")}>
+              <ListTitle title="연극">연극</ListTitle>
+            </Toggle>
+            <Toggle
+              title="뮤지컬/오페라"
+              onPress={() => onPressCate("뮤지컬/오페라")}
+            >
+              <ListTitle>뮤지컬/오페라</ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("국악")}>
+              <ListTitle>국악</ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("클래식")}>
+              <ListTitle>클래식</ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("축제-전통/역사")}>
+              <ListTitle>축제-전통/역사</ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("무용")}>
+              <ListTitle>무용</ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("콘서트")}>
+              <ListTitle>콘서트</ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("전시/미술")}>
+              <ListTitle>전시/미술</ListTitle>
+            </Toggle>
+            <Toggle onPress={() => onPressCate("기타")}>
+              <ListTitle>기타</ListTitle>
+=======
             <Toggle onPress={() => onPressCate("연극")}>
               <ListTitle title="연극" cate={cate}>
                 연극
@@ -146,6 +208,7 @@ export default function Main({ navigation: { navigate } }) {
               <ListTitle title="기타" cate={cate}>
                 기타
               </ListTitle>
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
             </Toggle>
           </ScrollView>
 
@@ -189,15 +252,21 @@ export default function Main({ navigation: { navigate } }) {
 }
 
 const ListTitle = styled.Text`
+<<<<<<< HEAD
+=======
   font-family: "twayair";
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 20px;
   font-size: 20px;
+<<<<<<< HEAD
+=======
 
   font-weight: 500;
   color: ${(props) =>
     props.cate === props.title ? "#e50015" : props.theme.text};
+>>>>>>> f724c77b513a6bcec95960ad3de8504dec9db566
   text-align: center;
   animation: fadeIn 1s ease-in-out;
 `;
