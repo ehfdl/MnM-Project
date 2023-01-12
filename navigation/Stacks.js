@@ -26,6 +26,9 @@ const Stacks = ({ navigation: { goBack, navigate, setOptions } }) => {
         .then(() => {
           console.log("로그아웃 성공");
           setOptions({ headerRight: null });
+          navigate("Tabs", {
+            screen: "Main",
+          });
         })
         .catch((err) => alert(err));
     } else {
