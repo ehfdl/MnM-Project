@@ -4,14 +4,19 @@ import SignUpModal from "../components/SignUpModal";
 import { authService } from "../firebase";
 import { emailRegex } from "../util";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { Ionicons } from "@expo/vector-icons";
+import { useColorScheme } from "react-native";
 
 const Login = ({ navigation: { goBack, setOptions } }) => {
-  const emailRef = useRef(null);
-  const pwRef = useRef(null);
+  const isDark = useColorScheme() === "dark";
 
   const [isOpenSignUpModal, setIsOpenSignUpModal] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [seePassword, setSeePassword] = useState(true);
+  const [seeEye, setSeeEye] = useState(
+    <Ionicons name="eye" size={24} color={isDark ? "white" : "black"} />
+  );
 
   const [validateEmail, setValidateEmail] = useState("");
 
@@ -53,6 +58,18 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
     setIsOpenSignUpModal(true);
   };
 
+  const seePasswordHandler = () => {
+    setSeePassword(!seePassword);
+    // if (seePassword) {
+    //   setSeeEye(
+    //     <Ionicons name="eye-off" size={22} color={isDark ? "white" : "black"} />
+    //   );
+    // } else if (!seePassword) {
+    //   setSeeEye(
+    //     <Ionicons name="eye" size={22} color={isDark ? "white" : "black"} />
+    //   );
+    // }
+  };
   useEffect(() => {
     setOptions({ headerRight: () => null });
   }, []);
@@ -72,8 +89,23 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
         <LoginInput
           placeholder="Password를 입력해주세요"
           value={userPassword}
+          secureTextEntry={seePassword}
           onChangeText={(text) => setUserPassword(text)}
         />
+        {seePassword ? (
+          <PassView onPress={seePasswordHandler}>
+            <Ionicons name="eye" size={22} color={isDark ? "white" : "black"} />
+          </PassView>
+        ) : (
+          <PassView onPress={seePasswordHandler}>
+            <Ionicons
+              name="eye-off"
+              size={22}
+              color={isDark ? "white" : "black"}
+            />
+          </PassView>
+        )}
+
         <ValidateEmailText>{validateEmail}</ValidateEmailText>
         <LoginButton onPress={loginHandler}>
           <LoginText>Login</LoginText>
@@ -91,6 +123,12 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
 };
 
 export default Login;
+
+const PassView = styled.TouchableOpacity`
+  position: absolute;
+  margin-top: 104px;
+  margin-left: 85%;
+`;
 
 const ValidateEmailText = styled.Text`
   color: red;
