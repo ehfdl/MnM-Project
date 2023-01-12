@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -7,16 +7,6 @@ import {
   TouchableOpacity,
   View,
   Text,
-} from 'react-native';
-import styled from '@emotion/native';
-import Loader from '../components/review/Loader';
-import Swiper from 'react-native-swiper';
-import Slide from '../components/Main/Slide';
-import VCard from '../components/Main/VCard';
-import HCard from '../components/Main/HCard';
-import { useQuery, useQueryClient } from 'react-query';
-import { getNowPlaying, getTopRated, getUpcoming } from '../api';
-import { authService } from '../firebase';
 } from "react-native";
 import styled from "@emotion/native";
 import Loader from "../components/review/Loader";
@@ -25,32 +15,32 @@ import Slide from "../components/Main/Slide";
 import VCard from "../components/Main/VCard";
 import HCard from "../components/Main/HCard";
 import { useQuery, useQueryClient } from "react-query";
+import { getNowPlaying, getTopRated, getUpcoming } from "../api";
+import { authService } from "../firebase";
 import { getEventList } from "../api";
-
 
 export default function Main({ navigation: { navigate } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [cate, setCate] = useState('연극');
+  const [cate, setCate] = useState("연극");
   const queryClient = useQueryClient();
 
-
   const { data: nowPlayingsData, isLoading: isLoadingNP } = useQuery(
-    ['Mains', 'nowPlayings'],
+    ["Mains", "nowPlayings"],
     getNowPlaying
   );
   const { data: topRatedsData, isLoading: isLoadingTR } = useQuery(
-    ['Mains', 'topRateds'],
+    ["Mains", "topRateds"],
     getTopRated
   );
   const { data: upcomingsData, isLoading: isLoadingUC } = useQuery(
-    ['Mains', 'upcomings'],
+    ["Mains", "upcomings"],
     getUpcoming
   );
 
   const onRefresh = async () => {
     setIsRefreshing(true);
     // await Promise.all([refetchNP(), refetchTR(), refetchUC()]);
-    await queryClient.refetchQueries(['Mains']);
+    await queryClient.refetchQueries(["Mains"]);
     setIsRefreshing(false);
   };
 
@@ -60,8 +50,8 @@ export default function Main({ navigation: { navigate } }) {
 
   // 키값으로 이것을 넘겨주면 어떨지
   const imgId = (id) => {
-    id = id.split('atchFileId=');
-    id = id[1].split('&');
+    id = id.split("atchFileId=");
+    id = id[1].split("&");
     return id[0];
   };
 
@@ -192,14 +182,14 @@ export default function Main({ navigation: { navigate } }) {
         />
       )}
       ItemSeparatorComponent={
-        <View style={{ height: 15, flexDirection: 'row' }} />
+        <View style={{ height: 15, flexDirection: "row" }} />
       }
     />
   );
 }
 
 const ListTitle = styled.Text`
-  font-family: 'twayair';
+  font-family: "twayair";
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 20px;
