@@ -6,7 +6,7 @@ import Swiper from "react-native-swiper";
 import Slide from "../components/Main/Slide";
 import VCard from "../components/Main/VCard";
 import HCard from "../components/Main/HCard";
-import { useQuery, useQueryClient, useInfiniteQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { getEventList } from "../api";
 
 export default function Main({ navigation: { navigate } }) {
@@ -18,21 +18,6 @@ export default function Main({ navigation: { navigate } }) {
     ["Mains", "getEventLists"],
     getEventList
   );
-
-  const {
-    data: getUpcomingsData,
-    isLoading: isLoadingUC,
-    // refetch: refetchUC,
-    fetchNextPage,
-  } = useInfiniteQuery("getUpcomings", getUpcomings, {
-    getNextPageParam: (lastIdx) => {
-      if (lastIdx < lastIdx.list_total_count) {
-        console.log("list_total_count", list_total_count);
-
-        return lastIdx + 30; //31, 61, 91
-      }
-    },
-  });
 
   const onRefresh = async () => {
     setIsRefreshing(true);
@@ -59,13 +44,42 @@ export default function Main({ navigation: { navigate } }) {
       </Loader>
     );
   }
+  // 날짜 정렬
+  function leadingZeros(n, digits) {
+    var zero = "";
+    n = n.toString();
 
+    if (n.length < digits) {
+      for (i = 0; i < digits - n.length; i++) zero += "0";
+    }
+    return zero + n;
+  }
+
+  var now = new Date();
+
+  // END_DATE: "2023-03-12 00:00:00.0",
+  // 공백으로 잘라버리고 날짜 비교 후 해당 데이터는 출력안되게
   const sorting = () => {
-    const new_data = [...getEventListsData.culturalEventInfo.row].sort(
-      (a, b) => {
-        return new Date(a.END_DATE) - new Date(b.END_DATE);
+    now =
+      leadingZeros(now.getFullYear(), 4) +
+      "-" +
+      leadingZeros(now.getMonth() + 1, 2) +
+      "-" +
+      leadingZeros(now.getDate(), 2);
+
+    const res_date = [...getEventListsData.culturalEventInfo.row].filter(
+      (item) => {
+        item.END_DATE = item.END_DATE.split(" ")[0];
+        if (item.END_DATE > now) {
+          console.log(item.END_DATE);
+          return item;
+        }
       }
     );
+    const new_data = [...res_date].sort((a, b) => {
+      return new Date(a.END_DATE) - new Date(b.END_DATE);
+    });
+
     return new_data;
   };
 
