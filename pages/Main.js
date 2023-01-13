@@ -6,7 +6,7 @@ import Swiper from "react-native-swiper";
 import Slide from "../components/Main/Slide";
 import VCard from "../components/Main/VCard";
 import HCard from "../components/Main/HCard";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient, useInfiniteQuery } from "react-query";
 import { getEventList } from "../api";
 
 export default function Main({ navigation: { navigate } }) {
@@ -18,6 +18,21 @@ export default function Main({ navigation: { navigate } }) {
     ["Mains", "getEventLists"],
     getEventList
   );
+
+  const {
+    data: getUpcomingsData,
+    isLoading: isLoadingUC,
+    // refetch: refetchUC,
+    fetchNextPage,
+  } = useInfiniteQuery("getUpcomings", getUpcomings, {
+    getNextPageParam: (lastIdx) => {
+      if (lastIdx < lastIdx.list_total_count) {
+        console.log("list_total_count", list_total_count);
+
+        return lastIdx + 30; //31, 61, 91
+      }
+    },
+  });
 
   const onRefresh = async () => {
     setIsRefreshing(true);
