@@ -9,6 +9,8 @@ import { authService, dbService } from "../firebase";
 import ReviewCard from "../components/review/ReviewCard";
 import Info from "../components/detail/Info";
 import ImgDetail from "../components/detail/ImgDetail";
+import { useIsFocused } from "@react-navigation/native";
+
 // route에 params넘겨주기
 const Detail = ({
   navigation: { navigate },
@@ -29,6 +31,7 @@ const Detail = ({
 }) => {
   const [reviews, setReviews] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const isFocused = useIsFocused();
 
   const handleAdding = async () => {
     const isLogin = !!authService.currentUser;
@@ -52,7 +55,7 @@ const Detail = ({
       setReviews(newReviews);
     });
     return unsubscribe;
-  }, []);
+  }, [isFocused]);
 
   return (
     <FlatList
