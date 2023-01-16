@@ -101,6 +101,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
               ref={pwRef}
               placeholderTextColor="#90969E"
               placeholder="비밀번호"
+              secureTextEntry={true}
               value={userPassword}
               onChangeText={(text) => setUserPassword(text)}
             />
@@ -109,6 +110,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
               ref={pwckRef}
               placeholderTextColor="#90969E"
               placeholder="비밀번호 확인"
+              secureTextEntry={true}
               value={userCheckPassword}
               onChangeText={(text) => setUserCheckPassword(text)}
             />
