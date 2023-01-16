@@ -9,7 +9,7 @@ const InfoImg = ({ main_img, modalVisible, setModalVisible }) => {
     },
   ];
   return (
-    <Modal visible={modalVisible} transparent={true}>
+    <Modal visible={modalVisible} transparent>
       <ImageViewer
         imageUrls={images}
         enableSwipeDown={true}
