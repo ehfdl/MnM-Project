@@ -3,7 +3,7 @@ import styled from "@emotion/native";
 import { emailRegex, pwRegex } from "../util";
 import { authService } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Modal } from "react-native";
+import { Modal, Alert } from "react-native";
 
 const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
   const emailRef = useRef(null);
@@ -16,17 +16,17 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
 
   const validateInputs = () => {
     if (!userEmail) {
-      alert("이메일을 입력해주세요.");
+      Alert.alert("이메일", "이메일을 입력해주세요.");
       emailRef.current.focus();
       return true;
     }
     if (!userPassword) {
-      alert("패스워드를 입력해주세요.");
+      Alert.alert("패스워드", "패스워드를 입력해주세요.");
       pwRef.current.focus();
       return true;
     }
     if (!userCheckPassword) {
-      alert("패스워드 확인을 입력해주세요.");
+      Alert.alert("패스워드", "패스워드 확인을 입력해주세요.");
       pwckRef.current.focus();
       return true;
     }
@@ -34,17 +34,20 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
     const matchedPw = userPassword.match(pwRegex);
 
     if (matchedEmail === null) {
-      alert("이메일 형식에 맞게 입력해 주세요.");
+      Alert.alert("이메일", "이메일 형식에 맞게 입력해 주세요.");
       emailRef.current.focus();
       return true;
     }
     if (matchedPw === null) {
-      alert("비밀번호는 8자리 이상 영문자, 숫자, 특수문자 조합이어야 합니다.");
+      Alert.alert(
+        "비밀번호",
+        "비밀번호는 8자리 이상 영문자, 숫자, 특수문자 조합이어야 합니다."
+      );
       pwRef.current.focus();
       return true;
     }
     if (userPassword !== userCheckPassword) {
-      alert("비밀번호 확인이 다릅니다.");
+      Alert.alert("비밀번호", "비밀번호 확인이 다릅니다.");
       pwckRef.current.focus();
       return true;
     }
@@ -59,13 +62,13 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
     await createUserWithEmailAndPassword(authService, userEmail, userPassword)
       .then((userCredential) => {
         console.log("회원가입 성공!");
-        alert("회원가입 성공!");
+        Alert.alert("Sign Up", "회원가입 성공!");
       })
       .catch((error) => {
         const errorMessage = error.message;
         console.log("errorMessage:", errorMessage);
         if (errorMessage.includes("email-already-in-use")) {
-          alert("이미 가입된 이메일입니다.");
+          Alert.alert("", "이미 가입된 이메일입니다.");
           signUpfail = true;
         }
       });
@@ -98,6 +101,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
               ref={pwRef}
               placeholderTextColor="#90969E"
               placeholder="비밀번호"
+              secureTextEntry={true}
               value={userPassword}
               onChangeText={(text) => setUserPassword(text)}
             />
@@ -106,6 +110,7 @@ const SignUpModal = ({ isOpenSignUpModal, setIsOpenSignUpModal }) => {
               ref={pwckRef}
               placeholderTextColor="#90969E"
               placeholder="비밀번호 확인"
+              secureTextEntry={true}
               value={userCheckPassword}
               onChangeText={(text) => setUserCheckPassword(text)}
             />

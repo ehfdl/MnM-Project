@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "@emotion/native";
 import { SCREEN_WIDTH } from "../util";
@@ -10,6 +10,7 @@ import ReviewCard from "../components/review/ReviewCard";
 import Info from "../components/detail/Info";
 import ImgDetail from "../components/detail/ImgDetail";
 import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 
 // route에 params넘겨주기
 const Detail = ({
@@ -42,20 +43,22 @@ const Detail = ({
     setIsOpenModal(true);
   };
 
-  useEffect(() => {
-    const q = query(
-      collection(dbService, "reviews"),
-      orderBy("createdAt", "desc")
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const newReviews = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setReviews(newReviews);
-    });
-    return unsubscribe;
-  }, [isFocused]);
+  useFocusEffect(
+    useCallback(() => {
+      const q = query(
+        collection(dbService, "reviews"),
+        orderBy("createdAt", "desc")
+      );
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const newReviews = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setReviews(newReviews);
+      });
+      return unsubscribe;
+    }, [authService.currentUser?.uid])
+  );
 
   return (
     <FlatList

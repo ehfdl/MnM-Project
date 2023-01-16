@@ -28,9 +28,11 @@ const ReviewMenu = ({
   );
   const onDelete = async () => {
     Alert.alert("리뷰 삭제", "리뷰를 삭제하시겠습니까?", [
-      { text: "취소", style: "destructive" },
+      { text: "취소", style: "cancel" },
       {
         text: "삭제",
+        style: "destructive",
+        // style: "cancel",
         onPress: async () => {
           try {
             await removeReview(reviewId);
