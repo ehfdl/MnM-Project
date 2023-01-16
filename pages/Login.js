@@ -6,6 +6,7 @@ import { emailRegex } from "../util";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "react-native";
+import { Alert } from "react-native";
 
 const Login = ({ navigation: { goBack, setOptions } }) => {
   const isDark = useColorScheme() === "dark";
@@ -43,10 +44,10 @@ const Login = ({ navigation: { goBack, setOptions } }) => {
       .catch((err) => {
         console.log("err.message:", err.message);
         if (err.message.includes("user-not-found")) {
-          alert("회원이 아닙니다. 회원가입을 먼저 진행해 주세요.");
+          Alert.alert("회원이 아닙니다.", "회원가입을 먼저 진행해 주세요.");
         }
         if (err.message.includes("wrong-password")) {
-          alert("비밀번호가 틀렸습니다.");
+          Alert.alert("", "비밀번호가 틀렸습니다.");
         }
       });
   };
